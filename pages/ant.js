@@ -89,12 +89,22 @@ export default function Home() {
       processId: processId || PROCESS_ID,
     })
 
-    const newRecord = await ant.setRecord({
+    const result = await ant.setRecord({
       undername: newUndername,
       transactionId: newRecordTxId,
       ttlSeconds: 900,
     })
-    console.log(newRecord)
+    console.log(result)
+  }
+
+  const removeRecord = async () => {
+    const ant = ANT.init({
+      signer: new ArconnectSigner(window.arweaveWallet, Arweave.init({})),
+      processId: processId || PROCESS_ID,
+    })
+
+    const result = await ant.removeRecord({ undername: newUndername })
+    console.log(result)
   }
 
   return (
@@ -136,6 +146,7 @@ export default function Home() {
           onChange={(e) => setNewRecordTxId(e.target.value)}
         />
         <button onClick={setRecord}>setRecord</button>
+        <button onClick={removeRecord}>removeRecord</button>
       </div>
     </>
   )
