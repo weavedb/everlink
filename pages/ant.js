@@ -6,6 +6,10 @@ const PROCESS_ID = "Pd1ZsBrv-AIbBHQIPfOAzabwcH0oB0zWNfzuLFP8aFg"
 
 export default function Home() {
   const [processId, setProcessId] = useState()
+  const [newController, setNewController] = useState()
+  const [newUndername, setNewUndername] = useState()
+  const [newRecordTxId, setNewRecordTxId] = useState()
+
   const getInfo = async () => {
     const ant = ANT.init({
       processId: PROCESS_ID,
@@ -61,9 +65,36 @@ export default function Home() {
     console.log(ant)
 
     const result = await ant.addController({
-      controller: "0x1234",
+      controller: newController,
     })
     console.log(result)
+  }
+
+  const removeController = async () => {
+    const ant = ANT.init({
+      signer: new ArconnectSigner(window.arweaveWallet, Arweave.init({})),
+      processId: processId || PROCESS_ID,
+    })
+    console.log(ant)
+
+    const result = await ant.removeController({
+      controller: newController,
+    })
+    console.log(result)
+  }
+
+  const setRecord = async () => {
+    const ant = ANT.init({
+      signer: new ArconnectSigner(window.arweaveWallet, Arweave.init({})),
+      processId: processId || PROCESS_ID,
+    })
+
+    const newRecord = await ant.setRecord({
+      undername: newUndername,
+      transactionId: newRecordTxId,
+      ttlSeconds: 900,
+    })
+    console.log(newRecord)
   }
 
   return (
@@ -87,7 +118,24 @@ export default function Home() {
         <button onClick={getController}>getController</button>
         <button onClick={getOwner}>getOwner</button>
         <button onClick={getRecords}>getRecords</button>
+        <input
+          type="text"
+          placeholder="Controller"
+          onChange={(e) => setNewController(e.target.value)}
+        />
         <button onClick={addController}>addController</button>
+        <button onClick={removeController}>removeController</button>
+        <input
+          type="text"
+          placeholder="New Undername Record"
+          onChange={(e) => setNewUndername(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Transaction ID"
+          onChange={(e) => setNewRecordTxId(e.target.value)}
+        />
+        <button onClick={setRecord}>setRecord</button>
       </div>
     </>
   )
