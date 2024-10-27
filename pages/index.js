@@ -1,82 +1,38 @@
-import { Link, ssr } from "arnext"
-import { useEffect, useState } from "react"
-import { IO, ANT, ArconnectSigner } from "@ar.io/sdk/web"
-import Arweave from "arweave"
-
-const getDate = async (date) => date ?? Date.now()
-
-export const getStaticProps = ssr(async ({}) => {
-  return { props: { _date: Date.now() }, revalidate: 100 }
-})
+import { useState } from "react"
+import { Button, Flex, Input, Text } from "@chakra-ui/react"
+import AppHeader from "@/components/AppHeader"
 
 export default function Home({ _date = null }) {
-  const [date, setDate] = useState(_date)
-  useEffect(() => {
-    ;(async () => _date ?? setDate(await getDate()))()
-  }, [])
-
-  const initAuth = async () => {
-    const io = IO.init({
-      signer: new ArconnectSigner(window.arweaveWallet, Arweave.init({})),
-    })
-    console.log(io)
-  }
-
-  const initUnauth = async () => {
-    const io = IO.init()
-    console.log(io)
-  }
-
-  const getInfo = async () => {
-    const io = IO.init()
-    const info = await io.getInfo()
-    console.log(info)
-  }
-
-  const getRecord = async () => {
-    const io = IO.init()
-    const record = await io.getArNSRecord({ name: "bobinstein" })
-    console.log(record)
-  }
-
-  const getRecords = async () => {
-    const io = IO.init()
-
-    const records = await io.getArNSRecords({
-      limit: 25,
-      sortBy: "startTimestamp",
-      sortOrder: "asc",
-    })
-    console.log(records)
-
-    const nextPage = await io.getArNSRecords({
-      cursor: records.nextCursor,
-      limit: 5,
-      sortBy: "endTimestamp",
-      sortOrder: "desc",
-    })
-    console.log(nextPage)
-  }
-
   return (
     <>
-      home: {date} | <Link href="/post/a">post-a</Link> |{" "}
-      <Link href="/abc">404</Link>
-      <br />
-      <br />
-      <button onClick={initAuth}>initAuth</button>
-      <br />
-      <br />
-      <button onClick={initUnauth}>initUnauth</button>
-      <br />
-      <br />
-      <button onClick={getInfo}>getInfo</button>
-      <br />
-      <br />
-      <button onClick={getRecord}>getArNSRecord</button>
-      <br />
-      <br />
-      <button onClick={getRecords}>getArNSRecords</button>
+      <Flex minH="100vh" bg="#0e2229">
+        {/* Main Body Container */}
+        <Flex
+          flexDirection="column"
+          flex="1" //fill available width horizontally
+          gap={1}
+          color="gray.200"
+        >
+          {/* AppHeader Container */}
+          <Flex>
+            <AppHeader />
+          </Flex>
+
+          {/* Main Content Container */}
+          <Flex
+            flex="1" //fill available height vertically
+            bg="#1a2c38"
+            padding={[2, 12]}
+          >
+            <Flex flexDirection="column" gap={2}>
+              <Text>Welcome to EverLink</Text>
+              <Text>Choose your EverLink undername.</Text>
+              <Input placeholder="ar://xyz_everlink" />
+              <Button>Continue</Button>
+            </Flex>
+          </Flex>
+        </Flex>
+      </Flex>
     </>
   )
 }
