@@ -1,8 +1,10 @@
 import { ANT, ArconnectSigner } from "@ar.io/sdk/web"
 import Arweave from "arweave"
 import { useState } from "react"
+import { message, createDataItemSigner, result } from "@permaweb/aoconnect"
 
-const PROCESS_ID = "Pd1ZsBrv-AIbBHQIPfOAzabwcH0oB0zWNfzuLFP8aFg"
+// const PROCESS_ID = "Pd1ZsBrv-AIbBHQIPfOAzabwcH0oB0zWNfzuLFP8aFg"
+const PROCESS_ID = "uBe2djD7Qqx7-yVMkPU9cY-QjWeorHi_YCllxH_Iihw"
 
 export default function Home() {
   const [processId, setProcessId] = useState()
@@ -12,7 +14,7 @@ export default function Home() {
 
   const getInfo = async () => {
     const ant = ANT.init({
-      processId: PROCESS_ID,
+      processId: processId || PROCESS_ID,
     })
     const info = await ant.getInfo()
     console.log(info)
@@ -89,12 +91,18 @@ export default function Home() {
       processId: processId || PROCESS_ID,
     })
 
-    const result = await ant.setRecord({
+    const _tx = await ant.setRecord({
       undername: newUndername,
       transactionId: newRecordTxId,
       ttlSeconds: 900,
     })
-    console.log(result)
+    console.log(_tx)
+
+    // const _resultAo = await result({
+    //   message: _tx?.id,
+    //   process: processId || PROCESS_ID,
+    // })
+    // console.log("_resultAo", _resultAo)
   }
 
   const removeRecord = async () => {
@@ -103,8 +111,14 @@ export default function Home() {
       processId: processId || PROCESS_ID,
     })
 
-    const result = await ant.removeRecord({ undername: newUndername })
-    console.log(result)
+    const _tx = await ant.removeRecord({ undername: newUndername })
+    console.log(_tx)
+
+    // const _resultAo = await result({
+    //   message: _tx?.id,
+    //   process: processId || PROCESS_ID,
+    // })
+    // console.log("_resultAo", _resultAo)
   }
 
   return (

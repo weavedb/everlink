@@ -2,12 +2,18 @@ import { useEffect, useState } from "react"
 import { Button, Flex, Input, Text, useToast } from "@chakra-ui/react"
 import AppHeader from "@/components/AppHeader"
 import { ANT, ArconnectSigner } from "@ar.io/sdk/web"
+import { message, createDataItemSigner, result } from "@permaweb/aoconnect"
 
-const PROCESS_ID = "uBe2djD7Qqx7-yVMkPU9cY-QjWeorHi_YCllxH_Iihw"
+const ANT_PROCESS_ID = "uBe2djD7Qqx7-yVMkPU9cY-QjWeorHi_YCllxH_Iihw"
+const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
+
 export default function Home({ _date = null }) {
-  const [processId, setProcessId] = useState()
-  const [newUndername, setNewUndername] = useState()
+  const [processId, setProcessId] = useState("")
+  const [newSubdomain, setNewSubdomain] = useState("")
   const [newRecordTxId, setNewRecordTxId] = useState("")
+  const [username, setUsername] = useState("")
+  const [description, setDescription] = useState("")
+  const [urls, setUrls] = useState([])
 
   const [title, setTitle] = useState("")
   const [url, setURL] = useState("")
@@ -16,7 +22,7 @@ export default function Home({ _date = null }) {
 
   const getRecords = async () => {
     const ant = ANT.init({
-      processId: processId || PROCESS_ID,
+      processId: processId || ANT_PROCESS_ID,
     })
     const _records = await ant.getRecords()
     console.log("_records", _records)
@@ -24,48 +30,79 @@ export default function Home({ _date = null }) {
   }
 
   const setRecord = async () => {
-    await window.arweaveWallet.connect([
-      "ACCESS_ADDRESS",
-      "SIGN_TRANSACTION",
-      "ACCESS_PUBLIC_KEY",
-      "SIGNATURE",
-    ])
+    try {
+      await window.arweaveWallet.connect([
+        "ACCESS_ADDRESS",
+        "SIGN_TRANSACTION",
+        "ACCESS_PUBLIC_KEY",
+        "SIGNATURE",
+      ])
 
-    const ant = ANT.init({
-      signer: new ArconnectSigner(window.arweaveWallet, Arweave.init({})),
-      processId: processId || PROCESS_ID,
-    })
-
-    const result = await ant.setRecord(
-      {
-        undername: newUndername,
-        transactionId: newRecordTxId,
-        ttlSeconds: 900,
-      },
-      // optional additional tags
-      {
+      const messageId = await message({
+        process: MAIN_PROCESS_ID,
         tags: [
-          { name: "title", value: title },
-          { name: "url", value: url },
+          {
+            name: "Action",
+            value: "Set-Record",
+          },
+          {
+            name: "Sub-Domain",
+            value: newSubdomain,
+          },
+          {
+            name: "Transaction-Id",
+            value: newRecordTxId,
+          },
+          {
+            name: "TTL-Seconds",
+            value: "900",
+          },
+          {
+            name: "Username",
+            value: username,
+          },
+          {
+            name: "Description",
+            value: description,
+          },
+          {
+            name: "Urls",
+            value: JSON.stringify(urls),
+          },
         ],
-      }
-    )
+        signer: createDataItemSigner(globalThis.arweaveWallet),
+      })
+      console.log("messageId", messageId)
 
-    console.log(result)
+      const _result = await result({
+        message: messageId,
+        process: MAIN_PROCESS_ID,
+      })
+      console.log("_result", _result)
 
-    toast({
-      title: "New undername added to the records",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-      position: "top",
-    })
+      toast({
+        title: "New subdomain added to the records",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      })
+    } catch (error) {
+      console.error(error)
+      toast({
+        title: error.message,
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      })
+    }
   }
 
   const onContinue = async () => {
-    if (!newUndername || newUndername.trim() === "") {
+    if (!newSubdomain || newSubdomain.trim() === "") {
       toast({
-        title: "Undername cannot be empty",
+        title: "Subdomain cannot be empty",
         status: "error",
         duration: 1000,
         isClosable: true,
@@ -74,12 +111,12 @@ export default function Home({ _date = null }) {
       return
     }
 
-    console.log("newUndername", newUndername)
+    console.log("newSubdomain", newSubdomain)
 
     const _records = await getRecords()
-    if (_records.hasOwnProperty(newUndername)) {
+    if (_records.hasOwnProperty(newSubdomain)) {
       toast({
-        title: "Undername already exists in the records",
+        title: "Subdomain already exists in the records",
         status: "error",
         duration: 2000,
         isClosable: true,
@@ -88,7 +125,17 @@ export default function Home({ _date = null }) {
       return
     }
 
-    await setRecord()
+    toast({
+      title: "Subdomain is available",
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+      position: "top",
+    })
+  }
+
+  const addNewLink = async () => {
+    setUrls([...urls, { title, url }])
   }
   return (
     <>
@@ -113,24 +160,11 @@ export default function Home({ _date = null }) {
           >
             <Flex flexDirection="column" gap={2}>
               <Text>Welcome to EverLink</Text>
-              <Text>Choose your EverLink undername.</Text>
+              <Text fontSize="xs">Choose your EverLink subdomain</Text>
               <Input
                 placeholder="ar://xyz_everlink"
-                onChange={(e) => setNewUndername(e.target.value)}
+                onChange={(e) => setNewSubdomain(e.target.value)}
               />
-
-              {/* start TODO */}
-              <Input
-                placeholder="Title"
-                onChange={(e) => setTitle(e.target.value)}
-              />
-              <Input
-                placeholder="URL"
-                onChange={(e) => setURL(e.target.value)}
-              />
-
-              {/* end TODO */}
-
               <Button
                 onClick={async (event) => {
                   const button = event.target
@@ -142,6 +176,72 @@ export default function Home({ _date = null }) {
               >
                 Continue
               </Button>
+
+              {/* start TODO */}
+              <Flex flexDirection="column" gap={2} paddingTop={8}>
+                <Text fontSize="xs">Record TxId</Text>
+                <Input
+                  placeholder="Record TxId"
+                  onChange={(e) => setNewRecordTxId(e.target.value)}
+                />
+                <Text fontSize="xs">Username</Text>
+                <Input
+                  placeholder="Username"
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                <Text fontSize="xs">Description</Text>
+                <Input
+                  placeholder="Description"
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+                <Text fontSize="xs">Add Links</Text>
+                <Input
+                  placeholder="Title"
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+                <Input
+                  placeholder="URL"
+                  onChange={(e) => setURL(e.target.value)}
+                />
+                <Button
+                  onClick={async (event) => {
+                    const button = event.target
+                    button.disabled = true
+
+                    await addNewLink()
+                    button.disabled = false
+                  }}
+                >
+                  Add Link
+                </Button>
+
+                {urls.map((link, index) => (
+                  <Flex
+                    key={index}
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    <Text fontSize="small">{link.title}</Text>
+                    <Text fontSize="small">{link.url}</Text>
+                  </Flex>
+                ))}
+
+                <Button
+                  onClick={async (event) => {
+                    const button = event.target
+                    button.disabled = true
+
+                    await setRecord()
+                    console.log("end1")
+                    button.disabled = false
+                    console.log("end2")
+                  }}
+                >
+                  Set Record
+                </Button>
+              </Flex>
+
+              {/* end TODO */}
             </Flex>
           </Flex>
         </Flex>
