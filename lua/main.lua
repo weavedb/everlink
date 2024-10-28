@@ -25,6 +25,23 @@ end
 
 Records = Records or {}
 
+Handlers.add("Record", Handlers.utils.hasMatchingTag("Action", "Record"), function(msg)
+    local subdomain = msg[KEY_SUB_DOMAIN]
+    if type(subdomain) ~= 'string' or subdomain == "" then
+        sendErrorMessage(msg, 'Sub-Domain is required and must be a string')
+        return
+    end
+
+    local record = Records[subdomain]
+    if not record then
+        sendErrorMessage(msg, 'Record not found')
+        return
+    end
+
+    printData("record", record)
+    msg.reply({ Data = record })
+end)
+
 Handlers.add('Set-Record', Handlers.utils.hasMatchingTag('Action', 'Set-Record'), function(msg)
     local owner = msg.From
     local subdomain = msg[KEY_SUB_DOMAIN]
