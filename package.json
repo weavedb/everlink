@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "@ardrive/turbo-sdk": "^1.19.0",
+    "@permaweb/aoconnect": "^0.0.59",
     "arnext-arkb": "^0.0.1",
     "cheerio": "^1.0.0",
     "cross-env": "^7.0.3",
