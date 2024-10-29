@@ -12,16 +12,19 @@ import AppHeader from "@/components/AppHeader"
 import { ANT } from "@ar.io/sdk/web"
 import { message, createDataItemSigner, result } from "@permaweb/aoconnect"
 import Head from "next/head"
+import { Link } from "arnext"
 
 const ANT_PROCESS_ID = "uBe2djD7Qqx7-yVMkPU9cY-QjWeorHi_YCllxH_Iihw"
 const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
+const BASIC_TEMPLATE_TX_ID = "BXNtVGO1ZoGhlUzBb0fX7tVL15rtu6xb-lWEtMP2u-U"
 
 export default function Home({ _date = null }) {
   const [newSubdomain, setNewSubdomain] = useState("")
-  const [newRecordTxId, setNewRecordTxId] = useState("")
+  const [newRecordTxId, setNewRecordTxId] = useState(BASIC_TEMPLATE_TX_ID) // TODO: add more templates
   const [username, setUsername] = useState("")
   const [description, setDescription] = useState("")
   const [links, setLinks] = useState([])
+  const [gateway, setGateway] = useState([])
 
   const [title, setTitle] = useState("")
   const [url, setURL] = useState("")
@@ -95,6 +98,15 @@ export default function Home({ _date = null }) {
         isClosable: true,
         position: "top",
       })
+
+      const newGateway = [
+        newSubdomain + "_drumfeet.ar.io",
+        newSubdomain + "_drumfeet.arweave.net",
+        newSubdomain + "_drumfeet.arweave.dev",
+        newSubdomain + "_drumfeet.ar-io.dev",
+      ]
+      setGateway(newGateway)
+      console.log("newGateway", newGateway)
     } catch (error) {
       console.error(error)
       toast({
@@ -148,6 +160,13 @@ export default function Home({ _date = null }) {
 
   const removeLink = (index) => {
     setLinks(links.filter((_, i) => i !== index))
+  }
+
+  const formatUrl = (url) => {
+    if (!/^https?:\/\//i.test(url)) {
+      return `https://${url}`
+    }
+    return url
   }
 
   const meta = {
@@ -205,6 +224,27 @@ export default function Home({ _date = null }) {
                   gap={2}
                   flex="1" //fill available width horizontally
                 >
+                  {gateway.length > 0 && (
+                    <>
+                      <Flex flexDirection="column" gap={2} paddingBottom={8}>
+                        <Text fontSize="xs">Gateways</Text>
+                        {gateway.map((gateway, index) => {
+                          return (
+                            <>
+                              <Link
+                                key={index}
+                                href={formatUrl(gateway)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {gateway}
+                              </Link>
+                            </>
+                          )
+                        })}
+                      </Flex>
+                    </>
+                  )}
                   <Text fontSize="xs">Subdomain</Text>
                   <Input
                     placeholder="ar://subdomain_everlink"
