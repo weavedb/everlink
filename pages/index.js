@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Button, Flex, Input, Text, useToast } from "@chakra-ui/react"
+import { Button, Flex, Input, Select, Text, useToast } from "@chakra-ui/react"
 import AppHeader from "@/components/AppHeader"
 import { ANT, ArconnectSigner } from "@ar.io/sdk/web"
 import { message, createDataItemSigner, result } from "@permaweb/aoconnect"
@@ -159,10 +159,9 @@ export default function Home({ _date = null }) {
             padding={[2, 12]}
           >
             <Flex flexDirection="column" gap={2}>
-              <Text>Welcome to EverLink</Text>
               <Text fontSize="xs">Choose your EverLink subdomain</Text>
               <Input
-                placeholder="ar://xyz_everlink"
+                placeholder="ar://subdomain_everlink"
                 onChange={(e) => setNewSubdomain(e.target.value)}
               />
               <Button
@@ -179,11 +178,10 @@ export default function Home({ _date = null }) {
 
               {/* start TODO */}
               <Flex flexDirection="column" gap={2} paddingTop={8}>
-                <Text fontSize="xs">Record TxId</Text>
-                <Input
-                  placeholder="Record TxId"
-                  onChange={(e) => setNewRecordTxId(e.target.value)}
-                />
+                <Text fontSize="xs">Template</Text>
+                <Select>
+                  <option value={newRecordTxId}>Basic</option>
+                </Select>
                 <Text fontSize="xs">Username</Text>
                 <Input
                   placeholder="Username"
@@ -225,22 +223,18 @@ export default function Home({ _date = null }) {
                     <Text fontSize="small">{link.url}</Text>
                   </Flex>
                 ))}
-
                 <Button
                   onClick={async (event) => {
                     const button = event.target
                     button.disabled = true
 
                     await setRecord()
-                    console.log("end1")
                     button.disabled = false
-                    console.log("end2")
                   }}
                 >
                   Set Record
                 </Button>
               </Flex>
-
               {/* end TODO */}
             </Flex>
           </Flex>
