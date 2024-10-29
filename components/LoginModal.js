@@ -84,7 +84,13 @@ const LoginModal = () => {
         <Flex
           _hover={{ cursor: "pointer" }}
           onClick={async () => {
-            await login()
+            // await login()
+            toast({
+              title: "This feature is not available yet",
+              duration: 1000,
+              isClosable: true,
+              position: "top",
+            })
           }}
         >
           <WalletIcon />

@@ -11,6 +11,7 @@ import {
 import AppHeader from "@/components/AppHeader"
 import { ANT, ArconnectSigner } from "@ar.io/sdk/web"
 import { message, createDataItemSigner, result } from "@permaweb/aoconnect"
+import Head from "next/head"
 
 const ANT_PROCESS_ID = "uBe2djD7Qqx7-yVMkPU9cY-QjWeorHi_YCllxH_Iihw"
 const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
@@ -145,9 +146,31 @@ export default function Home({ _date = null }) {
   const addNewLink = async () => {
     setUrls([...urls, { title, url }])
   }
+
+  const meta = {
+    title: "EverLink",
+    description: "Link in bio for the permaweb",
+    image: "dLbFWaJ1DpLpsyxdFX38AkzuMwSA6A598uRFBlHMvJo",
+  }
   return (
     <>
       <ChakraProvider>
+        <Head>
+          <title>{meta.title}</title>
+          <meta name="description" content={meta.description} />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content={`${meta.title}`} />
+          <meta name="twitter:description" content={meta.description} />
+          <meta
+            name="twitter:image"
+            content={`https://arweave.net/${meta.image}`}
+          />
+          <meta property="og:title" content={`${meta.title}`} />
+          <meta name="og:description" content={meta.description} />
+          <meta name="og:image" content={`https://arweave.net/${meta.image}`} />
+          <link rel="icon" href="./favicon.ico" />
+        </Head>
         <Flex minH="100vh" bg="#0e2229">
           {/* Main Body Container */}
           <Flex
@@ -166,9 +189,10 @@ export default function Home({ _date = null }) {
               flex="1" //fill available height vertically
               bg="#1a2c38"
               padding={[2, 12]}
+              justifyContent="center"
             >
               <Flex flexDirection="column" gap={2}>
-                <Text fontSize="xs">Choose your EverLink subdomain</Text>
+                <Text fontSize="xs">Subdomain</Text>
                 <Input
                   placeholder="ar://subdomain_everlink"
                   onChange={(e) => setNewSubdomain(e.target.value)}
@@ -182,10 +206,10 @@ export default function Home({ _date = null }) {
                     button.disabled = false
                   }}
                 >
-                  Continue
+                  Available?
                 </Button>
 
-                {/* start TODO */}
+
                 <Flex flexDirection="column" gap={2} paddingTop={8}>
                   <Text fontSize="xs">Template</Text>
                   <Select>
@@ -225,13 +249,20 @@ export default function Home({ _date = null }) {
                   {urls.map((link, index) => (
                     <Flex
                       key={index}
-                      justifyContent="space-between"
-                      alignItems="center"
                     >
+                      <Flex flexDirection="column" onClick={(index) => {
+              console.log("Deleting link", index);
+
+              // Filter out the item to delete by index
+              setUrls(urls.filter((_, i) => i !== index));
+
+                      }}>
                       <Text fontSize="small">{link.title}</Text>
                       <Text fontSize="small">{link.url}</Text>
+                      </Flex>
                     </Flex>
                   ))}
+
                   <Button
                     onClick={async (event) => {
                       const button = event.target
@@ -244,7 +275,7 @@ export default function Home({ _date = null }) {
                     Set Record
                   </Button>
                 </Flex>
-                {/* end TODO */}
+
               </Flex>
             </Flex>
           </Flex>
