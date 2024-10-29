@@ -177,7 +177,6 @@ export default function Home({ _date = null }) {
         <Flex
           minH="100vh"
           bg="#0e2229"
-          flexDirection="column"
           flex="1" //fill available height vertically
         >
           {/* Main Body Container */}
