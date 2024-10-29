@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react"
-import { Button, Flex, Input, Select, Text, useToast } from "@chakra-ui/react"
+import {
+  Button,
+  ChakraProvider,
+  Flex,
+  Input,
+  Select,
+  Text,
+  useToast,
+} from "@chakra-ui/react"
 import AppHeader from "@/components/AppHeader"
 import { ANT, ArconnectSigner } from "@ar.io/sdk/web"
 import { message, createDataItemSigner, result } from "@permaweb/aoconnect"
@@ -139,107 +147,109 @@ export default function Home({ _date = null }) {
   }
   return (
     <>
-      <Flex minH="100vh" bg="#0e2229">
-        {/* Main Body Container */}
-        <Flex
-          flexDirection="column"
-          flex="1" //fill available width horizontally
-          gap={1}
-          color="gray.200"
-        >
-          {/* AppHeader Container */}
-          <Flex>
-            <AppHeader />
-          </Flex>
-
-          {/* Main Content Container */}
+      <ChakraProvider>
+        <Flex minH="100vh" bg="#0e2229">
+          {/* Main Body Container */}
           <Flex
-            flex="1" //fill available height vertically
-            bg="#1a2c38"
-            padding={[2, 12]}
+            flexDirection="column"
+            flex="1" //fill available width horizontally
+            gap={1}
+            color="gray.200"
           >
-            <Flex flexDirection="column" gap={2}>
-              <Text fontSize="xs">Choose your EverLink subdomain</Text>
-              <Input
-                placeholder="ar://subdomain_everlink"
-                onChange={(e) => setNewSubdomain(e.target.value)}
-              />
-              <Button
-                onClick={async (event) => {
-                  const button = event.target
-                  button.disabled = true
+            {/* AppHeader Container */}
+            <Flex>
+              <AppHeader />
+            </Flex>
 
-                  await onContinue()
-                  button.disabled = false
-                }}
-              >
-                Continue
-              </Button>
-
-              {/* start TODO */}
-              <Flex flexDirection="column" gap={2} paddingTop={8}>
-                <Text fontSize="xs">Template</Text>
-                <Select>
-                  <option value={newRecordTxId}>Basic</option>
-                </Select>
-                <Text fontSize="xs">Username</Text>
+            {/* Main Content Container */}
+            <Flex
+              flex="1" //fill available height vertically
+              bg="#1a2c38"
+              padding={[2, 12]}
+            >
+              <Flex flexDirection="column" gap={2}>
+                <Text fontSize="xs">Choose your EverLink subdomain</Text>
                 <Input
-                  placeholder="Username"
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-                <Text fontSize="xs">Description</Text>
-                <Input
-                  placeholder="Description"
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-                <Text fontSize="xs">Add Links</Text>
-                <Input
-                  placeholder="Title"
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-                <Input
-                  placeholder="URL"
-                  onChange={(e) => setURL(e.target.value)}
+                  placeholder="ar://subdomain_everlink"
+                  onChange={(e) => setNewSubdomain(e.target.value)}
                 />
                 <Button
                   onClick={async (event) => {
                     const button = event.target
                     button.disabled = true
 
-                    await addNewLink()
+                    await onContinue()
                     button.disabled = false
                   }}
                 >
-                  Add Link
+                  Continue
                 </Button>
 
-                {urls.map((link, index) => (
-                  <Flex
-                    key={index}
-                    justifyContent="space-between"
-                    alignItems="center"
+                {/* start TODO */}
+                <Flex flexDirection="column" gap={2} paddingTop={8}>
+                  <Text fontSize="xs">Template</Text>
+                  <Select>
+                    <option value={newRecordTxId}>Basic</option>
+                  </Select>
+                  <Text fontSize="xs">Username</Text>
+                  <Input
+                    placeholder="Username"
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                  <Text fontSize="xs">Description</Text>
+                  <Input
+                    placeholder="Description"
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                  <Text fontSize="xs">Add Links</Text>
+                  <Input
+                    placeholder="Title"
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                  <Input
+                    placeholder="URL"
+                    onChange={(e) => setURL(e.target.value)}
+                  />
+                  <Button
+                    onClick={async (event) => {
+                      const button = event.target
+                      button.disabled = true
+
+                      await addNewLink()
+                      button.disabled = false
+                    }}
                   >
-                    <Text fontSize="small">{link.title}</Text>
-                    <Text fontSize="small">{link.url}</Text>
-                  </Flex>
-                ))}
-                <Button
-                  onClick={async (event) => {
-                    const button = event.target
-                    button.disabled = true
+                    Add Link
+                  </Button>
 
-                    await setRecord()
-                    button.disabled = false
-                  }}
-                >
-                  Set Record
-                </Button>
+                  {urls.map((link, index) => (
+                    <Flex
+                      key={index}
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                      <Text fontSize="small">{link.title}</Text>
+                      <Text fontSize="small">{link.url}</Text>
+                    </Flex>
+                  ))}
+                  <Button
+                    onClick={async (event) => {
+                      const button = event.target
+                      button.disabled = true
+
+                      await setRecord()
+                      button.disabled = false
+                    }}
+                  >
+                    Set Record
+                  </Button>
+                </Flex>
+                {/* end TODO */}
               </Flex>
-              {/* end TODO */}
             </Flex>
           </Flex>
         </Flex>
-      </Flex>
+      </ChakraProvider>
     </>
   )
 }
