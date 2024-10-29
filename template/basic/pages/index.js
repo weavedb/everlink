@@ -21,12 +21,6 @@ export const getStaticProps = ssr(async () => {
 const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
 
 export default function Home({ _date = null, _fullUrl = null }) {
-  // const [arnsDomain, setArnsDomain] = useState("")
-  // const [username, setUsername] = useState("")
-  // const [description, setDescription] = useState("")
-  // const [links, setLinks] = useState([])
-  // const [fullUrl, setFullUrl] = useState("")
-
   const toast = useToast()
 
   const [date, setDate] = useState(_date)
@@ -34,6 +28,7 @@ export default function Home({ _date = null, _fullUrl = null }) {
   const [username, setUsername] = useState()
   const [description, setDescription] = useState()
   const [links, setLinks] = useState([])
+  const [subdomain, setSubdomain] = useState()
 
   useEffect(() => {
     ;(async () => {
@@ -42,12 +37,16 @@ export default function Home({ _date = null, _fullUrl = null }) {
         setFullUrl(_fullUrl)
         console.log("_fullUrl", _fullUrl)
 
+        const _subdomain = _fullUrl.split("//")[1].split("_")[0]
+        console.log("_subdomain:", _subdomain)
+        setSubdomain(_subdomain)
+
         const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
         let tags = [
           { name: "Action", value: "Record" },
           {
             name: "Sub-Domain",
-            value: "test6", //TODO: add sub-domain
+            value: _subdomain,
           },
         ]
 
