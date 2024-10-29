@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import {
   Button,
   ChakraProvider,
@@ -9,7 +9,7 @@ import {
   useToast,
 } from "@chakra-ui/react"
 import AppHeader from "@/components/AppHeader"
-import { ANT, ArconnectSigner } from "@ar.io/sdk/web"
+import { ANT } from "@ar.io/sdk/web"
 import { message, createDataItemSigner, result } from "@permaweb/aoconnect"
 import Head from "next/head"
 
@@ -17,12 +17,11 @@ const ANT_PROCESS_ID = "uBe2djD7Qqx7-yVMkPU9cY-QjWeorHi_YCllxH_Iihw"
 const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
 
 export default function Home({ _date = null }) {
-  const [processId, setProcessId] = useState("")
   const [newSubdomain, setNewSubdomain] = useState("")
   const [newRecordTxId, setNewRecordTxId] = useState("")
   const [username, setUsername] = useState("")
   const [description, setDescription] = useState("")
-  const [urls, setUrls] = useState([])
+  const [links, setLinks] = useState([])
 
   const [title, setTitle] = useState("")
   const [url, setURL] = useState("")
@@ -31,7 +30,7 @@ export default function Home({ _date = null }) {
 
   const getRecords = async () => {
     const ant = ANT.init({
-      processId: processId || ANT_PROCESS_ID,
+      processId: ANT_PROCESS_ID,
     })
     const _records = await ant.getRecords()
     console.log("_records", _records)
@@ -76,7 +75,7 @@ export default function Home({ _date = null }) {
           },
           {
             name: "Urls",
-            value: JSON.stringify(urls),
+            value: JSON.stringify(links),
           },
         ],
         signer: createDataItemSigner(globalThis.arweaveWallet),
@@ -144,7 +143,11 @@ export default function Home({ _date = null }) {
   }
 
   const addNewLink = async () => {
-    setUrls([...urls, { title, url }])
+    setLinks([...links, { title, url }])
+  }
+
+  const removeLink = (index) => {
+    setLinks(links.filter((_, i) => i !== index))
   }
 
   const meta = {
@@ -171,7 +174,12 @@ export default function Home({ _date = null }) {
           <meta name="og:image" content={`https://arweave.net/${meta.image}`} />
           <link rel="icon" href="./favicon.ico" />
         </Head>
-        <Flex minH="100vh" bg="#0e2229">
+        <Flex
+          minH="100vh"
+          bg="#0e2229"
+          flexDirection="column"
+          flex="1" //fill available height vertically
+        >
           {/* Main Body Container */}
           <Flex
             flexDirection="column"
@@ -188,94 +196,120 @@ export default function Home({ _date = null }) {
             <Flex
               flex="1" //fill available height vertically
               bg="#1a2c38"
-              padding={[2, 12]}
+              paddingX={[2, 12]}
+              paddingY={[12, 12]}
               justifyContent="center"
             >
-              <Flex flexDirection="column" gap={2}>
-                <Text fontSize="xs">Subdomain</Text>
-                <Input
-                  placeholder="ar://subdomain_everlink"
-                  onChange={(e) => setNewSubdomain(e.target.value)}
-                />
-                <Button
-                  onClick={async (event) => {
-                    const button = event.target
-                    button.disabled = true
-
-                    await onContinue()
-                    button.disabled = false
-                  }}
+              <Flex w="580px" maxW="700px">
+                <Flex
+                  flexDirection="column"
+                  gap={2}
+                  flex="1" //fill available width horizontally
                 >
-                  Available?
-                </Button>
-
-
-                <Flex flexDirection="column" gap={2} paddingTop={8}>
-                  <Text fontSize="xs">Template</Text>
-                  <Select>
-                    <option value={newRecordTxId}>Basic</option>
-                  </Select>
-                  <Text fontSize="xs">Username</Text>
+                  <Text fontSize="xs">Subdomain</Text>
                   <Input
-                    placeholder="Username"
-                    onChange={(e) => setUsername(e.target.value)}
-                  />
-                  <Text fontSize="xs">Description</Text>
-                  <Input
-                    placeholder="Description"
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
-                  <Text fontSize="xs">Add Links</Text>
-                  <Input
-                    placeholder="Title"
-                    onChange={(e) => setTitle(e.target.value)}
-                  />
-                  <Input
-                    placeholder="URL"
-                    onChange={(e) => setURL(e.target.value)}
+                    placeholder="ar://subdomain_everlink"
+                    onChange={(e) => setNewSubdomain(e.target.value)}
                   />
                   <Button
                     onClick={async (event) => {
                       const button = event.target
                       button.disabled = true
 
-                      await addNewLink()
+                      await onContinue()
                       button.disabled = false
                     }}
                   >
-                    Add Link
+                    Available?
                   </Button>
 
-                  {urls.map((link, index) => (
-                    <Flex
-                      key={index}
+                  <Flex flexDirection="column" gap={2} paddingTop={8}>
+                    <Text fontSize="xs">Template</Text>
+                    <Select>
+                      <option value={newRecordTxId}>Basic</option>
+                    </Select>
+                    <Text fontSize="xs">Username</Text>
+                    <Input
+                      placeholder="Username"
+                      onChange={(e) => setUsername(e.target.value)}
+                    />
+                    <Text fontSize="xs">Description</Text>
+                    <Input
+                      placeholder="Description"
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+                    <Text fontSize="xs">Add Links</Text>
+                    <Input
+                      placeholder="Title"
+                      onChange={(e) => setTitle(e.target.value)}
+                    />
+                    <Input
+                      placeholder="URL"
+                      onChange={(e) => setURL(e.target.value)}
+                    />
+                    <Button
+                      onClick={async (event) => {
+                        const button = event.target
+                        button.disabled = true
+
+                        await addNewLink()
+                        button.disabled = false
+                      }}
                     >
-                      <Flex flexDirection="column" onClick={(index) => {
-              console.log("Deleting link", index);
+                      Add Link
+                    </Button>
 
-              // Filter out the item to delete by index
-              setUrls(urls.filter((_, i) => i !== index));
-
-                      }}>
-                      <Text fontSize="small">{link.title}</Text>
-                      <Text fontSize="small">{link.url}</Text>
+                    {links.map((link, index) => (
+                      <Flex
+                        key={index}
+                        alignItems="center"
+                        justifyContent="space-between"
+                      >
+                        <Flex flexDirection="column">
+                          <Text
+                            fontSize="small"
+                            whiteSpace="normal"
+                            wordBreak="break-word"
+                          >
+                            {link.title}
+                          </Text>
+                          <Text
+                            fontSize="small"
+                            whiteSpace="normal"
+                            wordBreak="break-word"
+                          >
+                            {link.url}
+                          </Text>
+                        </Flex>
+                        <Text
+                          fontSize="small"
+                          cursor="pointer"
+                          onClick={() => removeLink(index)}
+                        >
+                          🗑️
+                        </Text>
                       </Flex>
+                    ))}
+
+                    <Flex
+                      paddingTop={8}
+                      flexDirection="column"
+                      flex="1" //fill available width horizontally
+                    >
+                      <Button
+                        onClick={async (event) => {
+                          const button = event.target
+                          button.disabled = true
+
+                          await setRecord()
+                          button.disabled = false
+                        }}
+                      >
+                        Set Record
+                      </Button>
                     </Flex>
-                  ))}
-
-                  <Button
-                    onClick={async (event) => {
-                      const button = event.target
-                      button.disabled = true
-
-                      await setRecord()
-                      button.disabled = false
-                    }}
-                  >
-                    Set Record
-                  </Button>
+                  </Flex>
                 </Flex>
-
               </Flex>
             </Flex>
           </Flex>
