@@ -287,9 +287,9 @@ export default function Home({ _date = null }) {
                 flexDirection="column"
                 flex="1" //fill available width horizontally
               >
-                <Text>Gateways</Text>
                 {gateway.length > 0 && (
                   <>
+                    <Text>Gateways</Text>
                     <Flex flexDirection="column" gap={2} paddingBottom={8}>
                       {gateway.map((gateway, index) => {
                         return (
@@ -316,66 +316,82 @@ export default function Home({ _date = null }) {
                         flexDirection="column"
                         flex="1" //fill available width horizontally
                       >
-                        <Text>Manage Subdomain</Text>
-                        {userRecords.length > 0 &&
-                          userRecords.map((record, index) => {
-                            return (
-                              <Flex key={index} alignItems="center" gap={4}>
-                                <Text
-                                  onClick={() => {
-                                    console.log("record", record)
-                                  }}
-                                  cursor="pointer"
-                                >
-                                  ✏️
-                                </Text>
-                                <Text
-                                  onClick={() => {
-                                    console.log("record", record)
-                                  }}
-                                  cursor="pointer"
-                                >
-                                  🗑️
-                                </Text>
-                                <Flex flexDirection="column">
-                                  <Text
-                                    whiteSpace="normal"
-                                    wordBreak="break-word"
-                                  >
-                                    {record.SubDomain}
-                                  </Text>
-                                </Flex>
-                              </Flex>
-                            )
-                          })}
+                        {userRecords.length > 0 && (
+                          <>
+                            <Text>Manage Subdomain</Text>
+
+                            <Flex
+                              flexDirection="column"
+                              gap={2}
+                              paddingBottom={8}
+                            >
+                              {userRecords.map((record, index) => {
+                                return (
+                                  <>
+                                    <Flex
+                                      key={index}
+                                      alignItems="center"
+                                      gap={4}
+                                    >
+                                      <Text
+                                        onClick={() => {
+                                          console.log("record", record)
+                                        }}
+                                        cursor="pointer"
+                                      >
+                                        ✏️
+                                      </Text>
+                                      <Text
+                                        onClick={() => {
+                                          console.log("record", record)
+                                        }}
+                                        cursor="pointer"
+                                      >
+                                        🗑️
+                                      </Text>
+                                      <Text
+                                        whiteSpace="normal"
+                                        wordBreak="break-word"
+                                      >
+                                        {record.SubDomain}
+                                      </Text>
+                                    </Flex>
+                                  </>
+                                )
+                              })}
+                            </Flex>
+                          </>
+                        )}
                       </Flex>
                     </>
                   )}
                 </Flex>
 
-                <Text fontSize="xs">Subdomain</Text>
-                <Input
-                  placeholder="ar://subdomain_everlink"
-                  onChange={(e) => setNewSubdomain(e.target.value)}
-                />
-                {subdomainOwner && (
-                  <>
-                    <Text fontSize="xs">Owner</Text>
-                    {subdomainOwner}
-                  </>
-                )}
+                <Flex flexDirection="column" gap={2}>
+                  <Text fontSize="xs">Subdomain</Text>
+                  <Input
+                    placeholder="ar://subdomain_everlink"
+                    onChange={(e) => setNewSubdomain(e.target.value)}
+                  />
+                  {subdomainOwner && (
+                    <>
+                      <Text fontSize="xs">Owner</Text>
+                      <Text>{subdomainOwner}</Text>
+                    </>
+                  )}
 
-                <Button
-                  onClick={async (event) => {
-                    const button = event.target
-                    button.disabled = true
+                  <Button
+                    onClick={async (event) => {
+                      const button = event.target
+                      button.disabled = true
 
-                    await onContinue()
-                    button.disabled = false
-                  }}
-                >
-                  Available?
-                </Button>
+                      await onContinue()
+                      button.disabled = false
+                    }}
+                  >
+                    Available?
+                  </Button>
+                </Flex>
 
                 <Flex flexDirection="column" gap={2} paddingTop={8}>
                   <Text fontSize="xs">Template</Text>
