@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {
   Button,
   ChakraProvider,
@@ -18,6 +18,7 @@ import {
 } from "@permaweb/aoconnect"
 import Head from "next/head"
 import { Link } from "arnext"
+import { AppContextProvider, useAppContext } from "@/context/AppContext"
 
 const ANT_PROCESS_ID = "uBe2djD7Qqx7-yVMkPU9cY-QjWeorHi_YCllxH_Iihw"
 const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
@@ -36,6 +37,45 @@ export default function Home({ _date = null }) {
   const [url, setURL] = useState("")
 
   const toast = useToast()
+
+  const { isConnected, userAddress } = useAppContext()
+  useEffect(() => {
+    ;(async () => {
+      if (isConnected) {
+        let tags = [
+          { name: "Action", value: "UserRecord" },
+          {
+            name: "WalletOwner",
+            value: userAddress,
+          },
+        ]
+        const _result = await dryrun({
+          process: MAIN_PROCESS_ID,
+          tags,
+        })
+        console.log("_result", _result)
+        const _resultData = _result.Messages[0].Data
+        console.log("_resultData", _resultData)
+        const jsonData = JSON.parse(_resultData)
+        console.log("jsonData", jsonData)
+
+        const errorTag = _result?.Messages?.[0]?.Tags.find(
+          (tag) => tag.name === "Error"
+        )
+        console.log("errorTag", errorTag)
+        if (errorTag) {
+          toast({
+            description: _result.Messages[0].Data,
+            status: "error",
+            duration: 2000,
+            isClosable: true,
+            position: "top",
+          })
+          return
+        }
+      }
+    })()
+  }, [isConnected])
 
   const getRecords = async () => {
     const ant = ANT.init({
@@ -222,7 +262,6 @@ export default function Home({ _date = null }) {
         </Head>
         <Flex
           minH="100vh"
-          bg="#0e2229"
           flex="1" //fill available height vertically
         >
           {/* Main Body Container */}
@@ -230,7 +269,6 @@ export default function Home({ _date = null }) {
             flexDirection="column"
             flex="1" //fill available width horizontally
             gap={1}
-            color="gray.200"
           >
             {/* AppHeader Container */}
             <Flex>
@@ -240,146 +278,152 @@ export default function Home({ _date = null }) {
             {/* Main Content Container */}
             <Flex
               flex="1" //fill available height vertically
-              bg="#1a2c38"
               paddingX={[2, 12]}
               paddingY={[12, 12]}
               justifyContent="center"
             >
-              <Flex w="580px" maxW="700px">
-                <Flex
-                  flexDirection="column"
-                  gap={2}
-                  flex="1" //fill available width horizontally
+              <Flex
+                flexDirection="column"
+                gap={2}
+                flex="1" //fill available width horizontally
+              >
+                {gateway.length > 0 && (
+                  <>
+                    <Flex flexDirection="column" gap={2} paddingBottom={8}>
+                      <Text fontSize="xs">Gateways</Text>
+                      {gateway.map((gateway, index) => {
+                        return (
+                          <>
+                            <Link
+                              key={index}
+                              href={formatUrl(gateway)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {gateway}
+                            </Link>
+                          </>
+                        )
+                      })}
+                    </Flex>
+                  </>
+                )}
+
+                {isConnected && (
+                  <>
+                    <Flex flexDirection="column">
+                      <Text>Dashboard</Text>
+                    </Flex>
+                  </>
+                )}
+                <Text fontSize="xs">Subdomain</Text>
+                <Input
+                  placeholder="ar://subdomain_everlink"
+                  onChange={(e) => setNewSubdomain(e.target.value)}
+                />
+                {subdomainOwner && (
+                  <>
+                    <Text fontSize="xs">Owner</Text>
+                    {subdomainOwner}
+                  </>
+                )}
+
+                <Button
+                  onClick={async (event) => {
+                    const button = event.target
+                    button.disabled = true
+
+                    await onContinue()
+                    button.disabled = false
+                  }}
                 >
-                  {gateway.length > 0 && (
-                    <>
-                      <Flex flexDirection="column" gap={2} paddingBottom={8}>
-                        <Text fontSize="xs">Gateways</Text>
-                        {gateway.map((gateway, index) => {
-                          return (
-                            <>
-                              <Link
-                                key={index}
-                                href={formatUrl(gateway)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                {gateway}
-                              </Link>
-                            </>
-                          )
-                        })}
-                      </Flex>
-                    </>
-                  )}
-                  <Text fontSize="xs">Subdomain</Text>
+                  Available?
+                </Button>
+
+                <Flex flexDirection="column" gap={2} paddingTop={8}>
+                  <Text fontSize="xs">Template</Text>
+                  <Select>
+                    <option value={newRecordTxId}>Basic</option>
+                  </Select>
+                  <Text fontSize="xs">Username</Text>
                   <Input
-                    placeholder="ar://subdomain_everlink"
-                    onChange={(e) => setNewSubdomain(e.target.value)}
+                    placeholder="Username"
+                    onChange={(e) => setUsername(e.target.value)}
                   />
-                  {subdomainOwner && (
-                    <>
-                      <Text fontSize="xs">Owner</Text>
-                      {subdomainOwner}
-                    </>
-                  )}
+                  <Text fontSize="xs">Description</Text>
+                  <Input
+                    placeholder="Description"
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                  <Text fontSize="xs">Add Links</Text>
+                  <Input
+                    placeholder="Title"
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                  <Input
+                    placeholder="URL"
+                    onChange={(e) => setURL(e.target.value)}
+                  />
                   <Button
                     onClick={async (event) => {
                       const button = event.target
                       button.disabled = true
 
-                      await onContinue()
+                      await addNewLink()
                       button.disabled = false
                     }}
                   >
-                    Available?
+                    Add Link
                   </Button>
 
-                  <Flex flexDirection="column" gap={2} paddingTop={8}>
-                    <Text fontSize="xs">Template</Text>
-                    <Select>
-                      <option value={newRecordTxId}>Basic</option>
-                    </Select>
-                    <Text fontSize="xs">Username</Text>
-                    <Input
-                      placeholder="Username"
-                      onChange={(e) => setUsername(e.target.value)}
-                    />
-                    <Text fontSize="xs">Description</Text>
-                    <Input
-                      placeholder="Description"
-                      onChange={(e) => setDescription(e.target.value)}
-                    />
-                    <Text fontSize="xs">Add Links</Text>
-                    <Input
-                      placeholder="Title"
-                      onChange={(e) => setTitle(e.target.value)}
-                    />
-                    <Input
-                      placeholder="URL"
-                      onChange={(e) => setURL(e.target.value)}
-                    />
+                  {links.map((link, index) => (
+                    <Flex
+                      key={index}
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <Flex flexDirection="column">
+                        <Text
+                          fontSize="small"
+                          whiteSpace="normal"
+                          wordBreak="break-word"
+                        >
+                          {link.title}
+                        </Text>
+                        <Text
+                          fontSize="small"
+                          whiteSpace="normal"
+                          wordBreak="break-word"
+                        >
+                          {link.url}
+                        </Text>
+                      </Flex>
+                      <Text
+                        fontSize="small"
+                        cursor="pointer"
+                        onClick={() => removeLink(index)}
+                      >
+                        🗑️
+                      </Text>
+                    </Flex>
+                  ))}
+
+                  <Flex
+                    paddingTop={8}
+                    flexDirection="column"
+                    flex="1" //fill available width horizontally
+                  >
                     <Button
                       onClick={async (event) => {
                         const button = event.target
                         button.disabled = true
 
-                        await addNewLink()
+                        await setRecord()
                         button.disabled = false
                       }}
                     >
-                      Add Link
+                      Set Record
                     </Button>
-
-                    {links.map((link, index) => (
-                      <Flex
-                        key={index}
-                        alignItems="center"
-                        justifyContent="space-between"
-                      >
-                        <Flex flexDirection="column">
-                          <Text
-                            fontSize="small"
-                            whiteSpace="normal"
-                            wordBreak="break-word"
-                          >
-                            {link.title}
-                          </Text>
-                          <Text
-                            fontSize="small"
-                            whiteSpace="normal"
-                            wordBreak="break-word"
-                          >
-                            {link.url}
-                          </Text>
-                        </Flex>
-                        <Text
-                          fontSize="small"
-                          cursor="pointer"
-                          onClick={() => removeLink(index)}
-                        >
-                          🗑️
-                        </Text>
-                      </Flex>
-                    ))}
-
-                    <Flex
-                      paddingTop={8}
-                      flexDirection="column"
-                      flex="1" //fill available width horizontally
-                    >
-                      <Button
-                        onClick={async (event) => {
-                          const button = event.target
-                          button.disabled = true
-
-                          await setRecord()
-                          button.disabled = false
-                        }}
-                      >
-                        Set Record
-                      </Button>
-                    </Flex>
                   </Flex>
                 </Flex>
               </Flex>

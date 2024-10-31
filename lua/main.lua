@@ -42,6 +42,34 @@ Handlers.add("Record", Handlers.utils.hasMatchingTag("Action", "Record"), functi
     msg.reply({ Data = record })
 end)
 
+Handlers.add("UserRecord", Handlers.utils.hasMatchingTag("Action", "UserRecord"), function(msg)
+    print("hello")
+    local walletOwner = msg.Tags and msg.Tags.WalletOwner
+    if type(walletOwner) ~= 'string' or walletOwner == "" then
+        sendErrorMessage(msg, 'WalletOwner is required and must be a string')
+        return
+    end
+
+    if not next(Records) then
+        sendErrorMessage(msg, 'No records found')
+        return
+    end
+
+    local userRecords = {}
+    for _, record in pairs(Records) do
+        if record.Owner and record.Owner == walletOwner then
+            table.insert(userRecords, record)
+        end
+    end
+
+    if #userRecords == 0 then
+        sendErrorMessage(msg, 'No records found for the specified owner')
+        return
+    end
+
+    msg.reply({ Data = userRecords })
+end)
+
 Handlers.add('Set-Record', Handlers.utils.hasMatchingTag('Action', 'Set-Record'), function(msg)
     local owner = msg.From
     local subdomain = msg[KEY_SUB_DOMAIN]

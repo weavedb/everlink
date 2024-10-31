@@ -1,10 +1,12 @@
 import { useToast } from "@chakra-ui/react"
-import { createContext, useContext } from "react"
+import { createContext, useContext, useState } from "react"
 
 const AppContext = createContext()
 
 export const AppContextProvider = ({ children }) => {
   const toast = useToast()
+  const [isConnected, setIsConnected] = useState(false)
+  const [userAddress, setUserAddress] = useState("")
 
   const connectWallet = async () => {
     try {
@@ -12,7 +14,8 @@ export const AppContextProvider = ({ children }) => {
         "ACCESS_ADDRESS",
         "SIGN_TRANSACTION",
       ])
-      return { success: true }
+      const userAddress = await globalThis.arweaveWallet.getActiveAddress()
+      return { success: true, userAddress }
     } catch (e) {
       console.error("connectWallet() error!", e)
       toast({
@@ -30,6 +33,10 @@ export const AppContextProvider = ({ children }) => {
     <AppContext.Provider
       value={{
         connectWallet,
+        isConnected,
+        setIsConnected,
+        userAddress,
+        setUserAddress,
       }}
     >
       {children}

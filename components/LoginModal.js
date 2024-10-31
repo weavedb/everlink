@@ -22,7 +22,7 @@ const LoginModal = () => {
   const { connectWallet } = useAppContext()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = useToast()
-  const [isConnected, setIsConnected] = useState(false)
+  const { isConnected, setIsConnected, setUserAddress } = useAppContext()
 
   const disconnectWallet = async () => {
     try {
@@ -46,7 +46,8 @@ const LoginModal = () => {
     if (_connected.success === false) {
       return
     }
-
+    setUserAddress(_connected.userAddress)
+    console.log("_connected.userAddress", _connected.userAddress)
     setIsConnected(true)
 
     toast({
@@ -84,13 +85,7 @@ const LoginModal = () => {
         <Flex
           _hover={{ cursor: "pointer" }}
           onClick={async () => {
-            // await login()
-            toast({
-              title: "This feature is not available yet",
-              duration: 1000,
-              isClosable: true,
-              position: "top",
-            })
+            await login()
           }}
         >
           <WalletIcon />
