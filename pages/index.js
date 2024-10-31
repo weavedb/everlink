@@ -10,7 +10,12 @@ import {
 } from "@chakra-ui/react"
 import AppHeader from "@/components/AppHeader"
 import { ANT } from "@ar.io/sdk/web"
-import { message, createDataItemSigner, result } from "@permaweb/aoconnect"
+import {
+  message,
+  createDataItemSigner,
+  result,
+  dryrun,
+} from "@permaweb/aoconnect"
 import Head from "next/head"
 import { Link } from "arnext"
 
@@ -25,6 +30,7 @@ export default function Home({ _date = null }) {
   const [description, setDescription] = useState("")
   const [links, setLinks] = useState([])
   const [gateway, setGateway] = useState([])
+  const [subdomainOwner, setSubdomainOwner] = useState("")
 
   const [title, setTitle] = useState("")
   const [url, setURL] = useState("")
@@ -38,6 +44,27 @@ export default function Home({ _date = null }) {
     const _records = await ant.getRecords()
     console.log("_records", _records)
     return _records
+  }
+
+  const getOwner = async () => {
+    let tags = [
+      { name: "Action", value: "Record" },
+      {
+        name: "Sub-Domain",
+        value: newSubdomain,
+      },
+    ]
+
+    const _result = await dryrun({
+      process: MAIN_PROCESS_ID,
+      tags,
+    })
+    console.log("_result", _result)
+    const _resultData = _result.Messages[0].Data
+    console.log("_resultData", _resultData)
+    const jsonData = JSON.parse(_resultData)
+    console.log("jsonData", jsonData)
+    setSubdomainOwner(jsonData.Owner)
   }
 
   const setRecord = async () => {
@@ -135,6 +162,7 @@ export default function Home({ _date = null }) {
 
     const _records = await getRecords()
     if (_records.hasOwnProperty(newSubdomain)) {
+      await getOwner()
       toast({
         title: "Subdomain already exists in the records",
         status: "error",
@@ -142,16 +170,15 @@ export default function Home({ _date = null }) {
         isClosable: true,
         position: "top",
       })
-      return
+    } else {
+      toast({
+        title: "Subdomain is available",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      })
     }
-
-    toast({
-      title: "Subdomain is available",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-      position: "top",
-    })
   }
 
   const addNewLink = async () => {
@@ -250,6 +277,12 @@ export default function Home({ _date = null }) {
                     placeholder="ar://subdomain_everlink"
                     onChange={(e) => setNewSubdomain(e.target.value)}
                   />
+                  {subdomainOwner && (
+                    <>
+                      <Text fontSize="xs">Owner</Text>
+                      {subdomainOwner}
+                    </>
+                  )}
                   <Button
                     onClick={async (event) => {
                       const button = event.target
