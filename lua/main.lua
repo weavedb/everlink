@@ -108,12 +108,12 @@ Handlers.add('Set-Record', Handlers.utils.hasMatchingTag('Action', 'Set-Record')
 
     local newRecord = {
         Owner = owner,
-        SubDomain = subdomain,
+        SubDomain = subdomain, -- TODO: change to Subdomain
         TransactionId = transactionId,
         TTL = ttl,
         Username = username,
         Description = description,
-        Urls = strUrls
+        Urls = strUrls -- TODO: change to :Links
     }
     Records[subdomain] = newRecord
     printData("newRecord", newRecord)

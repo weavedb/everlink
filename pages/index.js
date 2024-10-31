@@ -32,9 +32,9 @@ export default function Home({ _date = null }) {
   const [links, setLinks] = useState([])
   const [gateway, setGateway] = useState([])
   const [subdomainOwner, setSubdomainOwner] = useState("")
-
   const [title, setTitle] = useState("")
   const [url, setURL] = useState("")
+  const [userRecords, setUserRecords] = useState([])
 
   const toast = useToast()
 
@@ -58,6 +58,7 @@ export default function Home({ _date = null }) {
         console.log("_resultData", _resultData)
         const jsonData = JSON.parse(_resultData)
         console.log("jsonData", jsonData)
+        setUserRecords(jsonData)
 
         const errorTag = _result?.Messages?.[0]?.Tags.find(
           (tag) => tag.name === "Error"
@@ -284,13 +285,12 @@ export default function Home({ _date = null }) {
             >
               <Flex
                 flexDirection="column"
-                gap={2}
                 flex="1" //fill available width horizontally
               >
+                <Text>Gateways</Text>
                 {gateway.length > 0 && (
                   <>
                     <Flex flexDirection="column" gap={2} paddingBottom={8}>
-                      <Text fontSize="xs">Gateways</Text>
                       {gateway.map((gateway, index) => {
                         return (
                           <>
@@ -309,13 +309,50 @@ export default function Home({ _date = null }) {
                   </>
                 )}
 
-                {isConnected && (
-                  <>
-                    <Flex flexDirection="column">
-                      <Text>Dashboard</Text>
-                    </Flex>
-                  </>
-                )}
+                <Flex flexDirection="column" gap={2} paddingBottom={8}>
+                  {isConnected && (
+                    <>
+                      <Flex
+                        flexDirection="column"
+                        flex="1" //fill available width horizontally
+                      >
+                        <Text>Manage Subdomain</Text>
+                        {userRecords.length > 0 &&
+                          userRecords.map((record, index) => {
+                            return (
+                              <Flex key={index} alignItems="center" gap={4}>
+                                <Text
+                                  onClick={() => {
+                                    console.log("record", record)
+                                  }}
+                                  cursor="pointer"
+                                >
+                                  ✏️
+                                </Text>
+                                <Text
+                                  onClick={() => {
+                                    console.log("record", record)
+                                  }}
+                                  cursor="pointer"
+                                >
+                                  🗑️
+                                </Text>
+                                <Flex flexDirection="column">
+                                  <Text
+                                    whiteSpace="normal"
+                                    wordBreak="break-word"
+                                  >
+                                    {record.SubDomain}
+                                  </Text>
+                                </Flex>
+                              </Flex>
+                            )
+                          })}
+                      </Flex>
+                    </>
+                  )}
+                </Flex>
+
                 <Text fontSize="xs">Subdomain</Text>
                 <Input
                   placeholder="ar://subdomain_everlink"
