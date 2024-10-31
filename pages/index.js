@@ -38,7 +38,7 @@ export default function Home({ _date = null }) {
 
   const toast = useToast()
 
-  const { isConnected, userAddress } = useAppContext()
+  const { connectWallet, isConnected, userAddress } = useAppContext()
   useEffect(() => {
     ;(async () => {
       if (isConnected) {
@@ -74,6 +74,8 @@ export default function Home({ _date = null }) {
           })
           return
         }
+      } else {
+        // TODO: remove user records and other necessary states
       }
     })()
   }, [isConnected])
@@ -179,6 +181,59 @@ export default function Home({ _date = null }) {
       console.error(error)
       toast({
         title: error.message,
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      })
+    }
+  }
+
+  const removeUserRecord = async (record, index) => {
+    const _connected = await connectWallet()
+    console.log("_connected", _connected)
+    if (_connected.success === false) {
+      return
+    }
+
+    try {
+      const messageId = await message({
+        process: MAIN_PROCESS_ID,
+        tags: [
+          {
+            name: "Action",
+            value: "Remove-Record",
+          },
+          {
+            name: "Sub-Domain",
+            value: record.SubDomain,
+          },
+        ],
+        signer: createDataItemSigner(globalThis.arweaveWallet),
+      })
+      console.log("messageId", messageId)
+
+      const _result = await result({
+        message: messageId,
+        process: MAIN_PROCESS_ID,
+      })
+      console.log("_result", _result)
+
+      setUserRecords((prevUserRecords) =>
+        prevUserRecords.filter((_, i) => i !== index)
+      )
+
+      toast({
+        title: "Subdomain record removed successfully",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      })
+    } catch (e) {
+      console.error("removeUserRecord() error!", e)
+      toast({
+        description: "Something went wrong. Please try again.",
         status: "error",
         duration: 2000,
         isClosable: true,
@@ -293,16 +348,14 @@ export default function Home({ _date = null }) {
                     <Flex flexDirection="column" gap={2} paddingBottom={8}>
                       {gateway.map((gateway, index) => {
                         return (
-                          <>
-                            <Link
-                              key={index}
-                              href={formatUrl(gateway)}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {gateway}
-                            </Link>
-                          </>
+                          <Link
+                            key={index}
+                            href={formatUrl(gateway)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {gateway}
+                          </Link>
                         )
                       })}
                     </Flex>
@@ -327,36 +380,34 @@ export default function Home({ _date = null }) {
                             >
                               {userRecords.map((record, index) => {
                                 return (
-                                  <>
-                                    <Flex
-                                      key={index}
-                                      alignItems="center"
-                                      gap={4}
+                                  <Flex
+                                    key={record.SubDomain}
+                                    alignItems="center"
+                                    gap={4}
+                                  >
+                                    <Text
+                                      onClick={() => {
+                                        console.log("record", record)
+                                      }}
+                                      cursor="pointer"
                                     >
-                                      <Text
-                                        onClick={() => {
-                                          console.log("record", record)
-                                        }}
-                                        cursor="pointer"
-                                      >
-                                        ✏️
-                                      </Text>
-                                      <Text
-                                        onClick={() => {
-                                          console.log("record", record)
-                                        }}
-                                        cursor="pointer"
-                                      >
-                                        🗑️
-                                      </Text>
-                                      <Text
-                                        whiteSpace="normal"
-                                        wordBreak="break-word"
-                                      >
-                                        {record.SubDomain}
-                                      </Text>
-                                    </Flex>
-                                  </>
+                                      ✏️
+                                    </Text>
+                                    <Text
+                                      onClick={async () => {
+                                        removeUserRecord(record, index)
+                                      }}
+                                      cursor="pointer"
+                                    >
+                                      🗑️
+                                    </Text>
+                                    <Text
+                                      whiteSpace="normal"
+                                      wordBreak="break-word"
+                                    >
+                                      {record.SubDomain}
+                                    </Text>
+                                  </Flex>
                                 )
                               })}
                             </Flex>

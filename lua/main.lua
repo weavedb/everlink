@@ -43,8 +43,8 @@ Handlers.add("Record", Handlers.utils.hasMatchingTag("Action", "Record"), functi
 end)
 
 Handlers.add("UserRecord", Handlers.utils.hasMatchingTag("Action", "UserRecord"), function(msg)
-    print("hello")
     local walletOwner = msg.Tags and msg.Tags.WalletOwner
+
     if type(walletOwner) ~= 'string' or walletOwner == "" then
         sendErrorMessage(msg, 'WalletOwner is required and must be a string')
         return
@@ -63,11 +63,43 @@ Handlers.add("UserRecord", Handlers.utils.hasMatchingTag("Action", "UserRecord")
     end
 
     if #userRecords == 0 then
-        sendErrorMessage(msg, 'No records found for the specified owner')
+        sendErrorMessage(msg, 'No records found for the specified wallet')
         return
     end
 
     msg.reply({ Data = userRecords })
+end)
+
+Handlers.add('Remove-Record', Handlers.utils.hasMatchingTag('Action', 'Remove-Record'), function(msg)
+    local owner = msg.From
+    local subdomain = msg[KEY_SUB_DOMAIN]
+
+    if type(subdomain) ~= 'string' or subdomain == "" then
+        sendErrorMessage(msg, 'Sub-Domain is required and must be a string')
+        return
+    end
+
+    local record = Records[subdomain]
+    if not record then
+        sendErrorMessage(msg, 'Record not found')
+        return
+    end
+
+    if record.Owner ~= owner then
+        sendErrorMessage(msg, 'Only the owner can remove the record')
+        return
+    end
+
+    Records[subdomain] = nil
+
+    ao.send({
+        Target = ANT_PROCESS_ID,
+        Action = "Remove-Record",
+        [KEY_SUB_DOMAIN] = subdomain
+    }).
+
+    msg.reply({ Data = "Subdomain Record Removed" })
+    printData("Subdomain Record Removed", record)
 end)
 
 Handlers.add('Set-Record', Handlers.utils.hasMatchingTag('Action', 'Set-Record'), function(msg)
@@ -126,4 +158,9 @@ end)
 Handlers.add('Invalid-Set-Record-Notice', Handlers.utils.hasMatchingTag('Action', 'Invalid-Set-Record-Notice'),
     function(msg)
         printData("Invalid-Set-Record-Notice", msg.Data)
+    end)
+
+Handlers.add('Invalid-Remove-Record-Notice', Handlers.utils.hasMatchingTag('Action', 'Invalid-Remove-Record-Notice'),
+    function(msg)
+        printData("Invalid-Remove-Record-Notice", msg.Data)
     end)
