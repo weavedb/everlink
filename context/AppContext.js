@@ -13,6 +13,8 @@ export const AppContextProvider = ({ children }) => {
       await globalThis.arweaveWallet.connect([
         "ACCESS_ADDRESS",
         "SIGN_TRANSACTION",
+        "ACCESS_PUBLIC_KEY",
+        "SIGNATURE",
       ])
       const userAddress = await globalThis.arweaveWallet.getActiveAddress()
       return { success: true, userAddress }

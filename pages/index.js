@@ -112,12 +112,11 @@ export default function Home({ _date = null }) {
 
   const setRecord = async () => {
     try {
-      await window.arweaveWallet.connect([
-        "ACCESS_ADDRESS",
-        "SIGN_TRANSACTION",
-        "ACCESS_PUBLIC_KEY",
-        "SIGNATURE",
-      ])
+      const _connected = await connectWallet()
+      console.log("_connected", _connected)
+      if (_connected.success === false) {
+        return
+      }
 
       const messageId = await message({
         process: MAIN_PROCESS_ID,
@@ -240,6 +239,14 @@ export default function Home({ _date = null }) {
         position: "top",
       })
     }
+  }
+
+  const editUserRecord = async (record, index) => {
+    setUsername(record.Username)
+    setDescription(record.Description)
+    setLinks(JSON.parse(record.Urls))
+    setNewSubdomain(record.SubDomain)
+    setNewRecordTxId(record.TransactionId)
   }
 
   const onContinue = async () => {
@@ -386,8 +393,8 @@ export default function Home({ _date = null }) {
                                     gap={4}
                                   >
                                     <Text
-                                      onClick={() => {
-                                        console.log("record", record)
+                                      onClick={async () => {
+                                        await editUserRecord(record, index)
                                       }}
                                       cursor="pointer"
                                     >
@@ -395,7 +402,7 @@ export default function Home({ _date = null }) {
                                     </Text>
                                     <Text
                                       onClick={async () => {
-                                        removeUserRecord(record, index)
+                                        await removeUserRecord(record, index)
                                       }}
                                       cursor="pointer"
                                     >
@@ -421,6 +428,7 @@ export default function Home({ _date = null }) {
                 <Flex flexDirection="column" gap={2}>
                   <Text fontSize="xs">Subdomain</Text>
                   <Input
+                    value={newSubdomain}
                     placeholder="ar://subdomain_everlink"
                     onChange={(e) => setNewSubdomain(e.target.value)}
                   />
@@ -451,11 +459,13 @@ export default function Home({ _date = null }) {
                   </Select>
                   <Text fontSize="xs">Username</Text>
                   <Input
+                    value={username}
                     placeholder="Username"
                     onChange={(e) => setUsername(e.target.value)}
                   />
                   <Text fontSize="xs">Description</Text>
                   <Input
+                    value={description}
                     placeholder="Description"
                     onChange={(e) => setDescription(e.target.value)}
                   />
