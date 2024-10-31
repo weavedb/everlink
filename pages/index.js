@@ -430,11 +430,10 @@ export default function Home({ _date = null }) {
                   </Button>
 
                   {links.map((link, index) => (
-                    <Flex
-                      key={index}
-                      alignItems="center"
-                      justifyContent="space-between"
-                    >
+                    <Flex key={index} alignItems="center" gap={4}>
+                      <Text cursor="pointer" onClick={() => removeLink(index)}>
+                        🗑️
+                      </Text>
                       <Flex flexDirection="column">
                         <Text
                           fontSize="small"
@@ -451,13 +450,6 @@ export default function Home({ _date = null }) {
                           {link.url}
                         </Text>
                       </Flex>
-                      <Text
-                        fontSize="small"
-                        cursor="pointer"
-                        onClick={() => removeLink(index)}
-                      >
-                        🗑️
-                      </Text>
                     </Flex>
                   ))}
 
