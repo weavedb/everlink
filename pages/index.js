@@ -16,6 +16,12 @@ import {
   TableContainer,
   Spacer,
   Heading,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  Box,
+  AccordionIcon,
+  AccordionPanel,
 } from "@chakra-ui/react"
 import { useState, useEffect } from "react"
 import { ANT } from "@ar.io/sdk/web"
@@ -26,7 +32,16 @@ import {
   result,
   dryrun,
 } from "@permaweb/aoconnect"
-import { AddIcon, DeleteIcon, EditIcon, SmallAddIcon } from "@chakra-ui/icons"
+import {
+  AddIcon,
+  CheckIcon,
+  DeleteIcon,
+  EditIcon,
+  MinusIcon,
+  PlusSquareIcon,
+  SmallAddIcon,
+  UpDownIcon,
+} from "@chakra-ui/icons"
 import UserIcon from "@/components/icons/UserIcon"
 
 const ANT_PROCESS_ID = "uBe2djD7Qqx7-yVMkPU9cY-QjWeorHi_YCllxH_Iihw"
@@ -39,6 +54,7 @@ export default function Home() {
   const [description, setDescription] = useState("")
   const [userRecords, setUserRecords] = useState([])
   const [userSubdomains, setUserSubdomains] = useState([])
+  const [showProfileForm, setShowProfileForm] = useState(false)
   const toast = useToast()
   const {
     connectWallet,
@@ -156,7 +172,7 @@ export default function Home() {
     // TODO: Redirect to index.js
   }
 
-  const submitProfileDetails = () => {
+  const publishProfile = () => {
     if (!newSubdomain || !username || !description) {
       toast({
         title: "All fields are required",
@@ -170,7 +186,7 @@ export default function Home() {
 
     // TODO: Handle submission logic
     toast({
-      title: "Profile saved successfully",
+      title: "Profile published successfully",
       status: "success",
       duration: 2000,
       isClosable: true,
@@ -292,25 +308,39 @@ export default function Home() {
               gap={2}
               width="100%"
               maxW="md"
+              onClick={() => setShowProfileForm(!showProfileForm)}
+              cursor="pointer"
             >
-              <AddIcon boxSize={4} color="#7023b6" onClick={() => {}} />
-              <Text color="#7023b6">Create Profile</Text>
+              <UpDownIcon boxSize={3} color="#7023b6" />
+              <Text color="#7023b6" fontSize="small">
+                Setup
+              </Text>
             </Flex>
 
-            {/* <Flex direction="column" w={{ base: "full", md: "80%" }} mb={6}>
-              <Input
-                placeholder="Enter new subdomain"
-                value={newSubdomain}
-                onChange={(e) => setNewSubdomain(e.target.value)}
-                mb={3}
-                borderColor="#7023b6"
-                focusBorderColor="#7023b6"
-              />
-
-              <Button colorScheme="purple" onClick={handleAddSubdomain}>
-            Add Subdomain
-          </Button>
-            </Flex> */}
+            {showProfileForm && (
+              <Flex direction="column" gap={4} width="100%" maxW="md">
+                <Input
+                  focusBorderColor="#7023b6"
+                  value={username}
+                  placeholder="Username"
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                <Input
+                  focusBorderColor="#7023b6"
+                  value={description}
+                  placeholder="Description"
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+                <Button
+                  colorScheme="purple"
+                  onClick={publishProfile}
+                  width="100%"
+                  maxW="md"
+                >
+                  Publish Profile
+                </Button>
+              </Flex>
+            )}
           </Flex>
         </>
       ) : (
