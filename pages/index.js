@@ -26,7 +26,7 @@ import {
   result,
   dryrun,
 } from "@permaweb/aoconnect"
-import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons"
+import { AddIcon, DeleteIcon, EditIcon, SmallAddIcon } from "@chakra-ui/icons"
 import UserIcon from "@/components/icons/UserIcon"
 
 const ANT_PROCESS_ID = "uBe2djD7Qqx7-yVMkPU9cY-QjWeorHi_YCllxH_Iihw"
@@ -183,8 +183,8 @@ export default function Home() {
       {isConnected ? (
         <>
           <Flex
-            direction="column"
-            align="center"
+            flexDirection="column"
+            alignItems="center"
             p={5}
             bg="#f3f0fa"
             minH="100vh"
@@ -204,7 +204,7 @@ export default function Home() {
             </Flex>
             <Divider />
             <Flex paddingY={8}></Flex>
-            {!userSubdomains.length > 0 ? (
+            {userSubdomains.length > 0 ? (
               <>
                 {/* <Heading size="md" color="#7023b6" mb={4}>Subdomain</Heading> */}
                 <TableContainer>
@@ -244,8 +244,12 @@ export default function Home() {
                 </TableContainer>
               </>
             ) : (
-              <Text color="#7023b6">No subdomain found</Text>
+              <>
+                <Text color="#7023b6">No subdomain found</Text>
+                <Flex paddingY={8}></Flex>
+              </>
             )}
+            <Flex paddingY={4}></Flex>
 
             <Flex
               align="center"
@@ -256,6 +260,7 @@ export default function Home() {
               mb="4"
             >
               <Input
+                value={newSubdomain}
                 placeholder="yoursubdomain"
                 border="none"
                 focusBorderColor="#7023b6"
@@ -281,13 +286,16 @@ export default function Home() {
               Available?
             </Button>
 
-            {/* <AddIcon
-              boxSize={6}
-              color="#7023b6"
-              onClick={() => {
-                // TODO:
-              }}
-            /> */}
+            <Flex
+              paddingY={4}
+              alignItems="center"
+              gap={2}
+              width="100%"
+              maxW="md"
+            >
+              <AddIcon boxSize={4} color="#7023b6" onClick={() => {}} />
+              <Text color="#7023b6">Create Profile</Text>
+            </Flex>
 
             {/* <Flex direction="column" w={{ base: "full", md: "80%" }} mb={6}>
               <Input
@@ -330,6 +338,7 @@ export default function Home() {
               mb="4"
             >
               <Input
+                value={newSubdomain}
                 placeholder="yoursubdomain"
                 border="none"
                 focusBorderColor="none"
