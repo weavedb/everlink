@@ -21,8 +21,7 @@ const ProfileDetails = () => {
       </Box>
       <Box
         display="flex"
-        gap={4}
-        justifyContent="center"
+        justifyContent="space-between"
         alignItems="center"
         marginY={4}
       >
