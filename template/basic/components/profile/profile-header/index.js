@@ -1,7 +1,7 @@
 import { Box, Avatar } from "@chakra-ui/react";
 import React from "react";
 
-const ProfileHeader = () => {
+const ProfileHeader = ({ Username, ...props }) => {
   return (
     <Box position="relative" marginBottom={8}>
       <img
@@ -14,10 +14,10 @@ const ProfileHeader = () => {
         }}
       />
       <Avatar
+        background="orange.400"
         position="absolute"
         left={0}
-        name="Dan Abrahmov"
-        src="https://bit.ly/dan-abramov"
+        name={Username || "John Doe"}
         width={24}
         height={24}
         border="2px solid white"
