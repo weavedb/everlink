@@ -16,10 +16,32 @@ export const AppContextProvider = ({ children }) => {
         "ACCESS_PUBLIC_KEY",
         "SIGNATURE",
       ])
-      const userAddress = await globalThis.arweaveWallet.getActiveAddress()
-      return { success: true, userAddress }
+      const _userAddress = await globalThis.arweaveWallet.getActiveAddress()
+      console.log("_userAddress", _userAddress)
+      setUserAddress(_userAddress)
+      setIsConnected(true)
+      return { success: true, userAddress: _userAddress }
     } catch (e) {
       console.error("connectWallet() error!", e)
+      toast({
+        description: "Something went wrong with your wallet. Please try again.",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      })
+      return { success: false, error: e }
+    }
+  }
+
+  const disconnectWallet = async () => {
+    try {
+      await globalThis.arweaveWallet.disconnect()
+      setUserAddress("")
+      setIsConnected(false)
+      return { success: true }
+    } catch (e) {
+      console.error("disconnectWallet() error!", e)
       toast({
         description: "Something went wrong with your wallet. Please try again.",
         status: "error",
@@ -35,6 +57,7 @@ export const AppContextProvider = ({ children }) => {
     <AppContext.Provider
       value={{
         connectWallet,
+        disconnectWallet,
         isConnected,
         setIsConnected,
         userAddress,

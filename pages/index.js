@@ -5,11 +5,30 @@ import {
   Button,
   ChakraProvider,
   useToast,
-  Box,
+  IconButton,
+  Table,
+  Thead,
+  Tr,
+  Th,
+  Tbody,
+  Td,
+  Divider,
+  TableContainer,
+  Spacer,
+  Heading,
 } from "@chakra-ui/react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ANT } from "@ar.io/sdk/web"
 import { useAppContext } from "@/context/AppContext"
+import EverlinkHeader from "@/components/EverlinkHeader"
+import {
+  message,
+  createDataItemSigner,
+  result,
+  dryrun,
+} from "@permaweb/aoconnect"
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons"
+import UserIcon from "@/components/icons/UserIcon"
 
 const ANT_PROCESS_ID = "uBe2djD7Qqx7-yVMkPU9cY-QjWeorHi_YCllxH_Iihw"
 const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
@@ -17,9 +36,37 @@ const BASIC_TEMPLATE_TX_ID = "BXNtVGO1ZoGhlUzBb0fX7tVL15rtu6xb-lWEtMP2u-U"
 
 export default function Home() {
   const [newSubdomain, setNewSubdomain] = useState("")
+  const [username, setUsername] = useState("")
+  const [description, setDescription] = useState("")
+  const [userRecords, setUserRecords] = useState([])
+  const [userSubdomains, setUserSubdomains] = useState([])
   const toast = useToast()
-  const { connectWallet, setUserAddress, isConnected, setIsConnected } =
-    useAppContext()
+  const {
+    connectWallet,
+    disconnectWallet,
+    isConnected,
+    setIsConnected,
+    setUserAddress,
+    userAddress,
+  } = useAppContext()
+
+  const handleMessageResultError = (_result) => {
+    const errorTag = _result?.Messages?.[0]?.Tags.find(
+      (tag) => tag.name === "Error"
+    )
+    console.log("errorTag", errorTag)
+    if (errorTag) {
+      toast({
+        description: _result.Messages[0].Data,
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      })
+      return true
+    }
+    return false
+  }
 
   const getRecords = async () => {
     const ant = ANT.init({
@@ -47,7 +94,6 @@ export default function Home() {
 
     const _records = await getRecords()
     if (_records.hasOwnProperty(newSubdomain)) {
-      await getOwner()
       toast({
         title: "Subdomain already exists in the records",
         status: "error",
@@ -66,17 +112,67 @@ export default function Home() {
     }
   }
 
-  const loadUserProfile = async () => {
+  const login = async () => {
     const _connected = await connectWallet()
     if (_connected.success === false) {
       return
     }
-    setUserAddress(_connected.userAddress)
-    console.log("_connected.userAddress", _connected.userAddress)
-    setIsConnected(true)
+    const _userAddress = _connected.userAddress
+    console.log("_userAddress", _userAddress)
+
+    let tags = [
+      { name: "Action", value: "UserRecord" },
+      {
+        name: "WalletOwner",
+        value: _userAddress,
+      },
+    ]
+    const _result = await dryrun({
+      process: MAIN_PROCESS_ID,
+      tags,
+    })
+    console.log("_result", _result)
+    if (handleMessageResultError(_result)) return
+    const _resultData = _result.Messages[0].Data
+    console.log("_resultData", _resultData)
+    const jsonData = JSON.parse(_resultData)
+    console.log("jsonData", jsonData)
+    setUserRecords(jsonData)
+    setUserSubdomains(jsonData.map((record) => record.SubDomain))
+  }
+
+  const logout = async () => {
+    const _connected = await disconnectWallet()
+    if (_connected.success === false) {
+      return
+    }
 
     toast({
-      title: "Connected",
+      description: "Account disconnected",
+      duration: 2000,
+      isClosable: true,
+      position: "top",
+    })
+
+    // TODO: Redirect to index.js
+  }
+
+  const submitProfileDetails = () => {
+    if (!newSubdomain || !username || !description) {
+      toast({
+        title: "All fields are required",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      })
+      return
+    }
+
+    // TODO: Handle submission logic
+    toast({
+      title: "Profile saved successfully",
+      status: "success",
       duration: 2000,
       isClosable: true,
       position: "top",
@@ -90,16 +186,78 @@ export default function Home() {
           <Flex
             direction="column"
             align="center"
-            justify="center"
-            bg="#7023b6"
-            height="100vh"
-            padding="4"
+            p={5}
+            bg="#f3f0fa"
+            minH="100vh"
           >
-            {/* TODO: add user input for
-1. Subdomain
-2. Username
-3. Description
- */}
+            <Flex w="full" justify="space-between" align="center" mb={6}>
+              <Text fontSize="3xl" color="#7023b6" fontWeight="bold">
+                Everlink
+              </Text>
+              <Flex _hover={{ cursor: "pointer" }} onClick={logout}>
+                <UserIcon strokeColor="#7023b6" size="34" />
+              </Flex>
+            </Flex>
+            <Divider />
+            <Flex paddingY={8}></Flex>
+            {userSubdomains.length > 0 ? (
+              <>
+                {/* <Heading size="md" color="#7023b6" mb={4}>Subdomain</Heading> */}
+                <TableContainer>
+                  <Table size="sm">
+                    <Thead>
+                      <Tr>
+                        <Th></Th>
+                        <Th>Subdomain</Th>
+                        <Th>Tx Id</Th>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      {userSubdomains.map((subdomain, index) => (
+                        <Tr key={index}>
+                          <Td>
+                            <IconButton
+                              variant={"ghost"}
+                              aria-label="Edit Subdomain"
+                              icon={<EditIcon />}
+                              colorScheme="purple"
+                              size="sm"
+                            />
+                            <IconButton
+                              variant={"ghost"}
+                              aria-label="Delete Subdomain"
+                              icon={<DeleteIcon />}
+                              colorScheme="red"
+                              size="sm"
+                            />
+                          </Td>
+                          <Td>{subdomain}</Td>
+                          <Td>{userRecords[index].TransactionId}</Td>
+                        </Tr>
+                      ))}
+                    </Tbody>
+                  </Table>
+                </TableContainer>
+              </>
+            ) : (
+              <Text mt={6} color="#7023b6">
+                No subdomain found
+              </Text>
+            )}
+
+            <Flex direction="column" w={{ base: "full", md: "80%" }} mb={6}>
+              <Input
+                placeholder="Enter new subdomain"
+                value={newSubdomain}
+                onChange={(e) => setNewSubdomain(e.target.value)}
+                mb={3}
+                borderColor="#7023b6"
+                focusBorderColor="#7023b6"
+              />
+              {/* <Button colorScheme="purple" onClick={handleAddSubdomain}>
+            Add Subdomain
+          </Button> */}
+            </Flex>
           </Flex>
         </>
       ) : (
@@ -160,7 +318,7 @@ export default function Home() {
                   const button = event.target
                   button.disabled = true
 
-                  await loadUserProfile()
+                  await login()
                   button.disabled = false
                 }}
               >
