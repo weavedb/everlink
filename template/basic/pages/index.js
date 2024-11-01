@@ -88,11 +88,16 @@ export default function Home({ _date = null, _fullUrl = null }) {
   return (
     <>
       <ChakraProvider>
-        <ProfileHeader />
-        <ProfileDetails />
-        <Divider />
-        <Box display="flex" flexDir="column" gap={2} padding={4}>
-          <SocialCard />
+        <Box maxWidth="475" marginX="auto">
+          <ProfileHeader />
+          <ProfileDetails />
+          <Divider />
+          <Box display="flex" flexDir="column" gap={2} padding={4}>
+            <SocialCard />
+            <SocialCard />
+            <SocialCard />
+            <SocialCard />
+          </Box>
         </Box>
       </ChakraProvider>
     </>
