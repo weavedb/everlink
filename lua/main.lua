@@ -23,6 +23,34 @@ local sendErrorMessage = function(msg, err, target)
     end
 end
 
+Templates = Templates or {}
+Handlers.add("Templates", Handlers.utils.hasMatchingTag("Action", "Templates"), function(msg)
+    ao.send({ Target = msg.From, Data = json.encode(Templates) })
+end)
+
+Handlers.add("SetTemplate", Handlers.utils.hasMatchingTag("Action", "SetTemplate"), function(msg)
+    local name = msg.Tags.Name
+    local txId = msg.Tags.TxId
+
+    if type(name) ~= 'string' or name == "" then
+        sendErrorMessage(msg, 'Name is required and must be a string')
+        return
+    end
+
+    if type(txId) ~= 'string' or txId == "" then
+        sendErrorMessage(msg, 'TxId is required and must be a string')
+        return
+    end
+
+    if msg.From == ao.id then
+        Templates[name] = txId
+        printData("Templates", Templates)
+        ao.send({ Target = msg.From, Data = name .. " Template Added. TxId: " .. txId })
+    else
+        sendErrorMessage(msg, 'Only the Process Id can set template')
+    end
+end)
+
 Records = Records or {}
 
 Handlers.add("Record", Handlers.utils.hasMatchingTag("Action", "Record"), function(msg)
@@ -96,7 +124,7 @@ Handlers.add('Remove-Record', Handlers.utils.hasMatchingTag('Action', 'Remove-Re
         Target = ANT_PROCESS_ID,
         Action = "Remove-Record",
         [KEY_SUB_DOMAIN] = subdomain
-    }).
+    })
 
     msg.reply({ Data = "Subdomain Record Removed" })
     printData("Subdomain Record Removed", record)
