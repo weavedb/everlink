@@ -20,14 +20,13 @@ import {
 import { useState, useEffect } from "react"
 import { ANT } from "@ar.io/sdk/web"
 import { useAppContext } from "@/context/AppContext"
-import EverlinkHeader from "@/components/EverlinkHeader"
 import {
   message,
   createDataItemSigner,
   result,
   dryrun,
 } from "@permaweb/aoconnect"
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons"
+import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons"
 import UserIcon from "@/components/icons/UserIcon"
 
 const ANT_PROCESS_ID = "uBe2djD7Qqx7-yVMkPU9cY-QjWeorHi_YCllxH_Iihw"
@@ -190,7 +189,12 @@ export default function Home() {
             bg="#f3f0fa"
             minH="100vh"
           >
-            <Flex w="full" justify="space-between" align="center" mb={6}>
+            <Flex
+              w="full"
+              justify="space-between"
+              align="center"
+              paddingX={[0, 8]}
+            >
               <Text fontSize="3xl" color="#7023b6" fontWeight="bold">
                 Everlink
               </Text>
@@ -200,7 +204,7 @@ export default function Home() {
             </Flex>
             <Divider />
             <Flex paddingY={8}></Flex>
-            {userSubdomains.length > 0 ? (
+            {!userSubdomains.length > 0 ? (
               <>
                 {/* <Heading size="md" color="#7023b6" mb={4}>Subdomain</Heading> */}
                 <TableContainer>
@@ -240,12 +244,52 @@ export default function Home() {
                 </TableContainer>
               </>
             ) : (
-              <Text mt={6} color="#7023b6">
-                No subdomain found
-              </Text>
+              <Text color="#7023b6">No subdomain found</Text>
             )}
 
-            <Flex direction="column" w={{ base: "full", md: "80%" }} mb={6}>
+            <Flex
+              align="center"
+              bg="white"
+              borderRadius="md"
+              width="100%"
+              maxW="md"
+              mb="4"
+            >
+              <Input
+                placeholder="yoursubdomain"
+                border="none"
+                focusBorderColor="#7023b6"
+                _placeholder={{ color: "gray.500" }}
+                onChange={(e) => setNewSubdomain(e.target.value)}
+              />
+              <Text px="4" color="gray.500">
+                _everlink.ar.io
+              </Text>
+            </Flex>
+            <Button
+              colorScheme="purple"
+              width="100%"
+              maxW="md"
+              onClick={async (event) => {
+                const button = event.target
+                button.disabled = true
+
+                await checkAvailability()
+                button.disabled = false
+              }}
+            >
+              Available?
+            </Button>
+
+            {/* <AddIcon
+              boxSize={6}
+              color="#7023b6"
+              onClick={() => {
+                // TODO:
+              }}
+            /> */}
+
+            {/* <Flex direction="column" w={{ base: "full", md: "80%" }} mb={6}>
               <Input
                 placeholder="Enter new subdomain"
                 value={newSubdomain}
@@ -254,10 +298,11 @@ export default function Home() {
                 borderColor="#7023b6"
                 focusBorderColor="#7023b6"
               />
-              {/* <Button colorScheme="purple" onClick={handleAddSubdomain}>
+
+              <Button colorScheme="purple" onClick={handleAddSubdomain}>
             Add Subdomain
-          </Button> */}
-            </Flex>
+          </Button>
+            </Flex> */}
           </Flex>
         </>
       ) : (
@@ -270,10 +315,10 @@ export default function Home() {
             height="100vh"
             padding="4"
           >
-            <Text fontSize="4xl" fontWeight="bold" color="white" mb="2">
+            <Text fontSize="4xl" fontWeight="bold" color="white" pb="2">
               Welcome to Everlink!
             </Text>
-            <Text fontSize="md" color="white" mb="6">
+            <Text fontSize="md" color="white" pb="6">
               Choose your Everlink subdomain. You can always change it later.
             </Text>
             <Flex
@@ -309,7 +354,7 @@ export default function Home() {
             >
               Available?
             </Button>
-            <Text mt="4" fontSize="sm" color="white">
+            <Text paddingTop="4" fontSize="sm" color="white">
               Ready to create your profile?{" "}
               <Button
                 variant="link"
