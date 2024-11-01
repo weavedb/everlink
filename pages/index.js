@@ -62,6 +62,10 @@ export default function Home() {
   const [selectedTemplate, setSelectedTemplate] = useState(
     "BXNtVGO1ZoGhlUzBb0fX7tVL15rtu6xb-lWEtMP2u-U"
   )
+  const [title, setTitle] = useState("")
+  const [url, setUrl] = useState("")
+  const [links, setLinks] = useState([])
+
   const toast = useToast()
   const {
     connectWallet,
@@ -216,6 +220,22 @@ export default function Home() {
       isClosable: true,
       position: "top",
     })
+  }
+
+  const addNewLink = async () => {
+    const _url = formatUrl(url)
+    setLinks([...links, { title, url: _url }])
+  }
+
+  const removeLink = (index) => {
+    setLinks(links.filter((_, i) => i !== index))
+  }
+
+  const formatUrl = (url) => {
+    if (!/^https?:\/\//i.test(url)) {
+      return `https://${url}`
+    }
+    return url
   }
 
   return (
@@ -379,6 +399,80 @@ export default function Home() {
                     )}
                   </Select>
                 </FormControl>
+                <Flex paddingY={4}></Flex>
+
+                <Flex
+                  alignItems="center"
+                  gap={2}
+                  width="100%"
+                  maxW="md"
+                  onClick={addNewLink}
+                  cursor="pointer"
+                >
+                  <Text fontSize="small" color="#7023b6">
+                    Add Link
+                  </Text>
+                  <AddIcon boxSize={3} color="#7023b6" />
+                </Flex>
+                <FormControl>
+                  <FormHelperText fontSize="xs">Title</FormHelperText>
+                  <Input
+                    focusBorderColor="#7023b6"
+                    value={title}
+                    aria-label="Title"
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormHelperText fontSize="xs">Url</FormHelperText>
+                  <Input
+                    focusBorderColor="#7023b6"
+                    value={url}
+                    aria-label="Url"
+                    onChange={(e) => setUrl(e.target.value)}
+                  />
+                </FormControl>
+                <Flex paddingY={2}></Flex>
+
+                {links.map((link, index) => (
+                  <Flex
+                    key={index}
+                    alignItems="center"
+                    gap={4}
+                    border="1px solid"
+                    borderColor="gray.400"
+                    paddingY={2}
+                    borderRadius="lg"
+                  >
+                    <IconButton
+                      variant={"ghost"}
+                      aria-label="Delete Subdomain"
+                      icon={<DeleteIcon />}
+                      colorScheme="red"
+                      size="sm"
+                      onClick={() => removeLink(index)}
+                    />
+                    <Flex flexDirection="column">
+                      <Text
+                        fontSize="small"
+                        whiteSpace="normal"
+                        wordBreak="break-word"
+                        fontWeight="bold"
+                      >
+                        {link.title}
+                      </Text>
+                      <Text
+                        fontSize="small"
+                        whiteSpace="normal"
+                        wordBreak="break-word"
+                      >
+                        {link.url}
+                      </Text>
+                    </Flex>
+                  </Flex>
+                ))}
+
+                <Flex paddingY={8}></Flex>
                 <Button
                   colorScheme="purple"
                   onClick={publishProfile}
