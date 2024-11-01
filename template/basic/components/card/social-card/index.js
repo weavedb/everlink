@@ -17,15 +17,6 @@ const SocialCard = () => {
           </Box>
         </Box>
 
-        <img
-          src="https://images.pexels.com/photos/28176437/pexels-photo-28176437/free-photo-of-scented-candles-decor.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          style={{
-            objectFit: "cover",
-            width: "100%",
-            borderRadius: 8,
-            maxHeight: 300,
-          }}
-        />
         <Button variant="outline" width="100%">
           Visit
         </Button>
