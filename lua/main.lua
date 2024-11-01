@@ -135,9 +135,14 @@ Handlers.add('Set-Record', Handlers.utils.hasMatchingTag('Action', 'Set-Record')
     local subdomain = msg[KEY_SUB_DOMAIN]
     local transactionId = msg[KEY_TRANSACTION_ID]
     local ttl = msg[KEY_TTL] or "900" -- Default to 900 if not provided
-    local username = msg.Tags.Username
-    local description = msg.Tags.Description
-    local strUrls = msg.Tags.Urls
+    local username = msg.Tags.Username or "Nameless"
+    local description = msg.Tags.Description or ""
+    local links = msg.Tags.Links or ""
+    local twitter = msg.Tags.Twitter or ""
+    local tiktok = msg.Tags.Tiktok or ""
+    local instagram = msg.Tags.Instagram or ""
+    local facebook = msg.Tags.Facebook or ""
+    local linkedin = msg.Tags.Linkedin or ""
 
     if type(subdomain) ~= 'string' or subdomain == "" then
         sendErrorMessage(msg, 'Sub-Domain is required and must be a string')
@@ -168,12 +173,17 @@ Handlers.add('Set-Record', Handlers.utils.hasMatchingTag('Action', 'Set-Record')
 
     local newRecord = {
         Owner = owner,
-        SubDomain = subdomain, -- TODO: change to Subdomain
+        Subdomain = subdomain,
         TransactionId = transactionId,
         TTL = ttl,
         Username = username,
         Description = description,
-        Urls = strUrls -- TODO: change to :Links
+        Links = links,
+        Twitter = twitter,
+        Tiktok = tiktok,
+        Instagram = instagram,
+        Facebook = facebook,
+        Linkedin = linkedin
     }
     Records[subdomain] = newRecord
     printData("newRecord", newRecord)

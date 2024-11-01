@@ -64,7 +64,7 @@ export default function Home() {
   const [userSubdomains, setUserSubdomains] = useState([])
   const [templates, setTemplates] = useState({})
   const [showProfileForm, setShowProfileForm] = useState(false)
-  const [selectedTemplate, setSelectedTemplate] = useState(
+  const [selectedTemplateTxId, setSelectedTemplateTxId] = useState(
     "BXNtVGO1ZoGhlUzBb0fX7tVL15rtu6xb-lWEtMP2u-U"
   )
   const [title, setTitle] = useState("")
@@ -148,6 +148,25 @@ export default function Home() {
     }
   }
 
+  const getTemplates = async () => {
+    const _templatesResult = await dryrun({
+      process: MAIN_PROCESS_ID,
+      tags: [{ name: "Action", value: "Templates" }],
+    })
+    console.log("_templatesResult", _templatesResult)
+    if (handleMessageResultError(_templatesResult)) return
+    const _templatesResultData = _templatesResult.Messages[0].Data
+    console.log("_templatesResultData", _templatesResultData)
+    const jsonTemplates = JSON.parse(_templatesResultData)
+    console.log("jsonTemplates", jsonTemplates)
+    setTemplates(jsonTemplates)
+
+    const firstTemplateKey = Object.keys(jsonTemplates)[0]
+    if (firstTemplateKey) {
+      setSelectedTemplateTxId(jsonTemplates[firstTemplateKey])
+    }
+  }
+
   const login = async () => {
     const _connected = await connectWallet()
     if (_connected.success === false) {
@@ -175,23 +194,6 @@ export default function Home() {
     console.log("jsonData", jsonData)
     setUserRecords(jsonData)
     setUserSubdomains(jsonData.map((record) => record.SubDomain))
-
-    const _templatesResult = await dryrun({
-      process: MAIN_PROCESS_ID,
-      tags: [{ name: "Action", value: "Templates" }],
-    })
-    console.log("_templatesResult", _templatesResult)
-    if (handleMessageResultError(_result)) return
-    const _templatesResultData = _templatesResult.Messages[0].Data
-    console.log("_templatesResultData", _templatesResultData)
-    const jsonTemplates = JSON.parse(_templatesResultData)
-    console.log("jsonTemplates", jsonTemplates)
-    setTemplates(jsonTemplates)
-
-    const firstTemplateKey = Object.keys(jsonTemplates)[0]
-    if (firstTemplateKey) {
-      setSelectedTemplate(jsonTemplates[firstTemplateKey])
-    }
   }
 
   const logout = async () => {
@@ -210,8 +212,8 @@ export default function Home() {
     // TODO: Redirect to index.js
   }
 
-  const publishProfile = () => {
-    if (!newSubdomain || !username || !description) {
+  const publishProfile = async () => {
+    if (!newSubdomain || !selectedTemplateTxId || !username) {
       toast({
         title: "All fields are required",
         status: "error",
@@ -222,14 +224,85 @@ export default function Home() {
       return
     }
 
-    // TODO: Handle submission logic
-    toast({
-      title: "Profile published successfully",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-      position: "top",
-    })
+    try {
+      const _connected = await connectWallet()
+      console.log("_connected", _connected)
+      if (_connected.success === false) {
+        return
+      }
+
+      const messageId = await message({
+        process: MAIN_PROCESS_ID,
+        tags: [
+          {
+            name: "Action",
+            value: "Set-Record",
+          },
+          {
+            name: "Sub-Domain",
+            value: newSubdomain,
+          },
+          {
+            name: "Transaction-Id",
+            value: selectedTemplateTxId,
+          },
+          {
+            name: "TTL-Seconds",
+            value: "900",
+          },
+          {
+            name: "Username",
+            value: username,
+          },
+          {
+            name: "Description",
+            value: description,
+          },
+          {
+            name: "Links",
+            value: JSON.stringify(links),
+          },
+          {
+            name: "Twitter",
+            value: twitter,
+          },
+          {
+            name: "Tiktok",
+            value: tiktok,
+          },
+          {
+            name: "Instagram",
+            value: instagram,
+          },
+          {
+            name: "Facebook",
+            value: facebook,
+          },
+          {
+            name: "Linkedin",
+            value: linkedin,
+          },
+        ],
+        signer: createDataItemSigner(globalThis.arweaveWallet),
+      })
+      console.log("messageId", messageId)
+
+      const _result = await result({
+        message: messageId,
+        process: MAIN_PROCESS_ID,
+      })
+      console.log("_result", _result)
+
+      toast({
+        title: "Profile published successfully",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      })
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   const addNewLink = async () => {
@@ -395,8 +468,8 @@ export default function Home() {
                   <FormHelperText fontSize="xs">Template</FormHelperText>
                   <Select
                     focusBorderColor="#7023b6"
-                    value={selectedTemplate}
-                    onChange={(e) => setSelectedTemplate(e.target.value)}
+                    value={selectedTemplateTxId}
+                    onChange={(e) => setSelectedTemplateTxId(e.target.value)}
                   >
                     {templates && Object.keys(templates).length > 0 ? (
                       Object.entries(templates).map(([key, value]) => (
@@ -606,7 +679,7 @@ export default function Home() {
                 onClick={async (event) => {
                   const button = event.target
                   button.disabled = true
-
+                  getTemplates()
                   await login()
                   button.disabled = false
                 }}
