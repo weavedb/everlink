@@ -1,32 +1,32 @@
-import { Box, Text, IconButton } from "@chakra-ui/react";
+import { Box, Text, IconButton, useMediaQuery } from "@chakra-ui/react";
 import React from "react";
 
-const ProfileDetails = () => {
+const ProfileDetails = ({ Username, SubDomain, Description }) => {
+  const [isMobile] = useMediaQuery("(max-width: 800px)");
   return (
     <Box padding={4} display="flex" flexDir="column" gap={1}>
       <Box>
         <Box marginBottom={2}>
           <Text fontWeight="bold" fontSize={24}>
-            Criztian Smith
+            {Username || "John Doe"}
           </Text>
           <Text fontSize={14} color="gray.400">
-            @username
+            {SubDomain}
           </Text>
         </Box>
 
-        <Text>
-          Our Approach is simple, We will build and you will use it no matter
-          what happended
-        </Text>
+        <Text>{Description}</Text>
       </Box>
       <Box
         display="flex"
-        justifyContent="center"
-        alignItems="center"
         gap={8}
         marginY={4}
+        justifyContent={isMobile ? "center" : "start"}
+        alignItems={isMobile ? "center" : "start"}
+        flexWrap="wrap"
       >
         <IconButton
+          variant="ghost"
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -47,6 +47,7 @@ const ProfileDetails = () => {
         />
 
         <IconButton
+          variant="ghost"
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -67,6 +68,7 @@ const ProfileDetails = () => {
         />
 
         <IconButton
+          variant="ghost"
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -87,6 +89,7 @@ const ProfileDetails = () => {
         />
 
         <IconButton
+          variant="ghost"
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -106,6 +109,7 @@ const ProfileDetails = () => {
           }
         />
         <IconButton
+          variant="ghost"
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
