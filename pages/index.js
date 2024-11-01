@@ -46,6 +46,11 @@ import {
   UpDownIcon,
 } from "@chakra-ui/icons"
 import UserIcon from "@/components/icons/UserIcon"
+import FacebookIcon from "@/components/icons/FacebookIcon"
+import TwitterIcon from "@/components/icons/TwitterIcon"
+import TiktokIcon from "@/components/icons/TiktokIcon"
+import InstagramIcon from "@/components/icons/InstagramIcon"
+import LinkedinIcon from "@/components/icons/LinkedinIcon"
 
 const ANT_PROCESS_ID = "uBe2djD7Qqx7-yVMkPU9cY-QjWeorHi_YCllxH_Iihw"
 const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
@@ -65,6 +70,11 @@ export default function Home() {
   const [title, setTitle] = useState("")
   const [url, setUrl] = useState("")
   const [links, setLinks] = useState([])
+  const [twitter, setTwitter] = useState("")
+  const [tiktok, setTiktok] = useState("")
+  const [instagram, setInstagram] = useState("")
+  const [facebook, setFacebook] = useState("")
+  const [linkedin, setLinkedin] = useState("")
 
   const toast = useToast()
   const {
@@ -399,8 +409,61 @@ export default function Home() {
                     )}
                   </Select>
                 </FormControl>
-                <Flex paddingY={4}></Flex>
 
+                <Flex paddingY={2}></Flex>
+                <Flex alignItems="center" gap={2}>
+                  <TwitterIcon />
+                  <Input
+                    placeholder="Twitter"
+                    focusBorderColor="#7023b6"
+                    value={twitter}
+                    aria-label="Twitter"
+                    onChange={(e) => setTwitter(e.target.value)}
+                  />
+                </Flex>
+                <Flex alignItems="center" gap={2}>
+                  <TiktokIcon />
+                  <Input
+                    placeholder="Tiktok"
+                    focusBorderColor="#7023b6"
+                    value={tiktok}
+                    aria-label="Tiktok"
+                    onChange={(e) => setTiktok(e.target.value)}
+                  />
+                </Flex>
+
+                <Flex alignItems="center" gap={2}>
+                  <InstagramIcon />
+                  <Input
+                    placeholder="Instagram"
+                    focusBorderColor="#7023b6"
+                    value={instagram}
+                    aria-label="Instagram"
+                    onChange={(e) => setInstagram(e.target.value)}
+                  />
+                </Flex>
+                <Flex alignItems="center" gap={2}>
+                  <FacebookIcon />
+                  <Input
+                    placeholder="Facebook"
+                    focusBorderColor="#7023b6"
+                    value={facebook}
+                    aria-label="Facebook"
+                    onChange={(e) => setFacebook(e.target.value)}
+                  />
+                </Flex>
+                <Flex alignItems="center" gap={2}>
+                  <LinkedinIcon />
+                  <Input
+                    placeholder="Linkedin"
+                    focusBorderColor="#7023b6"
+                    value={linkedin}
+                    aria-label="Linkedin"
+                    onChange={(e) => setLinkedin(e.target.value)}
+                  />
+                </Flex>
+
+                <Flex paddingY={4}></Flex>
                 <Flex
                   alignItems="center"
                   gap={2}
