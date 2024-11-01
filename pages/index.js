@@ -24,6 +24,7 @@ import {
   AccordionPanel,
   FormControl,
   FormHelperText,
+  Select,
 } from "@chakra-ui/react"
 import { useState, useEffect } from "react"
 import { ANT } from "@ar.io/sdk/web"
@@ -56,6 +57,7 @@ export default function Home() {
   const [description, setDescription] = useState("")
   const [userRecords, setUserRecords] = useState([])
   const [userSubdomains, setUserSubdomains] = useState([])
+  const [templates, setTemplates] = useState({})
   const [showProfileForm, setShowProfileForm] = useState(false)
   const toast = useToast()
   const {
@@ -156,6 +158,18 @@ export default function Home() {
     console.log("jsonData", jsonData)
     setUserRecords(jsonData)
     setUserSubdomains(jsonData.map((record) => record.SubDomain))
+
+    const _templatesResult = await dryrun({
+      process: MAIN_PROCESS_ID,
+      tags: [{ name: "Action", value: "Templates" }],
+    })
+    console.log("_templatesResult", _templatesResult)
+    if (handleMessageResultError(_result)) return
+    const _templatesResultData = _templatesResult.Messages[0].Data
+    console.log("_templatesResultData", _templatesResultData)
+    const jsonTemplates = JSON.parse(_templatesResultData)
+    console.log("jsonTemplates", jsonTemplates)
+    setTemplates(jsonTemplates)
   }
 
   const logout = async () => {
@@ -339,6 +353,22 @@ export default function Home() {
                     onChange={(e) => setDescription(e.target.value)}
                   />
                 </FormControl>
+
+                <FormControl>
+                  <FormHelperText fontSize="xs">Template</FormHelperText>
+                  <Select placeholder="Select template">
+                    {templates && Object.keys(templates).length > 0 ? (
+                      Object.entries(templates).map(([key, value]) => (
+                        <option key={key} value={value}>
+                          {key}
+                        </option>
+                      ))
+                    ) : (
+                      <option disabled>No templates available</option>
+                    )}
+                  </Select>
+                </FormControl>
+
                 <Button
                   colorScheme="purple"
                   onClick={publishProfile}
