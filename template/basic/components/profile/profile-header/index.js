@@ -10,6 +10,7 @@ const ProfileHeader = () => {
           maxHeight: 200,
           objectFit: "cover",
           width: "100%",
+          borderRadius: 8,
         }}
       />
       <Avatar
