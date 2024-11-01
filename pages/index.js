@@ -59,6 +59,9 @@ export default function Home() {
   const [userSubdomains, setUserSubdomains] = useState([])
   const [templates, setTemplates] = useState({})
   const [showProfileForm, setShowProfileForm] = useState(false)
+  const [selectedTemplate, setSelectedTemplate] = useState(
+    "BXNtVGO1ZoGhlUzBb0fX7tVL15rtu6xb-lWEtMP2u-U"
+  )
   const toast = useToast()
   const {
     connectWallet,
@@ -170,6 +173,11 @@ export default function Home() {
     const jsonTemplates = JSON.parse(_templatesResultData)
     console.log("jsonTemplates", jsonTemplates)
     setTemplates(jsonTemplates)
+
+    const firstTemplateKey = Object.keys(jsonTemplates)[0]
+    if (firstTemplateKey) {
+      setSelectedTemplate(jsonTemplates[firstTemplateKey])
+    }
   }
 
   const logout = async () => {
@@ -353,10 +361,13 @@ export default function Home() {
                     onChange={(e) => setDescription(e.target.value)}
                   />
                 </FormControl>
-
                 <FormControl>
                   <FormHelperText fontSize="xs">Template</FormHelperText>
-                  <Select placeholder="Select template">
+                  <Select
+                    focusBorderColor="#7023b6"
+                    value={selectedTemplate}
+                    onChange={(e) => setSelectedTemplate(e.target.value)}
+                  >
                     {templates && Object.keys(templates).length > 0 ? (
                       Object.entries(templates).map(([key, value]) => (
                         <option key={key} value={value}>
@@ -368,7 +379,6 @@ export default function Home() {
                     )}
                   </Select>
                 </FormControl>
-
                 <Button
                   colorScheme="purple"
                   onClick={publishProfile}
