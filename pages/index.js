@@ -22,6 +22,8 @@ import {
   Box,
   AccordionIcon,
   AccordionPanel,
+  FormControl,
+  FormHelperText,
 } from "@chakra-ui/react"
 import { useState, useEffect } from "react"
 import { ANT } from "@ar.io/sdk/web"
@@ -318,19 +320,25 @@ export default function Home() {
             </Flex>
 
             {showProfileForm && (
-              <Flex direction="column" gap={4} width="100%" maxW="md">
-                <Input
-                  focusBorderColor="#7023b6"
-                  value={username}
-                  placeholder="Username"
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-                <Input
-                  focusBorderColor="#7023b6"
-                  value={description}
-                  placeholder="Description"
-                  onChange={(e) => setDescription(e.target.value)}
-                />
+              <Flex direction="column" gap={2} width="100%" maxW="md">
+                <FormControl>
+                  <FormHelperText fontSize="xs">Name</FormHelperText>
+                  <Input
+                    focusBorderColor="#7023b6"
+                    value={username}
+                    aria-label="Name"
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormHelperText fontSize="xs">Description</FormHelperText>
+                  <Input
+                    focusBorderColor="#7023b6"
+                    value={description}
+                    aria-label="Description"
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                </FormControl>
                 <Button
                   colorScheme="purple"
                   onClick={publishProfile}
