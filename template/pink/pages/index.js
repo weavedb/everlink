@@ -24,7 +24,7 @@ export const getStaticProps = ssr(async () => {
 })
 
 const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
-const IS_TEST_DATA = true
+const IS_TEST_DATA = false
 const testJsonData = {
   Tiktok: "",
   Instagram: "https://instagram.com/fizzlesmusic",
@@ -67,7 +67,6 @@ export default function Home({ _date = null, _fullUrl = null }) {
           { name: "Action", value: "Record" },
           {
             name: "Sub-Domain",
-            // value: "fizzles",
             value: _subdomain,
           },
         ]
@@ -190,7 +189,15 @@ export default function Home({ _date = null, _fullUrl = null }) {
               <IconButton
                 icon={<ExternalLinkIcon />}
                 variant="ghost"
-                aria-label="Options"
+                aria-label="Share"
+                onClick={() => {
+                  const text = `Check out this Everlink! - `
+                  const url = window.location.href
+                  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                    text
+                  )}&url=${encodeURIComponent(url)}`
+                  window.open(twitterUrl, "_blank")
+                }}
               />
             </Flex>
 
