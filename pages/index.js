@@ -61,7 +61,7 @@ export default function Home() {
   const [username, setUsername] = useState("")
   const [description, setDescription] = useState("")
   const [userRecords, setUserRecords] = useState([])
-  const [userSubdomains, setUserSubdomains] = useState([])
+  // const [userSubdomains, setUserSubdomains] = useState([])
   const [templates, setTemplates] = useState({})
   const [showProfileForm, setShowProfileForm] = useState(false)
   const [selectedTemplateTxId, setSelectedTemplateTxId] = useState(
@@ -193,7 +193,7 @@ export default function Home() {
     const jsonData = JSON.parse(_resultData)
     console.log("jsonData", jsonData)
     setUserRecords(jsonData)
-    setUserSubdomains(jsonData.map((record) => record.Subdomain))
+    // setUserSubdomains(jsonData.map((record) => record.Subdomain))
   }
 
   const logout = async () => {
@@ -293,8 +293,70 @@ export default function Home() {
       })
       console.log("_result", _result)
 
+      setUserRecords((prevUserRecords) => [
+        ...prevUserRecords,
+        {
+          Subdomain: newSubdomain,
+          Username: username,
+          Description: description,
+          TransactionId: selectedTemplateTxId,
+          Links: JSON.stringify(links),
+          Twitter: twitter,
+          Tiktok: tiktok,
+          Instagram: instagram,
+          Facebook: facebook,
+          Linkedin: linkedin,
+        },
+      ])
+
       toast({
         title: "Profile published successfully",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      })
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  const removeUserRecord = async (record, index) => {
+    const _connected = await connectWallet()
+    console.log("_connected", _connected)
+    if (_connected.success === false) {
+      return
+    }
+
+    try {
+      const messageId = await message({
+        process: MAIN_PROCESS_ID,
+        tags: [
+          {
+            name: "Action",
+            value: "Remove-Record",
+          },
+          {
+            name: "Sub-Domain",
+            value: record.Subdomain,
+          },
+        ],
+        signer: createDataItemSigner(globalThis.arweaveWallet),
+      })
+      console.log("messageId", messageId)
+
+      const _result = await result({
+        message: messageId,
+        process: MAIN_PROCESS_ID,
+      })
+      console.log("_result", _result)
+
+      setUserRecords((prevUserRecords) =>
+        prevUserRecords.filter((_, i) => i !== index)
+      )
+
+      toast({
+        title: "Subdomain record removed successfully",
         status: "success",
         duration: 2000,
         isClosable: true,
@@ -347,10 +409,10 @@ export default function Home() {
             </Flex>
             <Divider />
             <Flex paddingY={8}></Flex>
-            {userSubdomains.length > 0 ? (
+            {userRecords.length > 0 ? (
               <>
                 {/* <Heading size="md" color="#7023b6" mb={4}>Subdomain</Heading> */}
-                <TableContainer>
+                <TableContainer width="100%" maxW="md">
                   <Table size="sm">
                     <Thead>
                       <Tr>
@@ -360,7 +422,7 @@ export default function Home() {
                       </Tr>
                     </Thead>
                     <Tbody>
-                      {userSubdomains.map((subdomain, index) => (
+                      {userRecords.map((record, index) => (
                         <Tr key={index}>
                           <Td>
                             <IconButton
@@ -369,13 +431,15 @@ export default function Home() {
                               icon={<EditIcon />}
                               colorScheme="purple"
                               size="sm"
-                              onClick={() => {
-                                console.log("Edit", index)
+                              onClick={async (event) => {
                                 console.log("userRecords", userRecords[index])
                                 setUsername(userRecords[index].Username)
                                 setDescription(userRecords[index].Description)
                                 setLinks(JSON.parse(userRecords[index].Links))
                                 setNewSubdomain(userRecords[index].Subdomain)
+                                setSelectedTemplateTxId(
+                                  userRecords[index].TransactionId
+                                )
                                 setTwitter(userRecords[index].Twitter)
                                 setTiktok(userRecords[index].Tiktok)
                                 setInstagram(userRecords[index].Instagram)
@@ -390,9 +454,19 @@ export default function Home() {
                               icon={<DeleteIcon />}
                               colorScheme="red"
                               size="sm"
+                              onClick={async (event) => {
+                                console.log("userRecords", userRecords[index])
+                                const button = event.target
+                                button.disabled = true
+                                await removeUserRecord(
+                                  userRecords[index],
+                                  index
+                                )
+                                button.disabled = false
+                              }}
                             />
                           </Td>
-                          <Td>{subdomain}</Td>
+                          <Td>{record.Subdomain}</Td>
                           <Td>{userRecords[index].TransactionId}</Td>
                         </Tr>
                       ))}
@@ -694,7 +768,7 @@ export default function Home() {
                 onClick={async (event) => {
                   const button = event.target
                   button.disabled = true
-                  getTemplates()
+                  await getTemplates()
                   await login()
                   button.disabled = false
                 }}
