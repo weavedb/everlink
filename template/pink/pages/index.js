@@ -134,6 +134,22 @@ export default function Home({ _date = null, _fullUrl = null }) {
     return url
   }
 
+  const SocialButton = ({ url, icon, label }) => {
+    return url ? (
+      <Link target="_blank" href={formatUrl(url)}>
+        <IconButton icon={icon} variant="ghost" aria-label={label} />
+      </Link>
+    ) : (
+      <IconButton
+        icon={icon}
+        variant="ghost"
+        aria-label={label}
+        opacity={0.5}
+        cursor="not-allowed"
+      />
+    )
+  }
+
   return (
     <>
       <ChakraProvider>
@@ -176,42 +192,33 @@ export default function Home({ _date = null, _fullUrl = null }) {
             ></Flex>
 
             {/* Socials */}
-            <Flex gap={[2, 4]} paddingY={4}>
-              <Link target="_blank" href={formatUrl(jsonData?.Twitter)}>
-                <IconButton
-                  icon={<TwitterIcon />}
-                  variant="ghost"
-                  aria-label="Twitter"
-                />
-              </Link>
-              <Link target="_blank" href={formatUrl(jsonData?.Tiktok)}>
-                <IconButton
-                  icon={<TiktokIcon />}
-                  variant="ghost"
-                  aria-label="Tiktok"
-                />
-              </Link>
-              <Link target="_blank" href={formatUrl(jsonData?.Instagram)}>
-                <IconButton
-                  icon={<InstagramIcon />}
-                  variant="ghost"
-                  aria-label="Instagram"
-                />
-              </Link>
-              <Link target="_blank" href={formatUrl(jsonData?.Facebook)}>
-                <IconButton
-                  icon={<FacebookIcon />}
-                  variant="ghost"
-                  aria-label="Facebook"
-                />
-              </Link>
-              <Link target="_blank" href={formatUrl(jsonData?.Linkedin)}>
-                <IconButton
-                  icon={<LinkedinIcon />}
-                  variant="ghost"
-                  aria-label="Linkedin"
-                />
-              </Link>
+
+            <Flex gap={[2, 4]} paddingBottom={4}>
+              <SocialButton
+                url={jsonData?.Twitter}
+                icon={<TwitterIcon />}
+                label="Twitter"
+              />
+              <SocialButton
+                url={jsonData?.Tiktok}
+                icon={<TiktokIcon />}
+                label="Tiktok"
+              />
+              <SocialButton
+                url={jsonData?.Instagram}
+                icon={<InstagramIcon />}
+                label="Instagram"
+              />
+              <SocialButton
+                url={jsonData?.Facebook}
+                icon={<FacebookIcon />}
+                label="Facebook"
+              />
+              <SocialButton
+                url={jsonData?.Linkedin}
+                icon={<LinkedinIcon />}
+                label="Linkedin"
+              />
             </Flex>
 
             {/* Username */}
@@ -220,7 +227,14 @@ export default function Home({ _date = null, _fullUrl = null }) {
             </Text>
 
             {/* Description */}
-            <Text textAlign="center" mt={2} mb={6} fontSize="lg" w="100%">
+            <Text
+              textAlign="center"
+              mt={2}
+              mb={6}
+              fontSize="lg"
+              w="100%"
+              color="blackAlpha.700"
+            >
               {jsonData?.Description}
             </Text>
 
@@ -244,7 +258,7 @@ export default function Home({ _date = null, _fullUrl = null }) {
             variant="solid"
             borderRadius="full"
           >
-            ✳ Join Fizzles on Everlink
+            ✳ Join {jsonData?.Username || "us"} on Everlink
           </Button>
         </Flex>
       </ChakraProvider>
