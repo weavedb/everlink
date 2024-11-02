@@ -601,7 +601,7 @@ export default function Home() {
                 <Flex alignItems="center" gap={2}>
                   <TwitterIcon />
                   <Input
-                    placeholder="Twitter"
+                    placeholder="https://x.com/username"
                     focusBorderColor="#7023b6"
                     value={twitter}
                     aria-label="Twitter"
@@ -611,7 +611,7 @@ export default function Home() {
                 <Flex alignItems="center" gap={2}>
                   <TiktokIcon />
                   <Input
-                    placeholder="Tiktok"
+                    placeholder="https://www.tiktok.com/@username"
                     focusBorderColor="#7023b6"
                     value={tiktok}
                     aria-label="Tiktok"
@@ -622,7 +622,7 @@ export default function Home() {
                 <Flex alignItems="center" gap={2}>
                   <InstagramIcon />
                   <Input
-                    placeholder="Instagram"
+                    placeholder="https://www.instagram.com/username"
                     focusBorderColor="#7023b6"
                     value={instagram}
                     aria-label="Instagram"
@@ -632,7 +632,7 @@ export default function Home() {
                 <Flex alignItems="center" gap={2}>
                   <FacebookIcon />
                   <Input
-                    placeholder="Facebook"
+                    placeholder="https://facebook.com/username"
                     focusBorderColor="#7023b6"
                     value={facebook}
                     aria-label="Facebook"
@@ -642,7 +642,7 @@ export default function Home() {
                 <Flex alignItems="center" gap={2}>
                   <LinkedinIcon />
                   <Input
-                    placeholder="Linkedin"
+                    placeholder="https://linkedin.com/in/username"
                     focusBorderColor="#7023b6"
                     value={linkedin}
                     aria-label="Linkedin"

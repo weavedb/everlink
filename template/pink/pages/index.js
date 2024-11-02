@@ -1,22 +1,253 @@
 import { Link, ssr } from "arnext"
 import { useEffect, useState } from "react"
+import {
+  Flex,
+  Text,
+  ChakraProvider,
+  useToast,
+  IconButton,
+  Button,
+  Icon,
+} from "@chakra-ui/react"
+import { dryrun } from "@permaweb/aoconnect"
+import InstagramIcon from "@/components/icons/InstagramIcon"
+import TwitterIcon from "@/components/icons/TwitterIcon"
+import TiktokIcon from "@/components/icons/TiktokIcon"
+import FacebookIcon from "@/components/icons/FacebookIcon"
+import LinkedinIcon from "@/components/icons/LinkedinIcon"
+import { ExternalLinkIcon } from "@chakra-ui/icons"
 
-const getDate = async date => date ?? Date.now()
+const getDate = async (date) => date ?? Date.now()
+const getFullUrl = async (url) => url ?? window.location.href
 
-export const getStaticProps = ssr(async ({}) => {
-  return { props: { _date: Date.now() }, revalidate: 100 }
+export const getStaticProps = ssr(async () => {
+  return { props: { _date: Date.now(), _fullUrl: null }, revalidate: 100 }
 })
 
-export default function Home({ _date = null }) {
+const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
+const IS_TEST_DATA = true
+const testJsonData = {
+  Tiktok: "",
+  Instagram: "https://instagram.com/fizzlesmusic",
+  Username: "Fizzles",
+  Twitter: "https://x.com/fizzlesmusic",
+  Description:
+    "3 friends share the same passion as music enthusiasts from the southern outskirts of Cebu.",
+  Linkedin: "",
+  TTL: "900",
+  Subdomain: "fizzles",
+  TransactionId: "BXNtVGO1ZoGhlUzBb0fX7tVL15rtu6xb-lWEtMP2u-U",
+  Owner: "8bIZKr6Wn15dYdkyXRfwaX7t_-MPzKB8w-WYxCyIXIw",
+  Links: `[{"title":"Website","url":"https://fizzlesmusic.com"}, {"title":"Spotify","url":"https://open.spotify.com/artist/0Upodw08tSULrSx6MrBybj"}, {"title":"YouTube","url":"https://www.youtube.com/channel/UCs6z6vm7-uIlntR3zwW_8Uw"}]`,
+  Facebook: "https://facebook.com/fizzlesmusic",
+}
+
+console.log("testJsonData", testJsonData)
+
+export default function Home({ _date = null, _fullUrl = null }) {
+  const toast = useToast()
+
   const [date, setDate] = useState(_date)
+  const [fullUrl, setFullUrl] = useState(_fullUrl)
+  const [jsonData, setJsonData] = useState()
+  const [links, setLinks] = useState([])
+  const [subdomain, setSubdomain] = useState()
+
   useEffect(() => {
-    ;(async () => _date ?? setDate(await getDate()))()
-  }, [])
+    ;(async () => {
+      if (!_fullUrl) {
+        const _fullUrl = await getFullUrl()
+        setFullUrl(_fullUrl)
+        console.log("_fullUrl", _fullUrl)
+
+        const _subdomain = _fullUrl.split("//")[1].split("_")[0]
+        console.log("_subdomain:", _subdomain)
+        setSubdomain(_subdomain)
+
+        const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
+        let tags = [
+          { name: "Action", value: "Record" },
+          {
+            name: "Sub-Domain",
+            // value: "fizzles",
+            value: _subdomain,
+          },
+        ]
+
+        const _result = await dryrun({
+          process: MAIN_PROCESS_ID,
+          tags,
+        })
+        console.log("_result", _result)
+        if (handleMessageResultError(_result)) {
+          if (IS_TEST_DATA) {
+            setJsonData(testJsonData)
+            console.log("setJsonData(testJsonData)", testJsonData)
+            if (typeof testJsonData.Links === "string") {
+              const _links = JSON.parse(testJsonData.Links)
+              setLinks(_links)
+              console.log("_links", _links)
+            }
+            return
+          } else {
+            return
+          }
+        }
+        const _resultData = _result.Messages[0].Data
+        console.log("_resultData", _resultData)
+        const _jsonData = JSON.parse(_resultData)
+        console.log("_jsonData", _jsonData)
+        setJsonData(_jsonData)
+        if (typeof _jsonData.Links === "string") {
+          const _links = JSON.parse(_jsonData.Links)
+          setLinks(_links)
+          console.log("_links", _links)
+        }
+      }
+
+      _date ?? setDate(await getDate())
+    })()
+  }, [_fullUrl, _date])
+
+  const handleMessageResultError = (_result) => {
+    const errorTag = _result?.Messages?.[0]?.Tags.find(
+      (tag) => tag.name === "Error"
+    )
+    console.log("errorTag", errorTag)
+    if (errorTag) {
+      toast({
+        description: _result.Messages[0].Data,
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      })
+      return true
+    }
+    return false
+  }
+
+  const formatUrl = (url) => {
+    if (!/^https?:\/\//i.test(url)) {
+      return `https://${url}`
+    }
+    return url
+  }
 
   return (
     <>
-      home: {date} | <Link href="/post/a">post-a</Link> |{" "}
-      <Link href="/abc">404</Link>
+      <ChakraProvider>
+        <Flex
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          minHeight="100vh"
+          backgroundColor="#F4C7C3"
+          p={4}
+        >
+          {/* Main Content Container */}
+          <Flex
+            direction="column"
+            alignItems="center"
+            bg="white"
+            borderRadius="lg"
+            paddingX={8}
+            paddingTop={2}
+            paddingBottom={8}
+            boxShadow="lg"
+            maxW="lg"
+            width="100%"
+          >
+            <Flex w="100%" justifyContent="flex-end">
+              <IconButton
+                icon={<ExternalLinkIcon />}
+                variant="ghost"
+                aria-label="Options"
+              />
+            </Flex>
+
+            {/* Profile Image */}
+            <Flex
+              w={24}
+              h={24}
+              bgGradient="linear(to-r, pink.400, teal.400)"
+              borderRadius="full"
+              mb={6}
+            ></Flex>
+
+            {/* Socials */}
+            <Flex gap={[2, 4]} paddingY={4}>
+              <Link target="_blank" href={formatUrl(jsonData?.Twitter)}>
+                <IconButton
+                  icon={<TwitterIcon />}
+                  variant="ghost"
+                  aria-label="Twitter"
+                />
+              </Link>
+              <Link target="_blank" href={formatUrl(jsonData?.Tiktok)}>
+                <IconButton
+                  icon={<TiktokIcon />}
+                  variant="ghost"
+                  aria-label="Tiktok"
+                />
+              </Link>
+              <Link target="_blank" href={formatUrl(jsonData?.Instagram)}>
+                <IconButton
+                  icon={<InstagramIcon />}
+                  variant="ghost"
+                  aria-label="Instagram"
+                />
+              </Link>
+              <Link target="_blank" href={formatUrl(jsonData?.Facebook)}>
+                <IconButton
+                  icon={<FacebookIcon />}
+                  variant="ghost"
+                  aria-label="Facebook"
+                />
+              </Link>
+              <Link target="_blank" href={formatUrl(jsonData?.Linkedin)}>
+                <IconButton
+                  icon={<LinkedinIcon />}
+                  variant="ghost"
+                  aria-label="Linkedin"
+                />
+              </Link>
+            </Flex>
+
+            {/* Username */}
+            <Text fontWeight="bold" fontSize="4xl" w="100%" textAlign="center">
+              {jsonData?.Username}
+            </Text>
+
+            {/* Description */}
+            <Text textAlign="center" mt={2} mb={6} fontSize="lg" w="100%">
+              {jsonData?.Description}
+            </Text>
+
+            {/* Link Buttons */}
+            <Button
+              size="lg"
+              mb={4}
+              colorScheme="pink"
+              variant="solid"
+              width="100%"
+              leftIcon={<InstagramIcon />}
+            >
+              Instagram
+            </Button>
+          </Flex>
+
+          <Button
+            mt={8}
+            size="md"
+            colorScheme="blackAlpha"
+            variant="solid"
+            borderRadius="full"
+          >
+            ✳ Join Fizzles on Everlink
+          </Button>
+        </Flex>
+      </ChakraProvider>
     </>
   )
 }
