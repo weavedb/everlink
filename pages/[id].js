@@ -1,4 +1,4 @@
-import { Link, ssr } from "arnext"
+import { Link, useParams, ssr } from "arnext"
 import { useEffect, useState } from "react"
 import {
   Flex,
@@ -16,12 +16,16 @@ import FacebookIcon from "@/components/icons/FacebookIcon"
 import LinkedinIcon from "@/components/icons/LinkedinIcon"
 import { ExternalLinkIcon, SunIcon } from "@chakra-ui/icons"
 
-const getDate = async (date) => date ?? Date.now()
+export async function getStaticPaths() {
+  return { paths: [], fallback: "blocking" }
+}
+
+const getID = async (id, pid) => `post-${pid ?? id}`
 const getFullUrl = async (url) => url ?? window.location.href
 
-export const getStaticProps = ssr(async () => {
-  return { props: { _date: Date.now(), _fullUrl: null }, revalidate: 100 }
-})
+export async function getStaticProps({ params: { id } }) {
+  return { props: { pid: await getID(id) } }
+}
 
 const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
 const IS_TEST_DATA = false
@@ -42,13 +46,20 @@ const testJsonData = {
 }
 console.log("testJsonData", testJsonData)
 
-export default function Home({ _date = null, _fullUrl = null }) {
-  const [date, setDate] = useState(_date)
-  const [fullUrl, setFullUrl] = useState(_fullUrl)
+export default function Home({ _id = null, _fullUrl = null }) {
+  const { id } = useParams()
+  const [pid, setPid] = useState(_id)
+  const [fullUrl, setFullUrl] = useState()
   const [jsonData, setJsonData] = useState()
   const [links, setLinks] = useState([])
   const [subdomain, setSubdomain] = useState()
   const toast = useToast()
+
+  useEffect(() => {
+    ;(async () => {
+      _id ?? setPid(await getID(id, _id))
+    })()
+  }, [])
 
   useEffect(() => {
     ;(async () => {
@@ -113,10 +124,8 @@ export default function Home({ _date = null, _fullUrl = null }) {
           }
         }
       }
-
-      _date ?? setDate(await getDate())
     })()
-  }, [_fullUrl, _date])
+  }, [_fullUrl])
 
   const handleMessageResultError = (_result) => {
     const errorTag = _result?.Messages?.[0]?.Tags.find(
