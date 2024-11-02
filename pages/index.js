@@ -193,7 +193,7 @@ export default function Home() {
     const jsonData = JSON.parse(_resultData)
     console.log("jsonData", jsonData)
     setUserRecords(jsonData)
-    setUserSubdomains(jsonData.map((record) => record.SubDomain))
+    setUserSubdomains(jsonData.map((record) => record.Subdomain))
   }
 
   const logout = async () => {
@@ -369,6 +369,20 @@ export default function Home() {
                               icon={<EditIcon />}
                               colorScheme="purple"
                               size="sm"
+                              onClick={() => {
+                                console.log("Edit", index)
+                                console.log("userRecords", userRecords[index])
+                                setUsername(userRecords[index].Username)
+                                setDescription(userRecords[index].Description)
+                                setLinks(JSON.parse(userRecords[index].Links))
+                                setNewSubdomain(userRecords[index].Subdomain)
+                                setTwitter(userRecords[index].Twitter)
+                                setTiktok(userRecords[index].Tiktok)
+                                setInstagram(userRecords[index].Instagram)
+                                setFacebook(userRecords[index].Facebook)
+                                setLinkedin(userRecords[index].Linkedin)
+                                setShowProfileForm(true)
+                              }}
                             />
                             <IconButton
                               variant={"ghost"}
