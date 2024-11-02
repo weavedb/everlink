@@ -231,6 +231,10 @@ export default function Home() {
         return
       }
 
+      const existingRecordIndex = userRecords.findIndex(
+        (record) => record.Subdomain === newSubdomain
+      )
+
       const messageId = await message({
         process: MAIN_PROCESS_ID,
         tags: [
@@ -293,24 +297,46 @@ export default function Home() {
       })
       console.log("_result", _result)
 
-      setUserRecords((prevUserRecords) => [
-        ...prevUserRecords,
-        {
-          Subdomain: newSubdomain,
-          Username: username,
-          Description: description,
-          TransactionId: selectedTemplateTxId,
-          Links: JSON.stringify(links),
-          Twitter: twitter,
-          Tiktok: tiktok,
-          Instagram: instagram,
-          Facebook: facebook,
-          Linkedin: linkedin,
-        },
-      ])
+      if (existingRecordIndex !== -1) {
+        setUserRecords((prevRecords) => {
+          const newRecords = [...prevRecords]
+          newRecords[existingRecordIndex] = {
+            Subdomain: newSubdomain,
+            Username: username,
+            Description: description,
+            TransactionId: selectedTemplateTxId,
+            Links: JSON.stringify(links),
+            Twitter: twitter,
+            Tiktok: tiktok,
+            Instagram: instagram,
+            Facebook: facebook,
+            Linkedin: linkedin,
+          }
+          return newRecords
+        })
+      } else {
+        setUserRecords((prevRecords) => [
+          ...prevRecords,
+          {
+            Subdomain: newSubdomain,
+            Username: username,
+            Description: description,
+            TransactionId: selectedTemplateTxId,
+            Links: JSON.stringify(links),
+            Twitter: twitter,
+            Tiktok: tiktok,
+            Instagram: instagram,
+            Facebook: facebook,
+            Linkedin: linkedin,
+          },
+        ])
+      }
 
       toast({
-        title: "Profile published successfully",
+        title:
+          existingRecordIndex !== -1
+            ? "Profile updated successfully"
+            : "Profile published successfully",
         status: "success",
         duration: 2000,
         isClosable: true,
@@ -418,7 +444,7 @@ export default function Home() {
                       <Tr>
                         <Th></Th>
                         <Th>Subdomain</Th>
-                        <Th>Tx Id</Th>
+                        <Th>Template Tx Id</Th>
                       </Tr>
                     </Thead>
                     <Tbody>
