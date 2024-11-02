@@ -68,7 +68,10 @@ export default function Home({ _id = null, _fullUrl = null }) {
         setFullUrl(_fullUrl)
         console.log("_fullUrl", _fullUrl)
 
-        const _subdomain = _fullUrl.split("//")[1].split("_")[0]
+        const parsedUrl = new URL(_fullUrl)
+        const pathname = parsedUrl.pathname
+        const segments = pathname.split("/").filter(Boolean)
+        const _subdomain = segments[0] || null
         console.log("_subdomain:", _subdomain)
         setSubdomain(_subdomain)
 
