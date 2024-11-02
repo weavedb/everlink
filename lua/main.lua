@@ -154,6 +154,11 @@ Handlers.add('Set-Record', Handlers.utils.hasMatchingTag('Action', 'Set-Record')
         return
     end
 
+    if type(username) ~= 'string' or username == "" then
+        sendErrorMessage(msg, 'Username is required and must be a string')
+        return
+    end
+
     -- Check if subdomain already exists and verify ownership
     if Records[subdomain] then
         if Records[subdomain].Owner ~= owner then

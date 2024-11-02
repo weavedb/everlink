@@ -215,7 +215,7 @@ export default function Home() {
   const publishProfile = async () => {
     if (!newSubdomain || !selectedTemplateTxId || !username) {
       toast({
-        title: "All fields are required",
+        title: "Subdomain, Template, and Name are required",
         status: "error",
         duration: 2000,
         isClosable: true,
