@@ -1,0 +1,5 @@
+/node_modules
+.next
+out
+arweave-keyfile.json
+.vercel
