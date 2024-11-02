@@ -7,7 +7,6 @@ import {
   useToast,
   IconButton,
   Button,
-  Icon,
 } from "@chakra-ui/react"
 import { dryrun } from "@permaweb/aoconnect"
 import InstagramIcon from "@/components/icons/InstagramIcon"
@@ -15,7 +14,7 @@ import TwitterIcon from "@/components/icons/TwitterIcon"
 import TiktokIcon from "@/components/icons/TiktokIcon"
 import FacebookIcon from "@/components/icons/FacebookIcon"
 import LinkedinIcon from "@/components/icons/LinkedinIcon"
-import { ExternalLinkIcon } from "@chakra-ui/icons"
+import { ExternalLinkIcon, SunIcon } from "@chakra-ui/icons"
 
 const getDate = async (date) => date ?? Date.now()
 const getFullUrl = async (url) => url ?? window.location.href
@@ -64,7 +63,6 @@ export default function Home({ _date = null, _fullUrl = null }) {
         console.log("_subdomain:", _subdomain)
         setSubdomain(_subdomain)
 
-        const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
         let tags = [
           { name: "Action", value: "Record" },
           {
@@ -84,9 +82,16 @@ export default function Home({ _date = null, _fullUrl = null }) {
             setJsonData(testJsonData)
             console.log("setJsonData(testJsonData)", testJsonData)
             if (typeof testJsonData.Links === "string") {
-              const _links = JSON.parse(testJsonData.Links)
-              setLinks(_links)
-              console.log("_links", _links)
+              try {
+                const _links = JSON.parse(testJsonData.Links)
+                if (Array.isArray(_links)) {
+                  setLinks(_links)
+                  console.log("_links", _links)
+                }
+              } catch (error) {
+                console.log("Invalid JSON format in Links")
+                setLinks([])
+              }
             }
             return
           } else {
@@ -99,9 +104,16 @@ export default function Home({ _date = null, _fullUrl = null }) {
         console.log("_jsonData", _jsonData)
         setJsonData(_jsonData)
         if (typeof _jsonData.Links === "string") {
-          const _links = JSON.parse(_jsonData.Links)
-          setLinks(_links)
-          console.log("_links", _links)
+          try {
+            const _links = JSON.parse(_jsonData.Links)
+            if (Array.isArray(_links)) {
+              setLinks(_links)
+              console.log("_links", _links)
+            }
+          } catch (error) {
+            console.log("Invalid JSON format in Links")
+            setLinks([])
+          }
         }
       }
 
@@ -239,27 +251,40 @@ export default function Home({ _date = null, _fullUrl = null }) {
             </Text>
 
             {/* Link Buttons */}
-            <Button
-              size="lg"
-              mb={4}
-              colorScheme="pink"
-              variant="solid"
-              width="100%"
-              leftIcon={<InstagramIcon />}
-            >
-              Instagram
-            </Button>
+            {links?.map((link, index) => (
+              <Flex width="100%" key={index}>
+                <Link
+                  target="_blank"
+                  href={formatUrl(link?.url)}
+                  style={{ width: "100%", display: "block" }}
+                >
+                  <Button
+                    size="md"
+                    colorScheme="pink"
+                    variant="solid"
+                    width="100%"
+                    mb={4}
+                  >
+                    {link.title}
+                  </Button>
+                </Link>
+              </Flex>
+            ))}
           </Flex>
 
-          <Button
-            mt={8}
-            size="md"
-            colorScheme="blackAlpha"
-            variant="solid"
-            borderRadius="full"
-          >
-            ✳ Join {jsonData?.Username || "us"} on Everlink
-          </Button>
+          <Link target="_blank" href="https://everlink.ar.io">
+            <Button
+              mt={8}
+              size="md"
+              colorScheme="blackAlpha"
+              variant="solid"
+              borderRadius="full"
+            >
+              <SunIcon />
+              <Flex paddingX={1}></Flex>Join {jsonData?.Username || "us"} on
+              Everlink
+            </Button>
+          </Link>
         </Flex>
       </ChakraProvider>
     </>
