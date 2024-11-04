@@ -37,7 +37,7 @@ const testJsonData = {
   Subdomain: "fizzles",
   TransactionId: "BXNtVGO1ZoGhlUzBb0fX7tVL15rtu6xb-lWEtMP2u-U",
   Owner: "8bIZKr6Wn15dYdkyXRfwaX7t_-MPzKB8w-WYxCyIXIw",
-  Links: `[{"title":"Website","url":"https://fizzlesmusic.com"}, {"title":"Spotify","url":"https://open.spotify.com/artist/0Upodw08tSULrSx6MrBybj"}, {"title":"YouTube","url":"https://www.youtube.com/channel/UCs6z6vm7-uIlntR3zwW_8Uw"}]`,
+  Links: `[{"title":"Website","url":"https://fizzlesmusic.com"}, {"title":"Spotify","url":"https://open.spotify.com/artist/0Upodw08tSULrSx6MrBybj"}, {"title":"YouTube","url":"https://www.youtube.com/channel/UCs6z6vm7-uIlntR3zwW_8Uw"}, {"title":"Forgetful Bob - YouTube","url":"https://www.youtube.com/forgetfulbob"}]`,
   Facebook: "https://facebook.com/fizzlesmusic",
 }
 console.log("testJsonData", testJsonData)
