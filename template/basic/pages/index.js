@@ -1,130 +1,144 @@
+"use client";
+
+import ProfileHeader from "@/components/profile/profile-header";
+import ProfileDetails from "@/components/profile/profile-details";
 import {
-  Flex,
-  Heading,
-  Text,
+  Box,
   ChakraProvider,
-  Avatar,
   useToast,
-} from "@chakra-ui/react"
+  Container,
+  Button,
+  Grid,
+  GridItem,
+  Text,
+} from "@chakra-ui/react";
+import { ssr } from "arnext";
+import { useEffect, useState } from "react";
+import { useMediaQuery } from "@chakra-ui/react";
+import Head from "next/head";
+import SocialButton from "@/components/button/social-button";
+import { Poppins } from "next/font/google";
+const poppins = Poppins({ weight: "400", subsets: ["latin"] });
 
-import { Link, ssr } from "arnext"
-import { useEffect, useState } from "react"
-import { dryrun } from "@permaweb/aoconnect"
-
-const getDate = async (date) => date ?? Date.now()
-const getFullUrl = async (url) => url ?? window.location.href
+const getDate = async (date) => date ?? Date.now();
+const getFullUrl = async (url) => url ?? window.location.href;
 
 export const getStaticProps = ssr(async () => {
-  return { props: { _date: Date.now(), _fullUrl: null }, revalidate: 100 }
-})
+  return { props: { _date: Date.now(), _fullUrl: null }, revalidate: 100 };
+});
 
-const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
+const _resultData = {
+  Urls: '[{"title":"Spotify","url":"https://open.spotify.com/artist/0Upodw08tSULrSx6MrBybj?si=EA_nlybJSp6gfXzm1RIEQw"},{"title":"Website","url":"https://fizzlesmusic.com/"},{"title":"YouTube","url":"https://www.youtube.com/@fizzlesmusic"}]',
+  TTL: "900",
+  TransactionId: "BXNtVGO1ZoGhlUzBb0fX7tVL15rtu6xb-lWEtMP2u-U",
+  Description:
+    "3 friends share the same passion as music enthusiasts from the southern outskirts of Cebu.",
+  Owner: "8bIZKr6Wn15dYdkyXRfwaX7t_-MPzKB8w-WYxCyIXIw",
+  SubDomain: "fizzles",
+  Username: "Fizzles",
+};
 
 export default function Home({ _date = null, _fullUrl = null }) {
-  const toast = useToast()
+  const toast = useToast();
+  const [isLargeScreen] = useMediaQuery("(min-width: 700px)");
 
-  const [date, setDate] = useState(_date)
-  const [fullUrl, setFullUrl] = useState(_fullUrl)
-  const [username, setUsername] = useState()
-  const [description, setDescription] = useState()
-  const [links, setLinks] = useState([])
-  const [subdomain, setSubdomain] = useState()
+  const [credentials, setCredentials] = useState({
+    UserName: "",
+    Description: "",
+    SubDomain: "",
+    TransactionId: "",
+    Owner: "",
+    links: ["1", "2", "3", "4"],
+  });
+
+  const [date, setDate] = useState(_date);
+  const [fullUrl, setFullUrl] = useState(_fullUrl);
+  const [links, setLinks] = useState([]);
+  const [subdomain, setSubdomain] = useState();
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       if (!_fullUrl) {
-        const _fullUrl = await getFullUrl()
-        setFullUrl(_fullUrl)
-        console.log("_fullUrl", _fullUrl)
+        const _fullUrl = await getFullUrl();
+        setFullUrl(_fullUrl);
+        console.log("_fullUrl", _fullUrl);
 
-        const _subdomain = _fullUrl.split("//")[1].split("_")[0]
-        console.log("_subdomain:", _subdomain)
-        setSubdomain(_subdomain)
+        const _subdomain = _fullUrl.split("//")[1].split("_")[0];
+        console.log("_subdomain:", _subdomain);
+        setSubdomain(_subdomain);
 
-        const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
         let tags = [
           { name: "Action", value: "Record" },
           {
             name: "Sub-Domain",
             value: _subdomain,
           },
-        ]
+        ];
 
-        const _result = await dryrun({
-          process: MAIN_PROCESS_ID,
-          tags,
-        })
-        console.log("_result", _result)
-        const _resultData = _result.Messages[0].Data
-        console.log("_resultData", _resultData)
-        const jsonData = JSON.parse(_resultData)
-        console.log("jsonData", jsonData)
+        // const _result = await dryrun({
+        //   process: MAIN_PROCESS_ID,
+        //   tags,
+        // });
+        // console.log("_result", _result);
+        // const _resultData = _result.Messages[0].Data;
+        // const jsonData = JSON.parse(_resultData);
+        const jsonData = _resultData;
 
-        setUsername(jsonData.Username)
-        setDescription(jsonData.Description)
-        console.log("jsonData.Username", jsonData.Username)
-        console.log("jsonData.Description", jsonData.Description)
+        setCredentials((prev) => ({
+          ...prev,
+          ...jsonData,
+        }));
 
         if (typeof jsonData.Urls === "string") {
-          const _links = JSON.parse(jsonData.Urls)
-          setLinks(_links)
-          console.log("_links", _links)
+          const _links = JSON.parse(jsonData.Urls);
+          setLinks(_links);
+          console.log("_links", _links);
         }
       }
+      _date ?? setDate(await getDate());
+    })();
+  }, []);
 
-      _date ?? setDate(await getDate())
-    })()
-  }, [_fullUrl, _date])
+  console.log(credentials);
 
   const formatUrl = (url) => {
     if (!/^https?:\/\//i.test(url)) {
-      return `https://${url}`
+      return `https://${url}`;
     }
-    return url
-  }
+    return url;
+  };
   return (
     <>
+      <Head>
+        <title>Link Tree</title>
+      </Head>
       <ChakraProvider>
-        <Flex height="100vh" align="center" justify="center">
-          <Flex
-            direction="column"
-            align="center"
-            bg="gray.50"
-            boxShadow="0 0 10px rgba(0,0,0,0.1)"
-            maxW="400px"
-            w="100%"
-            border="1px solid"
-            borderColor="gray.200"
-            borderRadius="8px"
-            p={5}
+        <Container
+          maxW={credentials?.links?.length > 5 ? "container.x" : "container.sm"}
+          p={4}
+          fontFamily={poppins.style.fontFamily}
+        >
+          <Grid
+            templateColumns={{
+              md: credentials?.links.length > 5 ? "35% 1fr" : "1fr",
+            }}
+            gap={4}
           >
-            <Avatar name={username} src="" />
-
-            <Heading as="h1" fontSize="24px" mb={2}>
-              {username}
-            </Heading>
-
-            <Text color="gray.500" mb={5}>
-              {description}
-            </Text>
-
-            <Flex direction="column" w="100%" gap={8}>
-              {links.map((link, index) => {
-                return (
-                  <Link
-                    key={index}
-                    href={formatUrl(link.url)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {link.title}
-                  </Link>
-                )
-              })}
-            </Flex>
-          </Flex>
-        </Flex>
+            <GridItem>
+              <Box>
+                <ProfileHeader {...credentials} />
+                <ProfileDetails {...credentials} />
+              </Box>
+            </GridItem>
+            <GridItem>
+              <Box display="flex" flexDir="column" gap={4}>
+                {credentials?.links &&
+                  credentials?.links?.map((items) => <SocialButton />)}
+              </Box>
+            </GridItem>
+          </Grid>
+        </Container>
       </ChakraProvider>
     </>
-  )
+  );
 }
