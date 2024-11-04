@@ -25,7 +25,7 @@ export const getStaticProps = ssr(async () => {
 })
 
 const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
-const IS_TEST_DATA = false
+const IS_TEST_DATA = true
 const testJsonData = {
   Tiktok: "",
   Instagram: "https://instagram.com/fizzlesmusic",

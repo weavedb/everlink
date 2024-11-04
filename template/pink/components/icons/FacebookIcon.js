@@ -1,11 +1,11 @@
-const FacebookIcon = ({ strokeColor = "#000000", size = 28 }) => {
+const FacebookIcon = ({strokeColor = "#000000", size = 24}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
-      width={24}
-      height={24}
-      color={"#000000"}
+      width={size}
+      height={size}
+      color={strokeColor}
       fill={"none"}
     >
       <path

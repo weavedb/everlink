@@ -147,10 +147,16 @@ export default function Home({ _date = null, _fullUrl = null }) {
   const SocialButton = ({ url, icon, label }) => {
     return url ? (
       <Link target="_blank" rel="noopener noreferrer" href={formatUrl(url)}>
-        <IconButton icon={icon} variant="ghost" aria-label={label} />
+        <IconButton
+          colorScheme="whiteAlpha"
+          icon={icon}
+          variant="ghost"
+          aria-label={label}
+        />
       </Link>
     ) : (
       <IconButton
+        colorScheme="whiteAlpha"
         icon={icon}
         variant="ghost"
         aria-label={label}
@@ -209,6 +215,7 @@ export default function Home({ _date = null, _fullUrl = null }) {
             <Flex w="100%" justifyContent="flex-end">
               <IconButton
                 icon={<ExternalLinkIcon />}
+                colorScheme="whiteAlpha"
                 variant="ghost"
                 aria-label="Share"
                 onClick={() => {
@@ -315,7 +322,7 @@ export default function Home({ _date = null, _fullUrl = null }) {
             <Button
               mt={8}
               size="md"
-              colorScheme="blackAlpha"
+              colorScheme="whiteAlpha"
               variant="solid"
               borderRadius="full"
             >
