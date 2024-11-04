@@ -52,7 +52,7 @@ export default function Home() {
   const [userRecords, setUserRecords] = useState([])
   // const [userSubdomains, setUserSubdomains] = useState([])
   const [templates, setTemplates] = useState({})
-  const [showProfileForm, setShowProfileForm] = useState(true)
+  const [showProfileForm, setShowProfileForm] = useState(false)
   const [selectedTemplateTxId, setSelectedTemplateTxId] = useState(
     "BXNtVGO1ZoGhlUzBb0fX7tVL15rtu6xb-lWEtMP2u-U"
   )
@@ -485,7 +485,19 @@ export default function Home() {
                               }}
                             />
                           </Td>
-                          <Td>{record.Subdomain}</Td>
+                          <Td textAlign="left">
+                            <Text
+                                as="a"
+                                href={`https://${record.Subdomain}_everlink.ar.io`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                color="#7023b6"
+                                textDecoration="underline"
+                                _hover={{ cursor: "pointer" }}
+                              >
+                                {userRecords[index].Subdomain}
+                              </Text>
+                          </Td>
                           <Td>{userRecords[index].TransactionId}</Td>
                         </Tr>
                       ))}
@@ -561,7 +573,7 @@ export default function Home() {
               >
               <UpDownIcon boxSize={3}  />
               <Text  fontSize="small">
-                Setup
+                Create Page
               </Text>
             </Button>
             </Flex>
@@ -836,7 +848,7 @@ export default function Home() {
                   button.disabled = false
                 }}
               >
-                Create Account
+                Login
               </Button>
            </Flex>
           </Flex>
