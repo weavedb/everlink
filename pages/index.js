@@ -14,19 +14,11 @@ import {
   Td,
   Divider,
   TableContainer,
-  Spacer,
-  Heading,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  Box,
-  AccordionIcon,
-  AccordionPanel,
   FormControl,
   FormHelperText,
   Select,
 } from "@chakra-ui/react"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { ANT } from "@ar.io/sdk/web"
 import { useAppContext } from "@/context/AppContext"
 import {
@@ -37,12 +29,8 @@ import {
 } from "@permaweb/aoconnect"
 import {
   AddIcon,
-  CheckIcon,
   DeleteIcon,
   EditIcon,
-  MinusIcon,
-  PlusSquareIcon,
-  SmallAddIcon,
   UpDownIcon,
 } from "@chakra-ui/icons"
 import UserIcon from "@/components/icons/UserIcon"

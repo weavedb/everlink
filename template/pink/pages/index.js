@@ -277,7 +277,7 @@ export default function Home({ _date = null, _fullUrl = null }) {
             ))}
           </Flex>
 
-          <Link target="_blank" href="https://everlink.ar.io">
+          <Link target="_blank" href="https://everlink.fun">
             <Button
               mt={8}
               size="md"
