@@ -27,12 +27,7 @@ import {
   result,
   dryrun,
 } from "@permaweb/aoconnect"
-import {
-  AddIcon,
-  DeleteIcon,
-  EditIcon,
-  UpDownIcon,
-} from "@chakra-ui/icons"
+import { AddIcon, DeleteIcon, EditIcon, UpDownIcon } from "@chakra-ui/icons"
 import UserIcon from "@/components/icons/UserIcon"
 import FacebookIcon from "@/components/icons/FacebookIcon"
 import TwitterIcon from "@/components/icons/TwitterIcon"
@@ -40,6 +35,8 @@ import TiktokIcon from "@/components/icons/TiktokIcon"
 import InstagramIcon from "@/components/icons/InstagramIcon"
 import LinkedinIcon from "@/components/icons/LinkedinIcon"
 import Head from "next/head"
+import TelegramIcon from "@/components/icons/TelegramIcon"
+import { Link } from "arnext"
 
 const ANT_PROCESS_ID = "uBe2djD7Qqx7-yVMkPU9cY-QjWeorHi_YCllxH_Iihw"
 const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
@@ -397,7 +394,7 @@ export default function Home() {
     }
     return url
   }
-  
+
   const meta = {
     title: "Everlink",
     description: "Forever on Arweave",
@@ -440,8 +437,35 @@ export default function Home() {
               <Text fontSize="3xl" color="#7023b6" fontWeight="bold">
                 Everlink
               </Text>
-              <Flex _hover={{ cursor: "pointer" }} onClick={logout}>
-                <UserIcon strokeColor="#7023b6" size="34" />
+              <Flex gap={4} alignItems="center">
+                <Link
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://t.me/everlinkdotfun"
+                >
+                  <TelegramIcon strokeColor="#7023b6" size={18} />
+                </Link>
+
+                <Link
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://x.com/everlinkdotfun"
+                >
+                  <TwitterIcon strokeColor="#7023b6" size={18} />
+                </Link>
+
+                <Flex paddingX={[0, 2]}></Flex>
+
+                <Flex
+                  _hover={{ cursor: "pointer" }}
+                  onClick={() => {
+                    // go back to the login page instead of logout()
+                    window.location.reload()
+                  }}
+                >
+                  {" "}
+                  <UserIcon strokeColor="#7023b6" size={34} />
+                </Flex>
               </Flex>
             </Flex>
             <Divider />
@@ -505,16 +529,16 @@ export default function Home() {
                           </Td>
                           <Td textAlign="left">
                             <Text
-                                as="a"
-                                href={`https://${record.Subdomain}_everlink.ar.io`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                color="#7023b6"
-                                textDecoration="underline"
-                                _hover={{ cursor: "pointer" }}
-                              >
-                                {userRecords[index].Subdomain}
-                              </Text>
+                              as="a"
+                              href={`https://${record.Subdomain}_everlink.ar.io`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              color="#7023b6"
+                              textDecoration="underline"
+                              _hover={{ cursor: "pointer" }}
+                            >
+                              {userRecords[index].Subdomain}
+                            </Text>
                           </Td>
                           <Td>{userRecords[index].TransactionId}</Td>
                         </Tr>
@@ -546,9 +570,6 @@ export default function Home() {
                 focusBorderColor="#7023b6"
                 _placeholder={{ color: "gray.500" }}
                 onChange={(e) => setNewSubdomain(e.target.value)}
-                _hover={{
-                  ring:0
-                }}
               />
               <Text px="4" color="gray.500">
                 _everlink.ar.io
@@ -569,8 +590,6 @@ export default function Home() {
               Available?
             </Button>
 
-           
-
             <Flex
               paddingY={4}
               alignItems="center"
@@ -579,21 +598,20 @@ export default function Home() {
               maxW="md"
               cursor="pointer"
             >
-              <Button variant="outline"
-              display="flex"
-              gap={2} 
-              onClick={() => setShowProfileForm(!showProfileForm)}
-              color="#7023b6"
-              _hover={{
-                background:"#7023b6",
-                color:"white"
-              }}
+              <Button
+                variant="outline"
+                display="flex"
+                gap={2}
+                onClick={() => setShowProfileForm(!showProfileForm)}
+                color="#7023b6"
+                _hover={{
+                  background: "#7023b6",
+                  color: "white",
+                }}
               >
-              <UpDownIcon boxSize={3}  />
-              <Text  fontSize="small">
-                Create Page
-              </Text>
-            </Button>
+                <UpDownIcon boxSize={3} />
+                <Text fontSize="small">Create Page</Text>
+              </Button>
             </Flex>
 
             {showProfileForm && (
@@ -606,7 +624,7 @@ export default function Home() {
                     aria-label="Name"
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="Enter your name"
-                    _placeholder={{fontSize:14}}
+                    _placeholder={{ fontSize: 14 }}
                   />
                 </FormControl>
                 <FormControl>
@@ -617,7 +635,7 @@ export default function Home() {
                     aria-label="Description"
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Enter description"
-                    _placeholder={{fontSize:14}}
+                    _placeholder={{ fontSize: 14 }}
                   />
                 </FormControl>
                 <FormControl>
@@ -626,7 +644,7 @@ export default function Home() {
                     focusBorderColor="#7023b6"
                     value={selectedTemplateTxId}
                     onChange={(e) => setSelectedTemplateTxId(e.target.value)}
-                    _placeholder={{ fontSize:14}}
+                    _placeholder={{ fontSize: 14 }}
                     size="md"
                   >
                     {templates && Object.keys(templates).length > 0 ? (
@@ -650,7 +668,7 @@ export default function Home() {
                     value={twitter}
                     aria-label="Twitter"
                     onChange={(e) => setTwitter(e.target.value)}
-                    _placeholder={{ fontSize:14}}
+                    _placeholder={{ fontSize: 14 }}
                   />
                 </Flex>
                 <Flex alignItems="center" gap={2}>
@@ -661,7 +679,7 @@ export default function Home() {
                     value={tiktok}
                     aria-label="Tiktok"
                     onChange={(e) => setTiktok(e.target.value)}
-                    _placeholder={{ fontSize:14}}
+                    _placeholder={{ fontSize: 14 }}
                   />
                 </Flex>
 
@@ -673,7 +691,7 @@ export default function Home() {
                     value={instagram}
                     aria-label="Instagram"
                     onChange={(e) => setInstagram(e.target.value)}
-                    _placeholder={{ fontSize:14}}
+                    _placeholder={{ fontSize: 14 }}
                   />
                 </Flex>
                 <Flex alignItems="center" gap={2}>
@@ -684,7 +702,7 @@ export default function Home() {
                     value={facebook}
                     aria-label="Facebook"
                     onChange={(e) => setFacebook(e.target.value)}
-                    _placeholder={{ fontSize:14}}
+                    _placeholder={{ fontSize: 14 }}
                   />
                 </Flex>
                 <Flex alignItems="center" gap={2}>
@@ -695,7 +713,7 @@ export default function Home() {
                     value={linkedin}
                     aria-label="Linkedin"
                     onChange={(e) => setLinkedin(e.target.value)}
-                    _placeholder={{ fontSize:14}}
+                    _placeholder={{ fontSize: 14 }}
                   />
                 </Flex>
 
@@ -708,21 +726,19 @@ export default function Home() {
                   onClick={addNewLink}
                   cursor="pointer"
                 >
-
-                    <Button variant="outline"
-                      display="flex"
-                      gap={2} 
-                      onClick={addNewLink}
-                      color="#7023b6"
-                      _hover={{
-                        background:"#7023b6",
-                        color:"white"
-                      }}
-                    >
-                       <AddIcon boxSize={3} />
-                      <Text  fontSize="small">
-                      Add Link
-                    </Text>
+                  <Button
+                    variant="outline"
+                    display="flex"
+                    gap={2}
+                    onClick={addNewLink}
+                    color="#7023b6"
+                    _hover={{
+                      background: "#7023b6",
+                      color: "white",
+                    }}
+                  >
+                    <AddIcon boxSize={3} />
+                    <Text fontSize="small">Add Link</Text>
                   </Button>
                 </Flex>
                 <FormControl>
@@ -733,7 +749,7 @@ export default function Home() {
                     aria-label="Title"
                     placeholder="Enter link title"
                     onChange={(e) => setTitle(e.target.value)}
-                    _placeholder={{ fontSize:14}}
+                    _placeholder={{ fontSize: 14 }}
                   />
                 </FormControl>
                 <FormControl>
@@ -744,7 +760,7 @@ export default function Home() {
                     aria-label="Url"
                     onChange={(e) => setUrl(e.target.value)}
                     placeholder="Enter link URL"
-                    _placeholder={{ fontSize:14}}
+                    _placeholder={{ fontSize: 14 }}
                   />
                 </FormControl>
                 <Flex paddingY={2}></Flex>
@@ -851,11 +867,11 @@ export default function Home() {
             >
               Available?
             </Button>
-           <Flex alignItems="center" gap={2} marginY={4}>
-            <Text fontSize="sm" color="white">
+            <Flex alignItems="center" gap={2} marginY={4}>
+              <Text fontSize="sm" color="white">
                 Ready to create your profile?
               </Text>
-            <Button
+              <Button
                 variant="link"
                 color="#9f7aea"
                 onClick={async (event) => {
@@ -868,7 +884,7 @@ export default function Home() {
               >
                 Login
               </Button>
-           </Flex>
+            </Flex>
           </Flex>
         </>
       )}

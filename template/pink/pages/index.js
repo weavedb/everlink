@@ -146,7 +146,7 @@ export default function Home({ _date = null, _fullUrl = null }) {
 
   const SocialButton = ({ url, icon, label }) => {
     return url ? (
-      <Link target="_blank" href={formatUrl(url)}>
+      <Link target="_blank" rel="noopener noreferrer" href={formatUrl(url)}>
         <IconButton icon={icon} variant="ghost" aria-label={label} />
       </Link>
     ) : (
@@ -283,6 +283,7 @@ export default function Home({ _date = null, _fullUrl = null }) {
               <Flex width="100%" key={index}>
                 <Link
                   target="_blank"
+                  rel="noopener noreferrer"
                   href={formatUrl(link?.url)}
                   style={{ width: "100%", display: "block" }}
                 >
@@ -300,7 +301,11 @@ export default function Home({ _date = null, _fullUrl = null }) {
             ))}
           </Flex>
 
-          <Link target="_blank" href="https://everlink.fun">
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://everlink.fun"
+          >
             <Button
               mt={8}
               size="md"
