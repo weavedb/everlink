@@ -25,16 +25,16 @@ import {
   FormControl,
   FormHelperText,
   Select,
-} from "@chakra-ui/react"
-import { useState, useEffect } from "react"
-import { ANT } from "@ar.io/sdk/web"
-import { useAppContext } from "@/context/AppContext"
+} from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import { ANT } from "@ar.io/sdk/web";
+import { useAppContext } from "@/context/AppContext";
 import {
   message,
   createDataItemSigner,
   result,
   dryrun,
-} from "@permaweb/aoconnect"
+} from "@permaweb/aoconnect";
 import {
   AddIcon,
   CheckIcon,
@@ -44,39 +44,39 @@ import {
   PlusSquareIcon,
   SmallAddIcon,
   UpDownIcon,
-} from "@chakra-ui/icons"
-import UserIcon from "@/components/icons/UserIcon"
-import FacebookIcon from "@/components/icons/FacebookIcon"
-import TwitterIcon from "@/components/icons/TwitterIcon"
-import TiktokIcon from "@/components/icons/TiktokIcon"
-import InstagramIcon from "@/components/icons/InstagramIcon"
-import LinkedinIcon from "@/components/icons/LinkedinIcon"
+} from "@chakra-ui/icons";
+import UserIcon from "@/components/icons/UserIcon";
+import FacebookIcon from "@/components/icons/FacebookIcon";
+import TwitterIcon from "@/components/icons/TwitterIcon";
+import TiktokIcon from "@/components/icons/TiktokIcon";
+import InstagramIcon from "@/components/icons/InstagramIcon";
+import LinkedinIcon from "@/components/icons/LinkedinIcon";
 
-const ANT_PROCESS_ID = "uBe2djD7Qqx7-yVMkPU9cY-QjWeorHi_YCllxH_Iihw"
-const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
-const BASIC_TEMPLATE_TX_ID = "BXNtVGO1ZoGhlUzBb0fX7tVL15rtu6xb-lWEtMP2u-U"
+const ANT_PROCESS_ID = "uBe2djD7Qqx7-yVMkPU9cY-QjWeorHi_YCllxH_Iihw";
+const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8";
+const BASIC_TEMPLATE_TX_ID = "BXNtVGO1ZoGhlUzBb0fX7tVL15rtu6xb-lWEtMP2u-U";
 
 export default function Home() {
-  const [newSubdomain, setNewSubdomain] = useState("")
-  const [username, setUsername] = useState("")
-  const [description, setDescription] = useState("")
-  const [userRecords, setUserRecords] = useState([])
+  const [newSubdomain, setNewSubdomain] = useState("");
+  const [username, setUsername] = useState("");
+  const [description, setDescription] = useState("");
+  const [userRecords, setUserRecords] = useState([]);
   // const [userSubdomains, setUserSubdomains] = useState([])
-  const [templates, setTemplates] = useState({})
-  const [showProfileForm, setShowProfileForm] = useState(false)
+  const [templates, setTemplates] = useState({});
+  const [showProfileForm, setShowProfileForm] = useState(true);
   const [selectedTemplateTxId, setSelectedTemplateTxId] = useState(
     "BXNtVGO1ZoGhlUzBb0fX7tVL15rtu6xb-lWEtMP2u-U"
-  )
-  const [title, setTitle] = useState("")
-  const [url, setUrl] = useState("")
-  const [links, setLinks] = useState([])
-  const [twitter, setTwitter] = useState("")
-  const [tiktok, setTiktok] = useState("")
-  const [instagram, setInstagram] = useState("")
-  const [facebook, setFacebook] = useState("")
-  const [linkedin, setLinkedin] = useState("")
+  );
+  const [title, setTitle] = useState("");
+  const [url, setUrl] = useState("");
+  const [links, setLinks] = useState([]);
+  const [twitter, setTwitter] = useState("");
+  const [tiktok, setTiktok] = useState("");
+  const [instagram, setInstagram] = useState("");
+  const [facebook, setFacebook] = useState("");
+  const [linkedin, setLinkedin] = useState("");
 
-  const toast = useToast()
+  const toast = useToast();
   const {
     connectWallet,
     disconnectWallet,
@@ -84,13 +84,13 @@ export default function Home() {
     setIsConnected,
     setUserAddress,
     userAddress,
-  } = useAppContext()
+  } = useAppContext();
 
   const handleMessageResultError = (_result) => {
     const errorTag = _result?.Messages?.[0]?.Tags.find(
       (tag) => tag.name === "Error"
-    )
-    console.log("errorTag", errorTag)
+    );
+    console.log("errorTag", errorTag);
     if (errorTag) {
       toast({
         description: _result.Messages[0].Data,
@@ -98,23 +98,23 @@ export default function Home() {
         duration: 2000,
         isClosable: true,
         position: "top",
-      })
-      return true
+      });
+      return true;
     }
-    return false
-  }
+    return false;
+  };
 
   const getRecords = async () => {
     const ant = ANT.init({
       processId: ANT_PROCESS_ID,
-    })
-    const _records = await ant.getRecords()
-    console.log("_records", _records)
-    return _records
-  }
+    });
+    const _records = await ant.getRecords();
+    console.log("_records", _records);
+    return _records;
+  };
 
   const checkAvailability = async () => {
-    console.log("checkAvailability", newSubdomain)
+    console.log("checkAvailability", newSubdomain);
     if (!newSubdomain || newSubdomain.trim() === "") {
       toast({
         title: "Subdomain cannot be empty",
@@ -122,13 +122,13 @@ export default function Home() {
         duration: 1000,
         isClosable: true,
         position: "top",
-      })
-      return
+      });
+      return;
     }
 
-    console.log("newSubdomain", newSubdomain)
+    console.log("newSubdomain", newSubdomain);
 
-    const _records = await getRecords()
+    const _records = await getRecords();
     if (_records.hasOwnProperty(newSubdomain)) {
       toast({
         title: "Subdomain already exists in the records",
@@ -136,7 +136,7 @@ export default function Home() {
         duration: 2000,
         isClosable: true,
         position: "top",
-      })
+      });
     } else {
       toast({
         title: "Subdomain is available",
@@ -144,36 +144,36 @@ export default function Home() {
         duration: 2000,
         isClosable: true,
         position: "top",
-      })
+      });
     }
-  }
+  };
 
   const getTemplates = async () => {
     const _templatesResult = await dryrun({
       process: MAIN_PROCESS_ID,
       tags: [{ name: "Action", value: "Templates" }],
-    })
-    console.log("_templatesResult", _templatesResult)
-    if (handleMessageResultError(_templatesResult)) return
-    const _templatesResultData = _templatesResult.Messages[0].Data
-    console.log("_templatesResultData", _templatesResultData)
-    const jsonTemplates = JSON.parse(_templatesResultData)
-    console.log("jsonTemplates", jsonTemplates)
-    setTemplates(jsonTemplates)
+    });
+    console.log("_templatesResult", _templatesResult);
+    if (handleMessageResultError(_templatesResult)) return;
+    const _templatesResultData = _templatesResult.Messages[0].Data;
+    console.log("_templatesResultData", _templatesResultData);
+    const jsonTemplates = JSON.parse(_templatesResultData);
+    console.log("jsonTemplates", jsonTemplates);
+    setTemplates(jsonTemplates);
 
-    const firstTemplateKey = Object.keys(jsonTemplates)[0]
+    const firstTemplateKey = Object.keys(jsonTemplates)[0];
     if (firstTemplateKey) {
-      setSelectedTemplateTxId(jsonTemplates[firstTemplateKey])
+      setSelectedTemplateTxId(jsonTemplates[firstTemplateKey]);
     }
-  }
+  };
 
   const login = async () => {
-    const _connected = await connectWallet()
+    const _connected = await connectWallet();
     if (_connected.success === false) {
-      return
+      return;
     }
-    const _userAddress = _connected.userAddress
-    console.log("_userAddress", _userAddress)
+    const _userAddress = _connected.userAddress;
+    console.log("_userAddress", _userAddress);
 
     let tags = [
       { name: "Action", value: "UserRecord" },
@@ -181,25 +181,25 @@ export default function Home() {
         name: "WalletOwner",
         value: _userAddress,
       },
-    ]
+    ];
     const _result = await dryrun({
       process: MAIN_PROCESS_ID,
       tags,
-    })
-    console.log("_result", _result)
-    if (handleMessageResultError(_result)) return
-    const _resultData = _result.Messages[0].Data
-    console.log("_resultData", _resultData)
-    const jsonData = JSON.parse(_resultData)
-    console.log("jsonData", jsonData)
-    setUserRecords(jsonData)
+    });
+    console.log("_result", _result);
+    if (handleMessageResultError(_result)) return;
+    const _resultData = _result.Messages[0].Data;
+    console.log("_resultData", _resultData);
+    const jsonData = JSON.parse(_resultData);
+    console.log("jsonData", jsonData);
+    setUserRecords(jsonData);
     // setUserSubdomains(jsonData.map((record) => record.Subdomain))
-  }
+  };
 
   const logout = async () => {
-    const _connected = await disconnectWallet()
+    const _connected = await disconnectWallet();
     if (_connected.success === false) {
-      return
+      return;
     }
 
     toast({
@@ -207,10 +207,10 @@ export default function Home() {
       duration: 2000,
       isClosable: true,
       position: "top",
-    })
+    });
 
     // TODO: Redirect to index.js
-  }
+  };
 
   const publishProfile = async () => {
     if (!newSubdomain || !selectedTemplateTxId || !username) {
@@ -220,20 +220,20 @@ export default function Home() {
         duration: 2000,
         isClosable: true,
         position: "top",
-      })
-      return
+      });
+      return;
     }
 
     try {
-      const _connected = await connectWallet()
-      console.log("_connected", _connected)
+      const _connected = await connectWallet();
+      console.log("_connected", _connected);
       if (_connected.success === false) {
-        return
+        return;
       }
 
       const existingRecordIndex = userRecords.findIndex(
         (record) => record.Subdomain === newSubdomain
-      )
+      );
 
       const messageId = await message({
         process: MAIN_PROCESS_ID,
@@ -288,18 +288,18 @@ export default function Home() {
           },
         ],
         signer: createDataItemSigner(globalThis.arweaveWallet),
-      })
-      console.log("messageId", messageId)
+      });
+      console.log("messageId", messageId);
 
       const _result = await result({
         message: messageId,
         process: MAIN_PROCESS_ID,
-      })
-      console.log("_result", _result)
+      });
+      console.log("_result", _result);
 
       if (existingRecordIndex !== -1) {
         setUserRecords((prevRecords) => {
-          const newRecords = [...prevRecords]
+          const newRecords = [...prevRecords];
           newRecords[existingRecordIndex] = {
             Subdomain: newSubdomain,
             Username: username,
@@ -311,9 +311,9 @@ export default function Home() {
             Instagram: instagram,
             Facebook: facebook,
             Linkedin: linkedin,
-          }
-          return newRecords
-        })
+          };
+          return newRecords;
+        });
       } else {
         setUserRecords((prevRecords) => [
           ...prevRecords,
@@ -329,7 +329,7 @@ export default function Home() {
             Facebook: facebook,
             Linkedin: linkedin,
           },
-        ])
+        ]);
       }
 
       toast({
@@ -341,17 +341,17 @@ export default function Home() {
         duration: 2000,
         isClosable: true,
         position: "top",
-      })
+      });
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
-  }
+  };
 
   const removeUserRecord = async (record, index) => {
-    const _connected = await connectWallet()
-    console.log("_connected", _connected)
+    const _connected = await connectWallet();
+    console.log("_connected", _connected);
     if (_connected.success === false) {
-      return
+      return;
     }
 
     try {
@@ -368,18 +368,18 @@ export default function Home() {
           },
         ],
         signer: createDataItemSigner(globalThis.arweaveWallet),
-      })
-      console.log("messageId", messageId)
+      });
+      console.log("messageId", messageId);
 
       const _result = await result({
         message: messageId,
         process: MAIN_PROCESS_ID,
-      })
-      console.log("_result", _result)
+      });
+      console.log("_result", _result);
 
       setUserRecords((prevUserRecords) =>
         prevUserRecords.filter((_, i) => i !== index)
-      )
+      );
 
       toast({
         title: "Subdomain record removed successfully",
@@ -387,27 +387,27 @@ export default function Home() {
         duration: 2000,
         isClosable: true,
         position: "top",
-      })
+      });
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
-  }
+  };
 
   const addNewLink = async () => {
-    const _url = formatUrl(url)
-    setLinks([...links, { title, url: _url }])
-  }
+    const _url = formatUrl(url);
+    setLinks([...links, { title, url: _url }]);
+  };
 
   const removeLink = (index) => {
-    setLinks(links.filter((_, i) => i !== index))
-  }
+    setLinks(links.filter((_, i) => i !== index));
+  };
 
   const formatUrl = (url) => {
     if (!/^https?:\/\//i.test(url)) {
-      return `https://${url}`
+      return `https://${url}`;
     }
-    return url
-  }
+    return url;
+  };
 
   return (
     <ChakraProvider>
@@ -458,20 +458,20 @@ export default function Home() {
                               colorScheme="purple"
                               size="sm"
                               onClick={async (event) => {
-                                console.log("userRecords", userRecords[index])
-                                setUsername(userRecords[index].Username)
-                                setDescription(userRecords[index].Description)
-                                setLinks(JSON.parse(userRecords[index].Links))
-                                setNewSubdomain(userRecords[index].Subdomain)
+                                console.log("userRecords", userRecords[index]);
+                                setUsername(userRecords[index].Username);
+                                setDescription(userRecords[index].Description);
+                                setLinks(JSON.parse(userRecords[index].Links));
+                                setNewSubdomain(userRecords[index].Subdomain);
                                 setSelectedTemplateTxId(
                                   userRecords[index].TransactionId
-                                )
-                                setTwitter(userRecords[index].Twitter)
-                                setTiktok(userRecords[index].Tiktok)
-                                setInstagram(userRecords[index].Instagram)
-                                setFacebook(userRecords[index].Facebook)
-                                setLinkedin(userRecords[index].Linkedin)
-                                setShowProfileForm(true)
+                                );
+                                setTwitter(userRecords[index].Twitter);
+                                setTiktok(userRecords[index].Tiktok);
+                                setInstagram(userRecords[index].Instagram);
+                                setFacebook(userRecords[index].Facebook);
+                                setLinkedin(userRecords[index].Linkedin);
+                                setShowProfileForm((prev) => !prev);
                               }}
                             />
                             <IconButton
@@ -481,14 +481,14 @@ export default function Home() {
                               colorScheme="red"
                               size="sm"
                               onClick={async (event) => {
-                                console.log("userRecords", userRecords[index])
-                                const button = event.target
-                                button.disabled = true
+                                console.log("userRecords", userRecords[index]);
+                                const button = event.target;
+                                button.disabled = true;
                                 await removeUserRecord(
                                   userRecords[index],
                                   index
-                                )
-                                button.disabled = false
+                                );
+                                button.disabled = false;
                               }}
                             />
                           </Td>
@@ -533,11 +533,11 @@ export default function Home() {
               width="100%"
               maxW="md"
               onClick={async (event) => {
-                const button = event.target
-                button.disabled = true
+                const button = event.target;
+                button.disabled = true;
 
-                await checkAvailability()
-                button.disabled = false
+                await checkAvailability();
+                button.disabled = false;
               }}
             >
               Available?
@@ -549,13 +549,25 @@ export default function Home() {
               gap={2}
               width="100%"
               maxW="md"
-              onClick={() => setShowProfileForm(!showProfileForm)}
-              cursor="pointer"
             >
-              <UpDownIcon boxSize={3} color="#7023b6" />
-              <Text color="#7023b6" fontSize="small">
-                Setup
-              </Text>
+              <Button
+                variant="outline"
+                display="flex"
+                gap={2}
+                alignItems="center"
+                opacity={0.7}
+                onClick={() => setShowProfileForm(!showProfileForm)}
+                color="#7023b6"
+                _hover={{
+                  opacity: 100,
+                  borderWidth: 2,
+                  background: "#7023b6",
+                  color: "white",
+                }}
+              >
+                <UpDownIcon boxSize={3} />
+                <Text fontSize="small">Setup</Text>
+              </Button>
             </Flex>
 
             {showProfileForm && (
@@ -567,6 +579,10 @@ export default function Home() {
                     value={username}
                     aria-label="Name"
                     onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Enter your name"
+                    _placeholder={{
+                      fontSize: 14,
+                    }}
                   />
                 </FormControl>
                 <FormControl>
@@ -576,6 +592,10 @@ export default function Home() {
                     value={description}
                     aria-label="Description"
                     onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Enter the description"
+                    _placeholder={{
+                      fontSize: 14,
+                    }}
                   />
                 </FormControl>
                 <FormControl>
@@ -584,6 +604,10 @@ export default function Home() {
                     focusBorderColor="#7023b6"
                     value={selectedTemplateTxId}
                     onChange={(e) => setSelectedTemplateTxId(e.target.value)}
+                    placeholder="Enter the description"
+                    _placeholder={{
+                      fontSize: 14,
+                    }}
                   >
                     {templates && Object.keys(templates).length > 0 ? (
                       Object.entries(templates).map(([key, value]) => (
@@ -606,6 +630,9 @@ export default function Home() {
                     value={twitter}
                     aria-label="Twitter"
                     onChange={(e) => setTwitter(e.target.value)}
+                    _placeholder={{
+                      fontSize: 14,
+                    }}
                   />
                 </Flex>
                 <Flex alignItems="center" gap={2}>
@@ -616,6 +643,9 @@ export default function Home() {
                     value={tiktok}
                     aria-label="Tiktok"
                     onChange={(e) => setTiktok(e.target.value)}
+                    _placeholder={{
+                      fontSize: 14,
+                    }}
                   />
                 </Flex>
 
@@ -627,6 +657,9 @@ export default function Home() {
                     value={instagram}
                     aria-label="Instagram"
                     onChange={(e) => setInstagram(e.target.value)}
+                    _placeholder={{
+                      fontSize: 14,
+                    }}
                   />
                 </Flex>
                 <Flex alignItems="center" gap={2}>
@@ -647,6 +680,9 @@ export default function Home() {
                     value={linkedin}
                     aria-label="Linkedin"
                     onChange={(e) => setLinkedin(e.target.value)}
+                    _placeholder={{
+                      fontSize: 14,
+                    }}
                   />
                 </Flex>
 
@@ -671,6 +707,10 @@ export default function Home() {
                     value={title}
                     aria-label="Title"
                     onChange={(e) => setTitle(e.target.value)}
+                    _placeholder={{
+                      fontSize: 14,
+                    }}
+                    placeholder="Enter Title here"
                   />
                 </FormControl>
                 <FormControl>
@@ -680,6 +720,10 @@ export default function Home() {
                     value={url}
                     aria-label="Url"
                     onChange={(e) => setUrl(e.target.value)}
+                    _placeholder={{
+                      fontSize: 14,
+                    }}
+                    placeholder="Enter URL here"
                   />
                 </FormControl>
                 <Flex paddingY={2}></Flex>
@@ -767,6 +811,7 @@ export default function Home() {
                 focusBorderColor="none"
                 _placeholder={{ color: "gray.500" }}
                 onChange={(e) => setNewSubdomain(e.target.value)}
+                _focus={{ ring: 0 }}
               />
               <Text px="4" color="gray.500">
                 _everlink.ar.io
@@ -777,11 +822,11 @@ export default function Home() {
               width="100%"
               maxW="md"
               onClick={async (event) => {
-                const button = event.target
-                button.disabled = true
+                const button = event.target;
+                button.disabled = true;
 
-                await checkAvailability()
-                button.disabled = false
+                await checkAvailability();
+                button.disabled = false;
               }}
             >
               Available?
@@ -792,19 +837,19 @@ export default function Home() {
                 variant="link"
                 color="#9f7aea"
                 onClick={async (event) => {
-                  const button = event.target
-                  button.disabled = true
-                  await getTemplates()
-                  await login()
-                  button.disabled = false
+                  const button = event.target;
+                  button.disabled = true;
+                  await getTemplates();
+                  await login();
+                  button.disabled = false;
                 }}
               >
-                Log in
+                Create here
               </Button>
             </Text>
           </Flex>
         </>
       )}
     </ChakraProvider>
-  )
+  );
 }
