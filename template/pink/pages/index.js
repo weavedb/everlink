@@ -15,6 +15,7 @@ import TiktokIcon from "@/components/icons/TiktokIcon"
 import FacebookIcon from "@/components/icons/FacebookIcon"
 import LinkedinIcon from "@/components/icons/LinkedinIcon"
 import { ExternalLinkIcon, SunIcon } from "@chakra-ui/icons"
+import Head from "next/head"
 
 const getDate = async (date) => date ?? Date.now()
 const getFullUrl = async (url) => url ?? window.location.href
@@ -159,9 +160,31 @@ export default function Home({ _date = null, _fullUrl = null }) {
     )
   }
 
+  const meta = {
+    title: "Everlink",
+    description: "Forever on Arweave",
+    image: "z8i02U4dwqsuQmex-iAIQXcs-3LBU92tPZ8WGnCB5aM",
+  }
+
   return (
     <>
       <ChakraProvider>
+        <Head>
+          <title>{meta.title}</title>
+          <meta name="description" content={meta.description} />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content={`${meta.title}`} />
+          <meta name="twitter:description" content={meta.description} />
+          <meta
+            name="twitter:image"
+            content={`https://arweave.net/${meta.image}`}
+          />
+          <meta property="og:title" content={`${meta.title}`} />
+          <meta name="og:description" content={meta.description} />
+          <meta name="og:image" content={`https://arweave.net/${meta.image}`} />
+          <link rel="icon" href="./favicon.ico" />
+        </Head>
         <Flex
           direction="column"
           alignItems="center"
