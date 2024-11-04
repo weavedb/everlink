@@ -885,6 +885,24 @@ export default function Home() {
                 Login
               </Button>
             </Flex>
+
+            <Flex gap={4}>
+              <Link
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://t.me/everlinkdotfun"
+              >
+                <TelegramIcon strokeColor="white" size={18} />
+              </Link>
+
+              <Link
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://x.com/everlinkdotfun"
+              >
+                <TwitterIcon strokeColor="white" size={18} />
+              </Link>
+            </Flex>
           </Flex>
         </>
       )}
