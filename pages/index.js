@@ -38,9 +38,8 @@ import Head from "next/head"
 import TelegramIcon from "@/components/icons/TelegramIcon"
 import { Link } from "arnext"
 
-const ANT_PROCESS_ID = "uBe2djD7Qqx7-yVMkPU9cY-QjWeorHi_YCllxH_Iihw"
+const ANT_PROCESS_ID = "0MV4IRiORl-mw5FKx7PzwIQrdrz6eC8qJNd-52sAJNI"
 const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
-const BASIC_TEMPLATE_TX_ID = "BXNtVGO1ZoGhlUzBb0fX7tVL15rtu6xb-lWEtMP2u-U"
 
 export default function Home() {
   const [newSubdomain, setNewSubdomain] = useState("")
