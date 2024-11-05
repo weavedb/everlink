@@ -472,7 +472,7 @@ export default function Home() {
             {userRecords.length > 0 ? (
               <>
                 {/* <Heading size="md" color="#7023b6" mb={4}>Subdomain</Heading> */}
-                <TableContainer width="100%" maxW="md">
+                <TableContainer width="100%" maxW="lg">
                   <Table size="sm">
                     <Thead>
                       <Tr>
@@ -559,7 +559,7 @@ export default function Home() {
               bg="white"
               borderRadius="md"
               width="100%"
-              maxW="md"
+              maxW="lg"
               mb="4"
             >
               <Input
@@ -577,7 +577,7 @@ export default function Home() {
             <Button
               colorScheme="purple"
               width="100%"
-              maxW="md"
+              maxW="lg"
               onClick={async (event) => {
                 const button = event.target
                 button.disabled = true
@@ -594,7 +594,7 @@ export default function Home() {
               alignItems="center"
               gap={2}
               width="100%"
-              maxW="md"
+              maxW="lg"
               cursor="pointer"
             >
               <Button
@@ -614,7 +614,7 @@ export default function Home() {
             </Flex>
 
             {showProfileForm && (
-              <Flex direction="column" gap={2} width="100%" maxW="md">
+              <Flex direction="column" gap={2} width="100%" maxW="lg">
                 <FormControl>
                   <FormHelperText fontSize="xs">Name</FormHelperText>
                   <Input
@@ -721,7 +721,7 @@ export default function Home() {
                   alignItems="center"
                   gap={2}
                   width="100%"
-                  maxW="md"
+                  maxW="lg"
                   onClick={addNewLink}
                   cursor="pointer"
                 >
@@ -807,7 +807,7 @@ export default function Home() {
                   colorScheme="purple"
                   onClick={publishProfile}
                   width="100%"
-                  maxW="md"
+                  maxW="lg"
                 >
                   Publish Profile
                 </Button>
