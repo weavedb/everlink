@@ -14,6 +14,9 @@ Built with [Arweave](https://github.com/ArweaveTeam), [AO](https://github.com/pe
 4. Publish and share your unique Everlink profile
 
 
+## ArNS
+https://everlink.ar.io
+
 ## Main Page Transaction ID
 0MV4IRiORl-mw5FKx7PzwIQrdrz6eC8qJNd-52sAJNI
 
@@ -25,3 +28,7 @@ ma-GzZRRNQvvd-JdqwdmBYwxgbmQn-O4SavYndec4e0
 
 ## Demo Video
 https://youtu.be/j3dpPx20ncc?si=yeq002-pRyqnmoSR
+
+## Socials
+https://x.com/everlinkdotfun
+https://t.me/everlinkdotfun
