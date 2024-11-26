@@ -469,7 +469,7 @@ export default function Home() {
             </Flex>
             <Divider />
             <Flex paddingY={8}></Flex>
-            {userRecords.length > 0 ? (
+            {userRecords?.length > 0 ? (
               <>
                 {/* <Heading size="md" color="#7023b6" mb={4}>Subdomain</Heading> */}
                 <TableContainer width="100%" maxW="lg">
@@ -568,7 +568,7 @@ export default function Home() {
                 border="none"
                 focusBorderColor="#7023b6"
                 _placeholder={{ color: "gray.500" }}
-                onChange={(e) => setNewSubdomain(e.target.value)}
+                onChange={(e) => setNewSubdomain(e.target.value.toLowerCase())}
               />
               <Text px="4" color="gray.500">
                 _everlink.ar.io
@@ -846,7 +846,7 @@ export default function Home() {
                 border="none"
                 focusBorderColor="none"
                 _placeholder={{ color: "gray.500" }}
-                onChange={(e) => setNewSubdomain(e.target.value)}
+                onChange={(e) => setNewSubdomain(e.target.value.toLowerCase())}
               />
               <Text px="4" color="gray.500">
                 _everlink.ar.io
