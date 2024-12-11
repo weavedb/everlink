@@ -1,35 +1,37 @@
-# Everlink
-
-Create your free personalized profile page with a custom subdomain.
-
-Share all your important links, social media profiles, and content in one place.
-
-Built with [Arweave](https://github.com/ArweaveTeam), [AO](https://github.com/permaweb/ao), [ar.io](https://github.com/ar-io/ar-io-sdk), and [ArNext](https://github.com/weavedb/arnext)
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-arnext-app`](https://github.com/weavedb/arnext).
 
 ## Getting Started
 
-1. Visit [everlink.fun](https://everlink.fun/) and check if your desired subdomain is available
-2. Connect your Arweave wallet 
-3. Customize your profile with links and social media
-4. Publish and share your unique Everlink profile
+[NodeJS](https://nodejs.org) version 20+. (If you haven't yet installed it, check out [this page](https://nodejs.org/en/download/package-manager) to find instructions for your OS).
 
+First, run the development server:
 
-## ArNS
-https://everlink.ar.io
+```bash
+yarn
+# or
+yarn --ignore-engines
 
-## Main Page Transaction ID
-0MV4IRiORl-mw5FKx7PzwIQrdrz6eC8qJNd-52sAJNI
+# then
+yarn dev
+# or
+yarn arweave
+```
 
-## Dark Template Transaction ID
-Ojbm5pHluWEdD3LgWikGORKOxSUAMdwY6F25OQvRKJ0
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Pink Template Transaction ID
-ma-GzZRRNQvvd-JdqwdmBYwxgbmQn-O4SavYndec4e0
+You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-## Demo Video
-https://youtu.be/j3dpPx20ncc?si=yeq002-pRyqnmoSR
+## Learn More
 
-## Socials
-https://x.com/everlinkdotfun
+To learn more about Next.js, take a look at the following resources:
 
-https://t.me/everlinkdotfun
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
