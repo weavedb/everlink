@@ -14,6 +14,7 @@
     "test": "mocha"
   },
   "dependencies": {
+    "@ar.io/sdk": "^3.1.0",
     "arnext": "^0.1.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@ardrive/turbo-sdk": "^1.19.0",
+    "@permaweb/aoconnect": "^0.0.62",
     "arnext-arkb": "^0.0.1",
     "autoprefixer": "^10.4.20",
     "cheerio": "^1.0.0",
