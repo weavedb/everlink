@@ -54,11 +54,17 @@ npx tailwindcss init -p
 
 edit `tailwind.config.js`
 
-create `styles/globals.css`
+create `/styles/globals.css`
+
+add import in `/pages/_app.js`
+
+```javascript
+import "@/styles/globals.css"
+```
+
+init shadcn and run app
 
 ```bash
-import globals.css in pages/_app.js
-
 npx shadcn@latest init
 
 yarn dev
