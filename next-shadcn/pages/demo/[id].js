@@ -1,15 +1,7 @@
-import { Link, useParams } from "arnext"
 import { useEffect, useState } from "react"
 
 import { AppHeader } from "@/components/AppHeader"
 import { ProfilesTable } from "@/components/ProfilesTable"
-import {
-  message,
-  createDataItemSigner,
-  result,
-  dryrun,
-} from "@permaweb/aoconnect"
-import { MAIN_PROCESS_ID, useAppContext } from "@/context/AppContext"
 
 // Sample data - replace with your actual data fetching logic
 const profiles = [
@@ -19,7 +11,7 @@ const profiles = [
   },
   {
     subdomain: "ethan",
-    templateTxId: "Ojbm5pHluWEdD3LgWikGORKQxSUAMdwY",
+    templateTxId: "8bIZKr6Wn15dYdkyXRfwaX7t_-MPzKB8w-WYxCyIXIw",
   },
   {
     subdomain: "heyhey",
@@ -38,41 +30,9 @@ export async function getStaticProps({ params: { id } }) {
 }
 
 export default function Home({ _id = null }) {
-  const { id } = useParams()
   const [pid, setPid] = useState(_id)
-  const { handleMessageResultError } = useAppContext()
 
-  const [userRecords, setUserRecords] = useState([])
-  useEffect(() => {
-    ;(async () => {
-      _id ?? setPid(await getID(id, _id))
-    })()
-  }, [])
-
-  useEffect(() => {
-    if (id) {
-      ;(async () => {
-        const _result = await dryrun({
-          process: MAIN_PROCESS_ID,
-          tags: [
-            { name: "Action", value: "UserRecord" },
-            {
-              name: "WalletOwner",
-              value: id,
-            },
-          ],
-        })
-        console.log("_result", _result)
-
-        if (handleMessageResultError(_result)) return
-        const _resultData = _result.Messages[0].Data
-        console.log("_resultData", _resultData)
-        const jsonData = JSON.parse(_resultData)
-        console.log("jsonData", jsonData)
-        setUserRecords(jsonData)
-      })()
-    }
-  }, [id])
+  useEffect(() => {}, [])
 
   const handleDelete = (subdomain) => {
     console.log("Delete:", subdomain)
@@ -81,12 +41,6 @@ export default function Home({ _id = null }) {
   const handleCopy = (subdomain) => {
     console.log("Copy:", subdomain)
   }
-
-  const profiles = [
-    // Example profiles data, replace with your actual data
-    { subdomain: "example1", templateTxId: "1234567890" },
-    { subdomain: "example2", templateTxId: "0987654321" },
-  ]
 
   return (
     <>
@@ -99,7 +53,7 @@ export default function Home({ _id = null }) {
             </div>
             <div className="bg-card rounded-lg shadow-lg p-6 md:p-8">
               <ProfilesTable
-                profiles={userRecords}
+                profiles={profiles}
                 onDelete={handleDelete}
                 onCopy={handleCopy}
               />

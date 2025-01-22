@@ -5,6 +5,9 @@ const AppContext = createContext()
 const BASE_UNIT = 10
 const DENOMINATION = 12
 
+export const ANT_PROCESS_ID = "0MV4IRiORl-mw5FKx7PzwIQrdrz6eC8qJNd-52sAJNI"
+export const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
+
 export const AppContextProvider = ({ children }) => {
   const { toast } = useToast()
   const [isConnected, setIsConnected] = useState(false)

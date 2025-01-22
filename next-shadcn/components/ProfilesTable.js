@@ -35,14 +35,14 @@ export function ProfilesTable({ profiles, onDelete, onCopy }) {
       <TableBody>
         {profiles.map((profile) => (
           <TableRow
-            key={profile.subdomain}
+            key={profile.Subdomain}
             className="border-b border-border hover:bg-muted/50"
           >
             <TableCell className="font-medium text-primary">
-              {profile.subdomain}
+              {profile.Subdomain}
             </TableCell>
             <TableCell className="font-mono text-muted-foreground">
-              {profile.templateTxId}
+              {profile.TransactionId}
             </TableCell>
             <TableCell>
               <DropdownMenu>
@@ -56,12 +56,12 @@ export function ProfilesTable({ profiles, onDelete, onCopy }) {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => onCopy(profile.subdomain)}>
+                  <DropdownMenuItem onClick={() => onCopy(profile.Subdomain)}>
                     <Copy className="mr-2 h-4 w-4" />
                     Copy
                   </DropdownMenuItem>
                   <DropdownMenuItem
-                    onClick={() => onDelete(profile.subdomain)}
+                    onClick={() => onDelete(profile.Subdomain)}
                     className="text-destructive focus:text-destructive"
                   >
                     <Trash className="mr-2 h-4 w-4" />
