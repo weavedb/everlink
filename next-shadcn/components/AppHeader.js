@@ -17,12 +17,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-export function Header() {
+export function AppHeader() {
   return (
     <header className="border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      {/* <div className="max-w-7xl mx-auto"> */}
-      <div className="flex h-16 items-center px-6">
-        <Link href="/" className="font-bold text-2xl text-primary">
+      <div className="flex items-center px-6 py-3">
+        <Link href="/" className="font-bold text-3xl text-primary">
           Everlink
         </Link>
         <div className="ml-auto flex items-center gap-4">
@@ -61,7 +60,6 @@ export function Header() {
           </DropdownMenu>
         </div>
       </div>
-      {/* </div> */}
     </header>
   )
 }
