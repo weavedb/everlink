@@ -14,7 +14,9 @@
     "test": "mocha"
   },
   "dependencies": {
-    "@ar.io/sdk": "^3.1.0",
+    "@ar.io/sdk": "^3.2.0",
+    "@radix-ui/react-slot": "^1.1.1",
+    "@radix-ui/react-toast": "^1.2.4",
     "arnext": "^0.1.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
