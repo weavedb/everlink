@@ -4,10 +4,12 @@ import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast"
 import { TextIcon as Telegram, Twitter } from "lucide-react"
 import Link from "next/link"
+import { useAppContext } from "@/context/AppContext"
 
 export default function Home() {
   const [subdomain, setSubdomain] = useState("")
   const { toast } = useToast()
+  const { connectWallet } = useAppContext()
 
   const checkAvailability = async () => {
     if (!subdomain || subdomain.trim() === "") {
@@ -23,6 +25,14 @@ export default function Home() {
       title: "Subdomain is available",
       description: `${subdomain}_everlink.ar.io is available for registration`,
     })
+  }
+
+  const login = async () => {
+    const _connected = await connectWallet()
+    if (_connected.success === false) {
+      return
+    }
+    window.location.href = "/profile"
   }
 
   return (
@@ -51,8 +61,11 @@ export default function Home() {
             </div>
           </div>
 
-          <Button className="w-full bg-[#805ad5]" onClick={checkAvailability}>
-            Available?s
+          <Button
+            className="w-full bg-[#805ad5] hover:bg-[#6b46c1]"
+            onClick={checkAvailability}
+          >
+            Available?
           </Button>
         </div>
 
@@ -62,10 +75,11 @@ export default function Home() {
             <Button
               variant="link"
               className="text-purple-300 hover:text-purple-200 p-0"
-              onClick={() => {
-                toast({
-                  description: "Login functionality would be implemented here",
-                })
+              onClick={async (event) => {
+                const button = event.target
+                button.disabled = true
+                await login()
+                button.disabled = false
               }}
             >
               Login

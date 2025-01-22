@@ -1,12 +1,15 @@
 import "@/styles/globals.css"
 import { ArNext } from "arnext"
 import { Toaster } from "@/components/ui/toaster"
+import { AppContextProvider } from "@/context/AppContext"
 
 export default function App(props) {
   return (
     <>
-    <ArNext {...props} />
-    <Toaster />
+      <AppContextProvider>
+        <ArNext {...props} />
+        <Toaster />
+      </AppContextProvider>
     </>
   )
 }
