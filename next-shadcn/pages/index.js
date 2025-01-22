@@ -28,11 +28,11 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-[#7023b6] px-4">
       <div className="w-full max-w-md space-y-6 text-center">
-        <div className="space-y-2">
-          <h1 className="text-4xl font-bold text-white">
+        <div className="space-y-2 md:space-y-4">
+          <h1 className="text-4xl font-bold text-white text-center">
             Welcome to Everlink!
           </h1>
-          <p className="text-md text-white">
+          <p className="text-md text-white md:whitespace-nowrap">
             Choose your Everlink subdomain. You can always change it later.
           </p>
         </div>
@@ -51,24 +51,34 @@ export default function Home() {
             </div>
           </div>
 
-          <Button className="w-full" onClick={checkAvailability}>
-            Available?
+          <Button className="w-full bg-[#805ad5]" onClick={checkAvailability}>
+            Available?s
           </Button>
         </div>
 
-        <div className="flex items-center justify-center space-x-2">
-          <p className="text-sm text-white">Ready to create your profile?</p>
-          <Button
-            variant="link"
-            className="text-purple-300 hover:text-purple-200"
-            onClick={() => {
-              toast({
-                description: "Login functionality would be implemented here",
-              })
-            }}
-          >
-            Login
-          </Button>
+        <div className="flex flex-col items-center space-y-2">
+          <div className="flex items-center space-x-2">
+            <p className="text-sm text-white">Ready to create your profile?</p>
+            <Button
+              variant="link"
+              className="text-purple-300 hover:text-purple-200 p-0"
+              onClick={() => {
+                toast({
+                  description: "Login functionality would be implemented here",
+                })
+              }}
+            >
+              Login
+            </Button>
+          </div>
+          <Link href="/create">
+            <Button
+              variant="link"
+              className="text-purple-200 hover:text-purple-100 text-sm font-medium transition-colors"
+            >
+              Continue without login
+            </Button>
+          </Link>
         </div>
 
         <div className="flex justify-center space-x-4">
