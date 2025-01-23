@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { AppHeader } from "@/components/AppHeader"
 import { Button } from "@/components/ui/button"
 import {
@@ -11,7 +12,23 @@ import {
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Twitter, Facebook, Instagram, Linkedin, ImageUp } from "lucide-react"
+import {
+  Twitter,
+  Facebook,
+  Instagram,
+  Linkedin,
+  ImageUp,
+  Plus,
+  Trash2,
+} from "lucide-react"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
 // Custom TikTok Icon component
 const TikTokIcon = () => (
@@ -21,6 +38,20 @@ const TikTokIcon = () => (
 )
 
 export default function CreatePage() {
+  const [links, setLinks] = useState([])
+  const [newLink, setNewLink] = useState({ title: "", url: "" })
+
+  const addLink = () => {
+    if (newLink.title && newLink.url) {
+      setLinks([...links, newLink])
+      setNewLink({ title: "", url: "" })
+    }
+  }
+
+  const deleteLink = (index) => {
+    setLinks(links.filter((_, i) => i !== index))
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <AppHeader />
@@ -87,6 +118,79 @@ export default function CreatePage() {
             </div>
 
             <div className="space-y-4">
+              <div className="space-y-4">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="text-primary hover:text-primary/90"
+                  onClick={addLink}
+                >
+                  <Plus className="mr-2 h-4 w-4" />
+                  Add Link
+                </Button>
+
+                <div className="grid gap-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="linkTitle">Title</Label>
+                    <Input
+                      id="linkTitle"
+                      placeholder="Enter link title"
+                      value={newLink.title}
+                      onChange={(e) =>
+                        setNewLink({ ...newLink, title: e.target.value })
+                      }
+                      className="bg-background"
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="linkUrl">URL</Label>
+                    <Input
+                      id="linkUrl"
+                      placeholder="Enter link URL"
+                      value={newLink.url}
+                      onChange={(e) =>
+                        setNewLink({ ...newLink, url: e.target.value })
+                      }
+                      className="bg-background"
+                    />
+                  </div>
+                </div>
+
+                {links.length > 0 && (
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Title</TableHead>
+                        <TableHead>URL</TableHead>
+                        <TableHead className="w-[50px]"></TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {links.map((link, index) => (
+                        <TableRow key={index}>
+                          <TableCell className="font-medium">
+                            {link.title}
+                          </TableCell>
+                          <TableCell className="font-mono text-sm">
+                            {link.url}
+                          </TableCell>
+                          <TableCell>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => deleteLink(index)}
+                              className="h-8 w-8 p-0 text-destructive hover:text-destructive/90"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                )}
+              </div>
+
               {[
                 {
                   icon: <Twitter className="h-5 w-5" />,
