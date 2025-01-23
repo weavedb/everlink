@@ -17,7 +17,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-export function UserTable({ profiles, onDelete, onCopy }) {
+export function BidsTable({ profiles, onDelete, onCopy }) {
   return (
     <Table>
       <TableHeader>
