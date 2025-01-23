@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast"
-import { TextIcon as Telegram, Twitter } from "lucide-react"
+import { Send as Telegram, Twitter } from "lucide-react"
 import Link from "next/link"
 import { useAppContext } from "@/context/AppContext"
 
@@ -36,7 +36,7 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-[#7023b6] px-4">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-indigo-600 to-purple-900 px-4 py-12">
       <div className="w-full max-w-md space-y-6 text-center">
         <div className="space-y-2 md:space-y-4">
           <h1 className="text-4xl font-bold text-white text-center">
@@ -48,24 +48,24 @@ export default function Home() {
         </div>
 
         <div className="space-y-4">
-          <div className="flex w-full overflow-hidden rounded-md bg-white">
+          <div className="flex overflow-hidden rounded-md bg-white shadow-inner">
             <Input
               type="text"
               placeholder="yoursubdomain"
               value={subdomain}
               onChange={(e) => setSubdomain(e.target.value.toLowerCase())}
-              className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+              className="flex-grow border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-gray-900 placeholder:text-gray-400 text-base hover:bg-gray-50"
             />
-            <div className="flex items-center bg-white px-4 text-gray-500">
+            <div className="flex items-center bg-indigo-100 px-3 text-indigo-700 font-medium text-sm">
               _everlink.ar.io
             </div>
           </div>
 
           <Button
-            className="w-full bg-[#805ad5] hover:bg-[#6b46c1]"
+            className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 rounded-md transition-colors duration-300"
             onClick={checkAvailability}
           >
-            Available?
+            Check Availability
           </Button>
         </div>
 
