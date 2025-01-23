@@ -211,14 +211,14 @@ export default function CreatePage() {
                 {links.length > 0 && (
                   <Table>
                     <TableHeader>
-                      <TableRow>
+                      <TableRow className="border-b border-muted">
                         <TableHead className="w-[50px]"></TableHead>
                         <TableHead>Link Details</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {links.map((link, index) => (
-                        <TableRow key={index}>
+                        <TableRow key={index} className="border-b border-muted">
                           <TableCell className="w-[50px]">
                             <Button
                               variant="ghost"
