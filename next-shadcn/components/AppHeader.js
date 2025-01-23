@@ -1,13 +1,5 @@
 import Link from "next/link"
-import {
-  Menu,
-  Plus,
-  Twitter,
-  MessageCircle,
-  Wallet,
-  Gift,
-  HelpCircle,
-} from "lucide-react"
+import { Menu, Plus, Twitter, MessageCircle, Wallet } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -47,24 +39,31 @@ export function AppHeader() {
               className="w-48 bg-popover text-popover-foreground"
             >
               <DropdownMenuItem>
-                <Twitter className="mr-2 h-4 w-4" />
-                Twitter
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <MessageCircle className="mr-2 h-4 w-4" />
-                Telegram
-              </DropdownMenuItem>
-              <DropdownMenuItem>
                 <Wallet className="mr-2 h-4 w-4" />
                 Connect Wallet
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Gift className="mr-2 h-4 w-4" />
-                Offer
+                <a
+                  href={`https://x.com/everlinkdotfun`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="flex items-center">
+                    <Twitter className="mr-2 h-4 w-4" /> Twitter
+                  </div>
+                </a>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <HelpCircle className="mr-2 h-4 w-4" />
-                FAQ
+                <a
+                  href={`https://t.me/everlinkdotfun`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="flex items-center">
+                    <MessageCircle className="mr-2 h-4 w-4" />
+                    Telegram
+                  </div>
+                </a>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
