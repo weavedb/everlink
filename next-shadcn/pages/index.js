@@ -32,7 +32,7 @@ export default function Home() {
     if (_connected.success === false) {
       return
     }
-    window.location.href = `/profile/${_connected.userAddress}`
+    window.location.href = `/user/${_connected.userAddress}`
   }
 
   return (

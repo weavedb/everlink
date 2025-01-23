@@ -3,6 +3,9 @@ import { useEffect, useState } from "react"
 
 import { AppHeader } from "@/components/AppHeader"
 import { UserTable } from "@/components/UserTable"
+import { Plus } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { BidsTable } from "@/components/BidsTable"
 import {
   message,
   createDataItemSigner,
@@ -11,21 +14,7 @@ import {
 } from "@permaweb/aoconnect"
 import { MAIN_PROCESS_ID, useAppContext } from "@/context/AppContext"
 
-// Sample data - replace with your actual data fetching logic
-const profiles = [
-  {
-    subdomain: "dumpet",
-    templateTxId: "ma-GzZRRNQvwd-JdqwdmBYwxgbmQn-O4",
-  },
-  {
-    subdomain: "ethan",
-    templateTxId: "Ojbm5pHluWEdD3LgWikGORKQxSUAMdwY",
-  },
-  {
-    subdomain: "heyhey",
-    templateTxId: "Ojbm5pHluWEdD3LgWikGORKQxSUAMdwY",
-  },
-]
+const bids = []
 
 export async function getStaticPaths() {
   return { paths: [], fallback: "blocking" }
@@ -75,34 +64,67 @@ export default function Home({ _id = null }) {
   }, [id])
 
   const handleDelete = (subdomain) => {
-    console.log("Delete:", subdomain)
+    console.log("handleDelete:", subdomain)
   }
 
-  const handleCopy = (subdomain) => {
-    console.log("Copy:", subdomain)
+  const handleEdit = (subdomain) => {
+    console.log("handleEdit:", subdomain)
   }
-
-  const profiles = [
-    // Example profiles data, replace with your actual data
-    { subdomain: "example1", templateTxId: "1234567890" },
-    { subdomain: "example2", templateTxId: "0987654321" },
-  ]
 
   return (
     <>
       <div className="min-h-screen flex flex-col">
         <AppHeader />
-        <main className="flex-1 p-6 md:p-10">
-          <div className="max-w-2xl mx-auto">
-            <div className="mb-4">
-              <h1 className="text-2xl font-bold text-primary">Profiles</h1>
+        <main className="flex-1 p-4 sm:p-6 md:p-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="mb-8">
+              <div>
+                <div className="mb-4">
+                  <h1 className="text-2xl font-bold text-primary">Profiles</h1>
+                </div>
+                {userRecords.length > 0 ? (
+                  <div className="bg-card rounded-lg shadow-lg p-6 md:p-8">
+                    <UserTable
+                      records={userRecords}
+                      onDelete={handleDelete}
+                      onEdit={handleEdit}
+                    />
+                  </div>
+                ) : (
+                  <div className="bg-card rounded-lg shadow-lg p-6 md:p-8 text-center">
+                    <p className="text-muted-foreground mb-4">
+                      No subdomain found
+                    </p>
+                    <Button
+                      variant="default"
+                      className="bg-primary text-primary-foreground hover:bg-primary/90"
+                    >
+                      <Plus className="mr-2 h-4 w-4" />
+                      Create
+                    </Button>
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="bg-card rounded-lg shadow-lg p-6 md:p-8">
-              <UserTable
-                profiles={userRecords}
-                onDelete={handleDelete}
-                onCopy={handleCopy}
-              />
+            <div>
+              <div className="mb-4">
+                <h1 className="text-2xl font-bold text-primary">Bids</h1>
+              </div>
+              {bids.length > 0 ? (
+                <div className="bg-card rounded-lg shadow-lg p-6 md:p-8">
+                  <BidsTable
+                    bids={bids}
+                    onDelete={handleDelete}
+                    onCopy={handleEdit}
+                  />
+                </div>
+              ) : (
+                <div className="bg-card rounded-lg shadow-lg p-6 md:p-8 text-center">
+                  <p className="text-muted-foreground mb-4">
+                    No bids available
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </main>

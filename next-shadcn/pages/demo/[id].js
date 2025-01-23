@@ -61,7 +61,7 @@ export default function Home({ _id = null }) {
                 {profiles.length > 0 ? (
                   <div className="bg-card rounded-lg shadow-lg p-6 md:p-8">
                     <UserTable
-                      profiles={profiles}
+                      records={profiles}
                       onDelete={handleDelete}
                       onCopy={handleCopy}
                     />
