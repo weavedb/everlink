@@ -39,18 +39,19 @@ export function AppHeader() {
               className="w-48 bg-popover text-popover-foreground"
             >
               <DropdownMenuItem>
-                <Wallet className="mr-2 h-4 w-4" />
-                Connect Wallet
+                <div className="flex items-center">
+                  <Wallet className="mr-2 h-4 w-4" />
+                  Connect Wallet
+                </div>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <a
                   href={`https://x.com/everlinkdotfun`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="flex items-center w-full"
                 >
-                  <div className="flex items-center">
-                    <Twitter className="mr-2 h-4 w-4" /> Twitter
-                  </div>
+                  <Twitter className="mr-2 h-4 w-4" /> Twitter
                 </a>
               </DropdownMenuItem>
               <DropdownMenuItem>
@@ -58,11 +59,10 @@ export function AppHeader() {
                   href={`https://t.me/everlinkdotfun`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="flex items-center w-full"
                 >
-                  <div className="flex items-center">
-                    <MessageCircle className="mr-2 h-4 w-4" />
-                    Telegram
-                  </div>
+                  <MessageCircle className="mr-2 h-4 w-4" />
+                  Telegram
                 </a>
               </DropdownMenuItem>
             </DropdownMenuContent>
