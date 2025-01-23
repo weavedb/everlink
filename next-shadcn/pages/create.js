@@ -62,62 +62,72 @@ export default function CreatePage() {
             <p className="text-muted-foreground">Fill in your details</p>
           </div>
 
-          <form className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
-                placeholder="Enter your name"
-                className="bg-background"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="photo">Profile Photo</Label>
-              <div className="flex items-center space-x-2">
-                <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
-                  <ImageUp className="h-6 w-6 text-muted-foreground" />
-                </div>
+          <form className="space-y-8">
+            {/* Profile section */}
+            <div className="space-y-6 rounded-lg border border-border/50 p-4">
+              <h2 className="text-lg font-semibold text-primary mb-4">
+                Profile Information
+              </h2>
+              <div className="space-y-2">
+                <Label htmlFor="name">Name</Label>
                 <Input
-                  id="photo"
-                  type="file"
-                  accept="image/*"
+                  id="name"
+                  placeholder="Enter your name"
                   className="bg-background"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0]
-                    if (file && file.size > 99 * 1024) {
-                      alert("File size must be less than 100 KiB")
-                      e.target.value = ""
-                    }
-                  }}
                 />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="photo">Profile Photo</Label>
+                <div className="flex items-center space-x-2">
+                  <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
+                    <ImageUp className="h-6 w-6 text-muted-foreground" />
+                  </div>
+                  <Input
+                    id="photo"
+                    type="file"
+                    accept="image/*"
+                    className="bg-background"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0]
+                      if (file && file.size > 99 * 1024) {
+                        alert("File size must be less than 100 KiB")
+                        e.target.value = ""
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="description">Description</Label>
+                <Input
+                  id="description"
+                  placeholder="Enter description"
+                  className="bg-background"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="template">Template</Label>
+                <Select defaultValue="dark">
+                  <SelectTrigger id="template" className="bg-background">
+                    <SelectValue placeholder="Select a template" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="dark">Dark</SelectItem>
+                    <SelectItem value="light">Light</SelectItem>
+                    <SelectItem value="modern">Modern</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
-              <Input
-                id="description"
-                placeholder="Enter description"
-                className="bg-background"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="template">Template</Label>
-              <Select defaultValue="dark">
-                <SelectTrigger id="template" className="bg-background">
-                  <SelectValue placeholder="Select a template" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="dark">Dark</SelectItem>
-                  <SelectItem value="light">Light</SelectItem>
-                  <SelectItem value="modern">Modern</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-4">
+            {/* Links section */}
+            <div className="space-y-6 rounded-lg border border-border/50 p-4">
+              <h2 className="text-lg font-semibold text-primary mb-4">
+                Custom Links
+              </h2>
               <div className="space-y-4">
                 <Button
                   type="button"
@@ -190,7 +200,13 @@ export default function CreatePage() {
                   </Table>
                 )}
               </div>
+            </div>
 
+            {/* Social media section */}
+            <div className="space-y-6 rounded-lg border border-border/50 p-4">
+              <h2 className="text-lg font-semibold text-primary mb-4">
+                Social Media
+              </h2>
               {[
                 {
                   icon: <Twitter className="h-5 w-5" />,
