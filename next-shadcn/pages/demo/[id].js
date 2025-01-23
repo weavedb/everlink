@@ -6,16 +6,16 @@ import { ProfilesTable } from "@/components/ProfilesTable"
 // Sample data - replace with your actual data fetching logic
 const profiles = [
   {
-    subdomain: "dumpet",
-    templateTxId: "ma-GzZRRNQvwd-JdqwdmBYwxgbmQn-O4",
+    Subdomain: "dumpet",
+    TransactionId: "ma-GzZRRNQvwd-JdqwdmBYwxgbmQn-O4",
   },
   {
-    subdomain: "ethan",
-    templateTxId: "8bIZKr6Wn15dYdkyXRfwaX7t_-MPzKB8w-WYxCyIXIw",
+    Subdomain: "ethan",
+    TransactionId: "8bIZKr6Wn15dYdkyXRfwaX7t_-MPzKB8w-WYxCyIXIw",
   },
   {
-    subdomain: "heyhey",
-    templateTxId: "Ojbm5pHluWEdD3LgWikGORKQxSUAMdwY",
+    Subdomain: "heyhey",
+    TransactionId: "Ojbm5pHluWEdD3LgWikGORKQxSUAMdwY",
   },
 ]
 
