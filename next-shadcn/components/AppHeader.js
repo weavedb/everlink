@@ -25,17 +25,27 @@ export function AppHeader() {
           Everlink
         </Link>
         <div className="ml-auto flex items-center gap-4">
-          <Button variant="default">
+          <Button
+            variant="default"
+            className="bg-primary text-primary-foreground hover:bg-primary/90"
+          >
             <Plus className="mr-2 h-4 w-4" />
             Create
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-foreground hover:bg-muted"
+              >
                 <Menu className="h-5 w-5" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuContent
+              align="end"
+              className="w-48 bg-popover text-popover-foreground"
+            >
               <DropdownMenuItem>
                 <Twitter className="mr-2 h-4 w-4" />
                 Twitter
