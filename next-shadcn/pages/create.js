@@ -1,6 +1,5 @@
-"use client"
-
 import { useState } from "react"
+import { useToast } from "@/hooks/use-toast"
 import { AppHeader } from "@/components/AppHeader"
 import { Button } from "@/components/ui/button"
 import {
@@ -40,6 +39,24 @@ const TikTokIcon = () => (
 export default function CreatePage() {
   const [links, setLinks] = useState([])
   const [newLink, setNewLink] = useState({ title: "", url: "" })
+  const [subdomain, setSubdomain] = useState("")
+  const { toast } = useToast()
+
+  const checkAvailability = async () => {
+    if (!subdomain || subdomain.trim() === "") {
+      toast({
+        description: "Subdomain cannot be empty",
+        variant: "destructive",
+      })
+      return
+    }
+
+    // Simulated availability check - in real app would check against actual records
+    toast({
+      title: "Subdomain is available",
+      description: `${subdomain}_everlink.ar.io is available for registration`,
+    })
+  }
 
   const addLink = () => {
     if (newLink.title && newLink.url) {
@@ -59,15 +76,40 @@ export default function CreatePage() {
         <div className="max-w-2xl mx-auto space-y-8">
           <div>
             <h1 className="text-2xl font-bold text-primary">Create Profile</h1>
-            <p className="text-muted-foreground">Fill in your details</p>
+            {/* <p className="text-muted-foreground">Fill in your details</p> */}
           </div>
 
           <form className="space-y-8">
             {/* Profile section */}
             <div className="space-y-6 rounded-lg border border-border/50 p-4">
-              <h2 className="text-lg font-semibold text-primary mb-4">
-                Profile Information
-              </h2>
+              {/* <h2 className="text-lg font-semibold text-primary mb-4">
+                Basic Info
+              </h2> */}
+
+              <div className="space-y-2">
+                <Label htmlFor="subdomain">Subdomain</Label>
+                <div className="flex overflow-hidden rounded-md bg-background border border-input">
+                  <Input
+                    id="subdomain"
+                    type="text"
+                    placeholder="yoursubdomain"
+                    value={subdomain}
+                    onChange={(e) => setSubdomain(e.target.value.toLowerCase())}
+                    className="flex-grow border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                  />
+                  <div className="flex items-center bg-muted px-3 text-muted-foreground font-medium text-sm">
+                    _everlink.ar.io
+                  </div>
+                </div>
+                <Button
+                  type="button"
+                  className="w-full"
+                  onClick={checkAvailability}
+                >
+                  Check Availability
+                </Button>
+              </div>
+
               <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
                 <Input
