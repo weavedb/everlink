@@ -18,7 +18,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-export function ProfilesTable({ profiles, onDelete, onCopy }) {
+export function UserTable({ profiles, onDelete, onCopy }) {
   return (
     <Table>
       <TableHeader>
@@ -77,7 +77,7 @@ export function ProfilesTable({ profiles, onDelete, onCopy }) {
   )
 }
 
-ProfilesTable.propTypes = {
+UserTable.propTypes = {
   profiles: PropTypes.arrayOf(
     PropTypes.shape({
       subdomain: PropTypes.string.isRequired,

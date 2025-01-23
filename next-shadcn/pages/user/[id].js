@@ -2,7 +2,7 @@ import { Link, useParams } from "arnext"
 import { useEffect, useState } from "react"
 
 import { AppHeader } from "@/components/AppHeader"
-import { ProfilesTable } from "@/components/ProfilesTable"
+import { UserTable } from "@/components/UserTable"
 import {
   message,
   createDataItemSigner,
@@ -98,7 +98,7 @@ export default function Home({ _id = null }) {
               <h1 className="text-2xl font-bold text-primary">Profiles</h1>
             </div>
             <div className="bg-card rounded-lg shadow-lg p-6 md:p-8">
-              <ProfilesTable
+              <UserTable
                 profiles={userRecords}
                 onDelete={handleDelete}
                 onCopy={handleCopy}
