@@ -1,6 +1,5 @@
 import React from "react"
-import { Copy, MoreVertical, Trash } from "lucide-react"
-
+import { MoreVertical, Trash, SquarePen } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -17,7 +16,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-export function UserTable({ profiles, onDelete, onCopy }) {
+export function UserTable({ profiles, onDelete, onEdit }) {
   return (
     <Table>
       <TableHeader>
@@ -38,10 +37,24 @@ export function UserTable({ profiles, onDelete, onCopy }) {
             className="border-b border-border hover:bg-muted/50"
           >
             <TableCell className="font-medium text-primary">
-              {profile.Subdomain}
+              <a
+                href={`https://${profile.Subdomain}_everlink.ar.io`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline"
+              >
+                {profile.Subdomain}
+              </a>
             </TableCell>
             <TableCell className="font-mono text-muted-foreground">
-              {profile.TransactionId}
+              <a
+                href={`https://viewblock.io/arweave/tx/${profile.TransactionId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline"
+              >
+                {profile.TransactionId}
+              </a>
             </TableCell>
             <TableCell>
               <DropdownMenu>
@@ -55,12 +68,14 @@ export function UserTable({ profiles, onDelete, onCopy }) {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => onCopy(profile.Subdomain)}>
-                    <Copy className="mr-2 h-4 w-4" />
-                    Copy
+                  <DropdownMenuItem
+                    onClick={async () => await onEdit(profile.Subdomain)}
+                  >
+                    <SquarePen className="mr-2 h-4 w-4" />
+                    Edit
                   </DropdownMenuItem>
                   <DropdownMenuItem
-                    onClick={() => onDelete(profile.Subdomain)}
+                    onClick={async () => await onDelete(profile.Subdomain)}
                     className="text-destructive focus:text-destructive"
                   >
                     <Trash className="mr-2 h-4 w-4" />
