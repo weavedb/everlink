@@ -212,21 +212,14 @@ export default function CreatePage() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Title</TableHead>
-                        <TableHead>URL</TableHead>
                         <TableHead className="w-[50px]"></TableHead>
+                        <TableHead>Link Details</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {links.map((link, index) => (
                         <TableRow key={index}>
-                          <TableCell className="font-medium">
-                            {link.title}
-                          </TableCell>
-                          <TableCell className="font-mono text-sm">
-                            {link.url}
-                          </TableCell>
-                          <TableCell>
+                          <TableCell className="w-[50px]">
                             <Button
                               variant="ghost"
                               size="sm"
@@ -235,6 +228,21 @@ export default function CreatePage() {
                             >
                               <Trash2 className="h-4 w-4" />
                             </Button>
+                          </TableCell>
+                          <TableCell>
+                            <div className="space-y-1">
+                              <div className="font-medium">{link.title}</div>
+                              <div className="font-mono text-sm text-muted-foreground">
+                                <a
+                                  href={link.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="hover:underline"
+                                >
+                                  {link.url}
+                                </a>
+                              </div>
+                            </div>
                           </TableCell>
                         </TableRow>
                       ))}
