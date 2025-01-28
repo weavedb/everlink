@@ -17,13 +17,15 @@ export function AppHeader() {
           Everlink
         </Link>
         <div className="ml-auto flex items-center gap-4">
-          <Button
-            variant="default"
-            className="bg-primary text-primary-foreground hover:bg-primary/90"
-          >
-            <Plus className="mr-2 h-4 w-4" />
-            Create
-          </Button>
+          <Link href="/create">
+            <Button
+              variant="default"
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
+            >
+              <Plus className="mr-2 h-4 w-4" />
+              Create
+            </Button>
+          </Link>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
