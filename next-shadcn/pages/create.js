@@ -417,6 +417,16 @@ export default function CreatePage() {
                         type="file"
                         accept="image/*"
                         className="bg-background flex-1"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0]
+                          if (file && file.size > 99 * 1024) {
+                            toast({
+                              title: "File size must be less than 100 KiB",
+                              variant: "destructive",
+                            })
+                            e.target.value = ""
+                          }
+                        }}
                       />
                       <Button
                         type="button"
