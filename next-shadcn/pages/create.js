@@ -49,8 +49,12 @@ export default function CreatePage() {
   const [links, setLinks] = useState([])
   const [newLink, setNewLink] = useState({ title: "", url: "" })
   const [subdomain, setSubdomain] = useState("")
+  const [username, setUsername] = useState("")
+  const [description, setDescription] = useState("")
+  const [userRecords, setUserRecords] = useState([])
   const { toast } = useToast()
-  const { checkAvailability, handleMessageResultError } = useAppContext()
+  const { checkAvailability, handleMessageResultError, connectWallet } =
+    useAppContext()
 
   const [templates, setTemplates] = useState({})
   const [selectedTemplateTxId, setSelectedTemplateTxId] = useState(
@@ -82,6 +86,141 @@ export default function CreatePage() {
     }
   }
 
+  const publishProfile = async () => {
+    if (!subdomain || !selectedTemplateTxId || !username) {
+      toast({
+        title: "Subdomain, Template, and Name are required",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      })
+      return
+    }
+
+    try {
+      const _connected = await connectWallet()
+      console.log("_connected", _connected)
+      if (_connected.success === false) {
+        return
+      }
+
+      const existingRecordIndex = userRecords.findIndex(
+        (record) => record.Subdomain === newSubdomain
+      )
+
+      const messageId = await message({
+        process: MAIN_PROCESS_ID,
+        tags: [
+          {
+            name: "Action",
+            value: "Set-Record",
+          },
+          {
+            name: "Sub-Domain",
+            value: newSubdomain,
+          },
+          {
+            name: "Transaction-Id",
+            value: selectedTemplateTxId,
+          },
+          {
+            name: "TTL-Seconds",
+            value: "900",
+          },
+          {
+            name: "Username",
+            value: username,
+          },
+          {
+            name: "Description",
+            value: description,
+          },
+          {
+            name: "Links",
+            value: JSON.stringify(links),
+          },
+          {
+            name: "Twitter",
+            value: twitter,
+          },
+          {
+            name: "Tiktok",
+            value: tiktok,
+          },
+          {
+            name: "Instagram",
+            value: instagram,
+          },
+          {
+            name: "Facebook",
+            value: facebook,
+          },
+          {
+            name: "Linkedin",
+            value: linkedin,
+          },
+        ],
+        signer: createDataItemSigner(globalThis.arweaveWallet),
+      })
+      console.log("messageId", messageId)
+
+      const _result = await result({
+        message: messageId,
+        process: MAIN_PROCESS_ID,
+      })
+      console.log("_result", _result)
+
+      if (existingRecordIndex !== -1) {
+        setUserRecords((prevRecords) => {
+          const newRecords = [...prevRecords]
+          newRecords[existingRecordIndex] = {
+            Subdomain: newSubdomain,
+            Username: username,
+            Description: description,
+            TransactionId: selectedTemplateTxId,
+            Links: JSON.stringify(links),
+            Twitter: twitter,
+            Tiktok: tiktok,
+            Instagram: instagram,
+            Facebook: facebook,
+            Linkedin: linkedin,
+          }
+          return newRecords
+        })
+      } else {
+        setUserRecords((prevRecords) => [
+          ...prevRecords,
+          {
+            Subdomain: newSubdomain,
+            Username: username,
+            Description: description,
+            TransactionId: selectedTemplateTxId,
+            Links: JSON.stringify(links),
+            Twitter: twitter,
+            Tiktok: tiktok,
+            Instagram: instagram,
+            Facebook: facebook,
+            Linkedin: linkedin,
+          },
+        ])
+      }
+
+      toast({
+        title:
+          existingRecordIndex !== -1
+            ? "Profile updated successfully"
+            : "Profile published successfully",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      })
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   const addLink = () => {
     if (newLink.title && newLink.url) {
       setLinks([...links, newLink])
@@ -103,7 +242,7 @@ export default function CreatePage() {
             {/* <p className="text-muted-foreground">Fill in your details</p> */}
           </div>
 
-          <form className="space-y-8">
+          <div className="space-y-8">
             {/* Profile section */}
             <div className="space-y-6 rounded-lg border border-border/50 p-4">
               <div className="space-y-2">
@@ -136,10 +275,12 @@ export default function CreatePage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="name">Name</Label>
+                <Label htmlFor="username">Name</Label>
                 <Input
-                  id="name"
+                  id="username"
                   placeholder="Enter your name"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   className="bg-background"
                 />
               </div>
@@ -348,10 +489,10 @@ export default function CreatePage() {
               ))}
             </div>
 
-            <Button type="submit" className="w-full">
+            <Button type="button" className="w-full" onClick={publishProfile}>
               Publish
             </Button>
-          </form>
+          </div>
         </div>
       </main>
     </div>
