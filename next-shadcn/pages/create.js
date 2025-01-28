@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 import { AppHeader } from "@/components/AppHeader"
 import { Button } from "@/components/ui/button"
@@ -29,6 +29,14 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { useAppContext } from "@/context/AppContext"
+import {
+  message,
+  createDataItemSigner,
+  result,
+  dryrun,
+} from "@permaweb/aoconnect"
+
+import { MAIN_PROCESS_ID } from "@/context/AppContext"
 
 // Custom TikTok Icon component
 const TikTokIcon = () => (
@@ -42,7 +50,37 @@ export default function CreatePage() {
   const [newLink, setNewLink] = useState({ title: "", url: "" })
   const [subdomain, setSubdomain] = useState("")
   const { toast } = useToast()
-  const { checkAvailability } = useAppContext()
+  const { checkAvailability, handleMessageResultError } = useAppContext()
+
+  const [templates, setTemplates] = useState({})
+  const [selectedTemplateTxId, setSelectedTemplateTxId] = useState(
+    "ma-GzZRRNQvvd-JdqwdmBYwxgbmQn-O4SavYndec4e0"
+  )
+
+  useEffect(() => {
+    ;(async () => {
+      await getTemplates()
+    })()
+  }, [])
+
+  const getTemplates = async () => {
+    const _templatesResult = await dryrun({
+      process: MAIN_PROCESS_ID,
+      tags: [{ name: "Action", value: "Templates" }],
+    })
+    console.log("_templatesResult", _templatesResult)
+    if (handleMessageResultError(_templatesResult)) return
+    const _templatesResultData = _templatesResult.Messages[0].Data
+    console.log("_templatesResultData", _templatesResultData)
+    const jsonTemplates = JSON.parse(_templatesResultData)
+    console.log("jsonTemplates", jsonTemplates)
+    setTemplates(jsonTemplates)
+
+    const firstTemplateKey = Object.keys(jsonTemplates)[0]
+    if (firstTemplateKey) {
+      setSelectedTemplateTxId(jsonTemplates[firstTemplateKey])
+    }
+  }
 
   const addLink = () => {
     if (newLink.title && newLink.url) {
@@ -117,13 +155,17 @@ export default function CreatePage() {
 
               <div className="space-y-2">
                 <Label htmlFor="template">Template</Label>
-                <Select defaultValue="dark">
+                <Select defaultValue={selectedTemplateTxId} id="template">
                   <SelectTrigger id="template" className="bg-background">
                     <SelectValue placeholder="Select a template" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="dark">Dark</SelectItem>
-                    <SelectItem value="pink">Pink</SelectItem>
+                    <SelectItem value="ma-GzZRRNQvvd-JdqwdmBYwxgbmQn-O4SavYndec4e0">
+                      Pink
+                    </SelectItem>
+                    <SelectItem value="Ojbm5pHluWEdD3LgWikGORKOxSUAMdwY6F25OQvRKJ0">
+                      Dark
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -307,7 +349,7 @@ export default function CreatePage() {
             </div>
 
             <Button type="submit" className="w-full">
-              Create Profile
+              Publish
             </Button>
           </form>
         </div>

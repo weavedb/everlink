@@ -1,4 +1,4 @@
-import Link from "next/link"
+import { Link } from "arnext"
 import { Menu, Plus, Twitter, MessageCircle, Wallet } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
