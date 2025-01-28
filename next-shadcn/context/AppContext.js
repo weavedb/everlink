@@ -1,5 +1,6 @@
 import { useToast } from "@/hooks/use-toast"
 import { createContext, useContext, useState } from "react"
+import { ANT } from "@ar.io/sdk/web"
 
 const AppContext = createContext()
 const BASE_UNIT = 10
@@ -29,12 +30,9 @@ export const AppContextProvider = ({ children }) => {
     } catch (e) {
       console.error("connectWallet() error!", e)
       toast({
-        title: "Install wallet from arconnect.io",
-        description: "Something went wrong. Please reload.",
-        status: "error",
-        duration: 4000,
-        isClosable: true,
-        position: "top",
+        title: "Something went wrong",
+        description: "Install wallet from arconnect.io or reload page.",
+        variant: "destructive",
       })
       return { success: false, error: e }
     }
@@ -49,12 +47,9 @@ export const AppContextProvider = ({ children }) => {
     } catch (e) {
       console.error("disconnectWallet() error!", e)
       toast({
-        title: "Install wallet from arconnect.io",
-        description: "Something went wrong. Please reload.",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-        position: "top",
+        title: "Something went wrong",
+        description: "Install wallet from arconnect.io or reload page.",
+        variant: "destructive",
       })
       return { success: false, error: e }
     }
@@ -77,14 +72,42 @@ export const AppContextProvider = ({ children }) => {
       const errorMsg = _result.Messages[0]?.Data ?? errorTag.value
       toast({
         description: errorMsg,
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-        position: "top",
+        variant: "destructive",
       })
       return true
     }
     return false
+  }
+
+  const getRecords = async () => {
+    const ant = ANT.init({
+      processId: ANT_PROCESS_ID,
+    })
+    const _records = await ant.getRecords()
+    console.log("_records", _records)
+    return _records
+  }
+
+  const checkAvailability = async (subdomain = "") => {
+    if (!subdomain || subdomain.trim() === "") {
+      toast({
+        description: "Subdomain cannot be empty",
+        variant: "destructive",
+      })
+      return
+    }
+
+    const _records = await getRecords()
+    if (_records.hasOwnProperty(subdomain)) {
+      toast({
+        description: "Subdomain already exists in the records",
+        variant: "destructive",
+      })
+    } else {
+      toast({
+        description: `${subdomain}_everlink.ar.io is available for registration`,
+      })
+    }
   }
 
   return (
@@ -99,6 +122,8 @@ export const AppContextProvider = ({ children }) => {
         multiplyByPower,
         divideByPower,
         handleMessageResultError,
+        getRecords,
+        checkAvailability,
       }}
     >
       {children}

@@ -28,6 +28,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { useAppContext } from "@/context/AppContext"
 
 // Custom TikTok Icon component
 const TikTokIcon = () => (
@@ -41,22 +42,7 @@ export default function CreatePage() {
   const [newLink, setNewLink] = useState({ title: "", url: "" })
   const [subdomain, setSubdomain] = useState("")
   const { toast } = useToast()
-
-  const checkAvailability = async () => {
-    if (!subdomain || subdomain.trim() === "") {
-      toast({
-        description: "Subdomain cannot be empty",
-        variant: "destructive",
-      })
-      return
-    }
-
-    // Simulated availability check - in real app would check against actual records
-    toast({
-      title: "Subdomain is available",
-      description: `${subdomain}_everlink.ar.io is available for registration`,
-    })
-  }
+  const { checkAvailability } = useAppContext()
 
   const addLink = () => {
     if (newLink.title && newLink.url) {
@@ -72,7 +58,7 @@ export default function CreatePage() {
   return (
     <div className="min-h-screen flex flex-col">
       <AppHeader />
-      <main className="flex-1 p-4 sm:p-6 md:p-8 pb-16">
+      <main className="flex-1 p-4 sm:p-6 md:p-8 pb-20 sm:pb-30 md:pb-40">
         <div className="max-w-2xl mx-auto space-y-8">
           <div>
             <h1 className="text-2xl font-bold text-primary">Create Profile</h1>
@@ -100,7 +86,12 @@ export default function CreatePage() {
                 <Button
                   type="button"
                   className="w-full"
-                  onClick={checkAvailability}
+                  onClick={async (event) => {
+                    const button = event.target
+                    button.disabled = true
+                    await checkAvailability(subdomain)
+                    button.disabled = false
+                  }}
                 >
                   Check Availability
                 </Button>

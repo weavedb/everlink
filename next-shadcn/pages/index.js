@@ -9,23 +9,7 @@ import { useAppContext } from "@/context/AppContext"
 export default function Home() {
   const [subdomain, setSubdomain] = useState("")
   const { toast } = useToast()
-  const { connectWallet } = useAppContext()
-
-  const checkAvailability = async () => {
-    if (!subdomain || subdomain.trim() === "") {
-      toast({
-        description: "Subdomain cannot be empty",
-        variant: "destructive",
-      })
-      return
-    }
-
-    // Simulated availability check - in real app would check against actual records
-    toast({
-      title: "Subdomain is available",
-      description: `${subdomain}_everlink.ar.io is available for registration`,
-    })
-  }
+  const { connectWallet, checkAvailability } = useAppContext()
 
   const login = async () => {
     const _connected = await connectWallet()
@@ -63,7 +47,12 @@ export default function Home() {
 
           <Button
             className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 rounded-md transition-colors duration-300"
-            onClick={checkAvailability}
+            onClick={async (event) => {
+              const button = event.target
+              button.disabled = true
+              await checkAvailability(subdomain)
+              button.disabled = false
+            }}
           >
             Check Availability
           </Button>
