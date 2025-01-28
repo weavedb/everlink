@@ -82,10 +82,6 @@ export default function CreatePage() {
           <form className="space-y-8">
             {/* Profile section */}
             <div className="space-y-6 rounded-lg border border-border/50 p-4">
-              {/* <h2 className="text-lg font-semibold text-primary mb-4">
-                Basic Info
-              </h2> */}
-
               <div className="space-y-2">
                 <Label htmlFor="subdomain">Subdomain</Label>
                 <div className="flex overflow-hidden rounded-md bg-background border border-input">
@@ -183,10 +179,10 @@ export default function CreatePage() {
 
                 <div className="grid gap-4">
                   <div className="grid gap-2">
-                    <Label htmlFor="linkTitle">Title</Label>
+                    <Label htmlFor="linkTitle">Label</Label>
                     <Input
                       id="linkTitle"
-                      placeholder="Enter link title"
+                      placeholder="Enter link label"
                       value={newLink.title}
                       onChange={(e) =>
                         setNewLink({ ...newLink, title: e.target.value })
