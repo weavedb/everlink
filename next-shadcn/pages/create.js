@@ -116,28 +116,6 @@ export default function CreatePage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="photo">Profile Photo</Label>
-                <div className="flex items-center space-x-2">
-                  <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
-                    <ImageUp className="h-6 w-6 text-muted-foreground" />
-                  </div>
-                  <Input
-                    id="photo"
-                    type="file"
-                    accept="image/*"
-                    className="bg-background"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0]
-                      if (file && file.size > 99 * 1024) {
-                        alert("File size must be less than 100 KiB")
-                        e.target.value = ""
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
                 <Label htmlFor="description">Description</Label>
                 <Input
                   id="description"
@@ -154,8 +132,7 @@ export default function CreatePage() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="dark">Dark</SelectItem>
-                    <SelectItem value="light">Light</SelectItem>
-                    <SelectItem value="modern">Modern</SelectItem>
+                    <SelectItem value="pink">Pink</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -248,6 +225,51 @@ export default function CreatePage() {
               </div>
             </div>
 
+            {/* Profile Photo section */}
+            <div className="space-y-6 rounded-lg border border-border/50 p-4">
+              <h2 className="text-lg font-semibold text-primary mb-4">
+                Profile Photo
+              </h2>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-4">
+                  <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center">
+                    <ImageUp className="h-8 w-8 text-muted-foreground" />
+                  </div>
+                  <div className="space-y-2 flex-1">
+                    <Label htmlFor="photoInput">Upload Photo</Label>
+                    <div className="flex space-x-2">
+                      <Input
+                        id="photoInput"
+                        type="file"
+                        accept="image/*"
+                        className="bg-background flex-1"
+                      />
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          // Simulated upload success
+                          toast({
+                            title: "Upload Successful",
+                            description: "Transaction ID: ABC123XYZ",
+                          })
+                        }}
+                      >
+                        Upload
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="transactionId">Or enter Transaction ID</Label>
+                  <Input
+                    id="transactionId"
+                    placeholder="Enter Arweave Tx ID for existing photo"
+                    className="bg-background"
+                  />
+                </div>
+              </div>
+            </div>
+
             {/* Social media section */}
             <div className="space-y-6 rounded-lg border border-border/50 p-4">
               <h2 className="text-lg font-semibold text-primary mb-4">
@@ -262,12 +284,12 @@ export default function CreatePage() {
                 {
                   icon: <TikTokIcon className="h-5 w-5" />,
                   id: "tiktok",
-                  placeholder: "https://www.tiktok.com/@username",
+                  placeholder: "https://tiktok.com/@username",
                 },
                 {
                   icon: <Instagram className="h-5 w-5" />,
                   id: "instagram",
-                  placeholder: "https://www.instagram.com/username",
+                  placeholder: "https://instagram.com/username",
                 },
                 {
                   icon: <Facebook className="h-5 w-5" />,
