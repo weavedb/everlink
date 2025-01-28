@@ -143,6 +143,7 @@ Handlers.add('Set-Record', Handlers.utils.hasMatchingTag('Action', 'Set-Record')
     local instagram = msg.Tags.Instagram or ""
     local facebook = msg.Tags.Facebook or ""
     local linkedin = msg.Tags.Linkedin or ""
+    local photoTxId = msg.Tags.PhotoTxId or ""
 
     if type(subdomain) ~= 'string' or subdomain == "" then
         sendErrorMessage(msg, 'Sub-Domain is required and must be a string')
@@ -188,7 +189,8 @@ Handlers.add('Set-Record', Handlers.utils.hasMatchingTag('Action', 'Set-Record')
         Tiktok = tiktok,
         Instagram = instagram,
         Facebook = facebook,
-        Linkedin = linkedin
+        Linkedin = linkedin,
+        PhotoTxId = photoTxId
     }
     Records[subdomain] = newRecord
     printData("newRecord", newRecord)
