@@ -1,5 +1,5 @@
 import { Link } from "arnext"
-import { Menu, Plus, Twitter, MessageCircle, Wallet } from "lucide-react"
+import { Menu, Plus, Twitter, Send, Wallet } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -8,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import DiscordIcon from "./icons/DiscordIcon"
 
 export function AppHeader() {
   return (
@@ -63,8 +64,19 @@ export function AppHeader() {
                   rel="noopener noreferrer"
                   className="flex items-center w-full"
                 >
-                  <MessageCircle className="mr-2 h-4 w-4" />
+                  <Send className="mr-2 h-4 w-4" />
                   Telegram
+                </a>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <a
+                  href="/discord"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center w-full"
+                >
+                  <DiscordIcon strokeColor="#ffffff" size="18" />
+                  <div className="ml-2">Discord</div>
                 </a>
               </DropdownMenuItem>
             </DropdownMenuContent>

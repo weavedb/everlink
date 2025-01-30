@@ -37,6 +37,7 @@ import LinkedinIcon from "@/components/icons/LinkedinIcon"
 import Head from "next/head"
 import TelegramIcon from "@/components/icons/TelegramIcon"
 import { Link } from "arnext"
+import DiscordIcon from "@/components/icons/DiscordIcon"
 
 const ANT_PROCESS_ID = "0MV4IRiORl-mw5FKx7PzwIQrdrz6eC8qJNd-52sAJNI"
 const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
@@ -437,6 +438,9 @@ export default function Home() {
                 Everlink
               </Text>
               <Flex gap={4} alignItems="center">
+                <Link target="_blank" rel="noopener noreferrer" href="/discord">
+                  <DiscordIcon strokeColor="#7023b6" size={18} />
+                </Link>
                 <Link
                   target="_blank"
                   rel="noopener noreferrer"
@@ -886,6 +890,10 @@ export default function Home() {
             </Flex>
 
             <Flex gap={4}>
+              <Link target="_blank" rel="noopener noreferrer" href="/discord">
+                <DiscordIcon strokeColor="#ffffff" size={18} />
+              </Link>
+
               <Link
                 target="_blank"
                 rel="noopener noreferrer"

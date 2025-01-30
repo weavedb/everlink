@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast"
 import { Send as Telegram, Twitter } from "lucide-react"
 import { Link } from "arnext"
 import { useAppContext } from "@/context/AppContext"
+import DiscordIcon from "@/components/icons/DiscordIcon"
 
 export default function Home() {
   const [subdomain, setSubdomain] = useState("")
@@ -86,10 +87,18 @@ export default function Home() {
 
         <div className="flex justify-center space-x-4">
           <Link
+            href="/discord"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center h-5 w-5 text-white hover:text-purple-200"
+          >
+            <DiscordIcon strokeColor="currentColor" className="h-5 w-5" />
+          </Link>
+          <Link
             href="https://t.me/everlinkdotfun"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-white hover:text-purple-200"
+            className="flex items-center justify-center h-5 w-5 text-white hover:text-purple-200"
           >
             <Telegram className="h-5 w-5" />
           </Link>
@@ -97,7 +106,7 @@ export default function Home() {
             href="https://x.com/everlinkdotfun"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-white hover:text-purple-200"
+            className="flex items-center justify-center h-5 w-5 text-white hover:text-purple-200"
           >
             <Twitter className="h-5 w-5" />
           </Link>
