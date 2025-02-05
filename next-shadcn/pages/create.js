@@ -79,6 +79,39 @@ export default function CreatePage() {
   const [selectedTemplateTxId, setSelectedTemplateTxId] =
     useState(PINK_TEMPLATE_TXID)
 
+  const socialMediaConfig = [
+    {
+      name: "twitter",
+      icon: Twitter,
+      placeholder: "https://x.com/username",
+      state: [twitter, setTwitter],
+    },
+    {
+      name: "tiktok",
+      icon: TikTokIcon,
+      placeholder: "https://tiktok.com/@username",
+      state: [tiktok, setTiktok],
+    },
+    {
+      name: "instagram",
+      icon: Instagram,
+      placeholder: "https://instagram.com/username",
+      state: [instagram, setInstagram],
+    },
+    {
+      name: "facebook",
+      icon: Facebook,
+      placeholder: "https://facebook.com/username",
+      state: [facebook, setFacebook],
+    },
+    {
+      name: "linkedin",
+      icon: Linkedin,
+      placeholder: "https://linkedin.com/in/username",
+      state: [linkedin, setLinkedin],
+    },
+  ]
+
   useEffect(() => {
     ;(async () => {
       await getTemplates()
@@ -202,9 +235,18 @@ export default function CreatePage() {
     }
   }
 
+  const formatUrl = (url) => {
+    if (!/^https?:\/\//i.test(url)) {
+      return `https://${url}`
+    }
+    return url
+  }
+
   const addLink = () => {
     if (newLink.title && newLink.url) {
-      setLinks([...links, newLink])
+      const _url = formatUrl(newLink.url)
+      setNewLink({ ...newLink, url: _url })
+      setLinks([...links, { ...newLink, url: _url }])
       setNewLink({ title: "", url: "" })
     }
   }
@@ -486,44 +528,27 @@ export default function CreatePage() {
               <h2 className="text-lg font-semibold text-primary mb-4">
                 Social Media
               </h2>
-              {[
-                {
-                  icon: <Twitter className="h-5 w-5" />,
-                  id: "twitter",
-                  placeholder: "https://x.com/username",
-                },
-                {
-                  icon: <TikTokIcon className="h-5 w-5" />,
-                  id: "tiktok",
-                  placeholder: "https://tiktok.com/@username",
-                },
-                {
-                  icon: <Instagram className="h-5 w-5" />,
-                  id: "instagram",
-                  placeholder: "https://instagram.com/username",
-                },
-                {
-                  icon: <Facebook className="h-5 w-5" />,
-                  id: "facebook",
-                  placeholder: "https://facebook.com/username",
-                },
-                {
-                  icon: <Linkedin className="h-5 w-5" />,
-                  id: "linkedin",
-                  placeholder: "https://linkedin.com/in/username",
-                },
-              ].map((social) => (
-                <div key={social.id} className="flex items-center space-x-2">
-                  <Label htmlFor={social.id} className="w-8">
-                    {social.icon}
-                  </Label>
-                  <Input
-                    id={social.id}
-                    placeholder={social.placeholder}
-                    className="bg-background flex-grow"
-                  />
-                </div>
-              ))}
+
+              {socialMediaConfig.map(
+                ({
+                  name,
+                  icon: Icon,
+                  placeholder,
+                  state: [value, setValue],
+                }) => (
+                  <div key={name} className="flex items-center space-x-2">
+                    <Label className="w-8">
+                      <Icon className="h-5 w-5" />
+                    </Label>
+                    <Input
+                      placeholder={placeholder}
+                      className="bg-background flex-grow"
+                      value={value}
+                      onChange={(e) => setValue(e.target.value)}
+                    />
+                  </div>
+                )
+              )}
             </div>
 
             <Button type="button" className="w-full" onClick={publishProfile}>
