@@ -30,9 +30,9 @@ export function AppHeader() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
-                variant="ghost"
+                variant="outline"
                 size="icon"
-                className="text-foreground hover:bg-muted"
+                className="text-foreground hover:bg-muted border-input focus:border-input focus-visible:ring-0 focus-visible:ring-offset-0"
               >
                 <Menu className="h-5 w-5" />
               </Button>
