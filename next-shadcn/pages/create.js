@@ -551,7 +551,16 @@ export default function CreatePage() {
               )}
             </div>
 
-            <Button type="button" className="w-full" onClick={publishProfile}>
+            <Button
+              type="button"
+              className="w-full"
+              onClick={async (event) => {
+                const button = event.target
+                button.disabled = true
+                await publishProfile()
+                button.disabled = false
+              }}
+            >
               Publish
             </Button>
           </div>
