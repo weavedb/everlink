@@ -39,6 +39,7 @@ import {
 } from "@permaweb/aoconnect"
 
 import { MAIN_PROCESS_ID } from "@/context/AppContext"
+import { ToastAction } from "@/components/ui/toast"
 
 const PINK_TEMPLATE_TXID = "ma-GzZRRNQvvd-JdqwdmBYwxgbmQn-O4SavYndec4e0"
 
@@ -55,6 +56,11 @@ export default function CreatePage() {
   const [subdomain, setSubdomain] = useState("")
   const [username, setUsername] = useState("")
   const [description, setDescription] = useState("")
+  const [twitter, setTwitter] = useState("")
+  const [tiktok, setTiktok] = useState("")
+  const [instagram, setInstagram] = useState("")
+  const [facebook, setFacebook] = useState("")
+  const [linkedin, setLinkedin] = useState("")
   const [userRecords, setUserRecords] = useState([])
   const { toast } = useToast()
   const {
@@ -112,10 +118,6 @@ export default function CreatePage() {
       if (_connected.success === false) {
         return
       }
-
-      const existingRecordIndex = userRecords.findIndex(
-        (record) => record.Subdomain === newSubdomain
-      )
 
       const messageId = await message({
         process: MAIN_PROCESS_ID,
@@ -179,50 +181,21 @@ export default function CreatePage() {
       })
       console.log("_result", _result)
 
-      if (existingRecordIndex !== -1) {
-        setUserRecords((prevRecords) => {
-          const newRecords = [...prevRecords]
-          newRecords[existingRecordIndex] = {
-            Subdomain: subdomain,
-            Username: username,
-            Description: description,
-            TransactionId: selectedTemplateTxId,
-            Links: JSON.stringify(links),
-            Twitter: twitter,
-            Tiktok: tiktok,
-            Instagram: instagram,
-            Facebook: facebook,
-            Linkedin: linkedin,
-          }
-          return newRecords
-        })
-      } else {
-        setUserRecords((prevRecords) => [
-          ...prevRecords,
-          {
-            Subdomain: subdomain,
-            Username: username,
-            Description: description,
-            TransactionId: selectedTemplateTxId,
-            Links: JSON.stringify(links),
-            Twitter: twitter,
-            Tiktok: tiktok,
-            Instagram: instagram,
-            Facebook: facebook,
-            Linkedin: linkedin,
-          },
-        ])
-      }
+      if (handleMessageResultError(_result)) return
 
       toast({
-        title:
-          existingRecordIndex !== -1
-            ? "Profile updated successfully"
-            : "Profile published successfully",
-        status: "success",
-        duration: 2000,
-        isClosable: true,
-        position: "top",
+        description: "Profile published successfully",
+        action: (
+          <ToastAction altText="View">
+            <a
+              href={`https://${subdomain}_everlink.ar.io`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View
+            </a>
+          </ToastAction>
+        ),
       })
     } catch (e) {
       console.error(e)
@@ -307,6 +280,8 @@ export default function CreatePage() {
                   id="description"
                   placeholder="Enter description"
                   className="bg-background"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
 
@@ -485,8 +460,8 @@ export default function CreatePage() {
                         onClick={() => {
                           // Simulated upload success
                           toast({
-                            title: "Upload Successful",
-                            description: "Transaction ID: ABC123XYZ",
+                            description: "This feature is not yet available",
+                            variant: "destructive",
                           })
                         }}
                       >
