@@ -19,6 +19,8 @@ import {
   ImageUp,
   Plus,
   Trash2,
+  Copy,
+  ExternalLink,
 } from "lucide-react"
 import {
   Table,
@@ -37,6 +39,8 @@ import {
 } from "@permaweb/aoconnect"
 
 import { MAIN_PROCESS_ID } from "@/context/AppContext"
+
+const PINK_TEMPLATE_TXID = "ma-GzZRRNQvvd-JdqwdmBYwxgbmQn-O4SavYndec4e0"
 
 // Custom TikTok Icon component
 const TikTokIcon = () => (
@@ -62,10 +66,12 @@ export default function CreatePage() {
     getRecords,
   } = useAppContext()
 
-  const [templates, setTemplates] = useState({})
-  const [selectedTemplateTxId, setSelectedTemplateTxId] = useState(
-    "ma-GzZRRNQvvd-JdqwdmBYwxgbmQn-O4SavYndec4e0"
-  )
+  // Set initial template to Pink
+  const [templates, setTemplates] = useState({
+    Pink: PINK_TEMPLATE_TXID,
+  })
+  const [selectedTemplateTxId, setSelectedTemplateTxId] =
+    useState(PINK_TEMPLATE_TXID)
 
   useEffect(() => {
     ;(async () => {
@@ -89,11 +95,6 @@ export default function CreatePage() {
     const jsonTemplates = JSON.parse(_templatesResultData)
     console.log("jsonTemplates", jsonTemplates)
     setTemplates(jsonTemplates)
-
-    const firstTemplateKey = Object.keys(jsonTemplates)[0]
-    if (firstTemplateKey) {
-      setSelectedTemplateTxId(jsonTemplates[firstTemplateKey])
-    }
   }
 
   const publishProfile = async () => {
@@ -313,19 +314,53 @@ export default function CreatePage() {
                 <Label htmlFor="template">
                   Template <span className="text-destructive">*</span>
                 </Label>
-                <Select defaultValue={selectedTemplateTxId} id="template">
+                <Select
+                  defaultValue={selectedTemplateTxId}
+                  id="template"
+                  onValueChange={(value) => {
+                    console.log("value", value)
+                    setSelectedTemplateTxId(value)
+                  }}
+                >
                   <SelectTrigger id="template" className="bg-background">
                     <SelectValue placeholder="Select a template" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ma-GzZRRNQvvd-JdqwdmBYwxgbmQn-O4SavYndec4e0">
-                      Pink
-                    </SelectItem>
-                    <SelectItem value="Ojbm5pHluWEdD3LgWikGORKOxSUAMdwY6F25OQvRKJ0">
-                      Dark
-                    </SelectItem>
+                    {Object.entries(templates).map(([key, value]) => (
+                      <SelectItem key={key} value={value}>
+                        {key}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
+                {selectedTemplateTxId && (
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 space-y-2 sm:space-y-0 text-sm text-muted-foreground mt-2">
+                    <span className="break-all">{selectedTemplateTxId}</span>
+                    <div className="flex space-x-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          navigator.clipboard.writeText(selectedTemplateTxId)
+                          toast({
+                            title: "Copied",
+                            description: "Transaction ID copied to clipboard",
+                          })
+                        }}
+                        className="p-1 hover:bg-muted rounded-full"
+                      >
+                        <Copy className="h-4 w-4" />
+                      </button>
+                      <a
+                        href={`https://viewblock.io/arweave/tx/${selectedTemplateTxId}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-1 hover:bg-muted rounded-full"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                      </a>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
