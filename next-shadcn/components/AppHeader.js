@@ -23,7 +23,10 @@ export function AppHeader() {
   return (
     <header className="border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex items-center px-6 py-3">
-        <Link href="/" className="font-bold text-3xl text-primary">
+        <Link
+          href={isConnected ? `/user/${userAddress}` : "/"}
+          className="font-bold text-3xl text-primary"
+        >
           Everlink
         </Link>
         <div className="ml-auto flex items-center gap-4">
