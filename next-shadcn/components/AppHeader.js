@@ -9,8 +9,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import DiscordIcon from "./icons/DiscordIcon"
+import { useAppContext } from "@/context/AppContext"
 
 export function AppHeader() {
+  const { connectWallet, disconnectWallet, isConnected, userAddress } =
+    useAppContext()
   return (
     <header className="border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex items-center px-6 py-3">
@@ -41,10 +44,16 @@ export function AppHeader() {
               align="end"
               className="w-48 bg-popover text-popover-foreground"
             >
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={connectWallet}>
                 <div className="flex items-center">
                   <Wallet className="mr-2 h-4 w-4" />
-                  Connect Wallet
+                  {isConnected ? (
+                    <span className="truncate max-w-[150px]">
+                      {userAddress?.slice(0, 5)}....{userAddress?.slice(-5)}
+                    </span>
+                  ) : (
+                    "Connect Wallet"
+                  )}
                 </div>
               </DropdownMenuItem>
               <DropdownMenuItem>
