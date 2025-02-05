@@ -243,10 +243,16 @@ export default function CreatePage() {
           </div>
 
           <div className="space-y-8">
+            <p className="text-sm text-muted-foreground mb-4">
+              Fields marked with <span className="text-destructive">*</span> are
+              required.
+            </p>
             {/* Profile section */}
             <div className="space-y-6 rounded-lg border border-border/50 p-4">
               <div className="space-y-2">
-                <Label htmlFor="subdomain">Subdomain</Label>
+                <Label htmlFor="subdomain">
+                  Subdomain <span className="text-destructive">*</span>
+                </Label>
                 <div className="flex overflow-hidden rounded-md bg-background border border-input">
                   <Input
                     id="subdomain"
@@ -275,7 +281,9 @@ export default function CreatePage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="username">Name</Label>
+                <Label htmlFor="username">
+                  Name <span className="text-destructive">*</span>
+                </Label>
                 <Input
                   id="username"
                   placeholder="Enter your name"
@@ -295,7 +303,9 @@ export default function CreatePage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="template">Template</Label>
+                <Label htmlFor="template">
+                  Template <span className="text-destructive">*</span>
+                </Label>
                 <Select defaultValue={selectedTemplateTxId} id="template">
                   <SelectTrigger id="template" className="bg-background">
                     <SelectValue placeholder="Select a template" />

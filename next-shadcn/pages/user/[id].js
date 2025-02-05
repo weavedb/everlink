@@ -95,13 +95,15 @@ export default function Home({ _id = null }) {
                     <p className="text-muted-foreground mb-4">
                       No subdomain found
                     </p>
-                    <Button
-                      variant="default"
-                      className="bg-primary text-primary-foreground hover:bg-primary/90"
-                    >
-                      <Plus className="mr-2 h-4 w-4" />
-                      Create
-                    </Button>
+                    <Link href="/create">
+                      <Button
+                        variant="default"
+                        className="bg-primary text-primary-foreground hover:bg-primary/90"
+                      >
+                        <Plus className="mr-2 h-4 w-4" />
+                        Create
+                      </Button>
+                    </Link>
                   </div>
                 )}
               </div>
@@ -121,7 +123,7 @@ export default function Home({ _id = null }) {
               ) : (
                 <div className="bg-card rounded-lg shadow-lg p-6 md:p-8 text-center">
                   <p className="text-muted-foreground mb-4">
-                    No bids available
+                    Nothing here… for now.
                   </p>
                 </div>
               )}
