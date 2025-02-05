@@ -80,12 +80,16 @@ export const AppContextProvider = ({ children }) => {
   }
 
   const getRecords = async () => {
-    const ant = ANT.init({
-      processId: ANT_PROCESS_ID,
-    })
-    const _records = await ant.getRecords()
-    console.log("_records", _records)
-    return _records
+    try {
+      const ant = ANT.init({
+        processId: ANT_PROCESS_ID,
+      })
+      const _records = await ant.getRecords()
+      console.log("_records", _records)
+      return _records
+    } catch (e) {
+      console.error("getRecords() error!", e)
+    }
   }
 
   const checkAvailability = async (subdomain = "") => {

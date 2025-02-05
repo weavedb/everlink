@@ -53,8 +53,14 @@ export default function CreatePage() {
   const [description, setDescription] = useState("")
   const [userRecords, setUserRecords] = useState([])
   const { toast } = useToast()
-  const { checkAvailability, handleMessageResultError, connectWallet } =
-    useAppContext()
+  const {
+    checkAvailability,
+    handleMessageResultError,
+    connectWallet,
+    isConnected,
+    userAddress,
+    getRecords,
+  } = useAppContext()
 
   const [templates, setTemplates] = useState({})
   const [selectedTemplateTxId, setSelectedTemplateTxId] = useState(
@@ -67,15 +73,19 @@ export default function CreatePage() {
     })()
   }, [])
 
+  useEffect(() => {
+    ;(async () => {
+      console.log("useEffect() userAddress", userAddress)
+    })()
+  }, [userAddress])
+
   const getTemplates = async () => {
     const _templatesResult = await dryrun({
       process: MAIN_PROCESS_ID,
       tags: [{ name: "Action", value: "Templates" }],
     })
-    console.log("_templatesResult", _templatesResult)
     if (handleMessageResultError(_templatesResult)) return
     const _templatesResultData = _templatesResult.Messages[0].Data
-    console.log("_templatesResultData", _templatesResultData)
     const jsonTemplates = JSON.parse(_templatesResultData)
     console.log("jsonTemplates", jsonTemplates)
     setTemplates(jsonTemplates)
@@ -90,10 +100,7 @@ export default function CreatePage() {
     if (!subdomain || !selectedTemplateTxId || !username) {
       toast({
         title: "Subdomain, Template, and Name are required",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-        position: "top",
+        variant: "destructive",
       })
       return
     }
@@ -118,7 +125,7 @@ export default function CreatePage() {
           },
           {
             name: "Sub-Domain",
-            value: newSubdomain,
+            value: subdomain,
           },
           {
             name: "Transaction-Id",
@@ -175,7 +182,7 @@ export default function CreatePage() {
         setUserRecords((prevRecords) => {
           const newRecords = [...prevRecords]
           newRecords[existingRecordIndex] = {
-            Subdomain: newSubdomain,
+            Subdomain: subdomain,
             Username: username,
             Description: description,
             TransactionId: selectedTemplateTxId,
@@ -192,7 +199,7 @@ export default function CreatePage() {
         setUserRecords((prevRecords) => [
           ...prevRecords,
           {
-            Subdomain: newSubdomain,
+            Subdomain: subdomain,
             Username: username,
             Description: description,
             TransactionId: selectedTemplateTxId,
