@@ -9,12 +9,24 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import DiscordIcon from "./icons/DiscordIcon"
+import { useAppContext } from "@/context/AppContext"
+import { useToast } from "@/hooks/use-toast"
+import { LogOut } from "lucide-react"
+import { useRouter } from "next/router"
 
 export function AppHeader() {
+  const { connectWallet, disconnectWallet, isConnected, userAddress } =
+    useAppContext()
+
+  const router = useRouter()
+  const { toast } = useToast()
   return (
     <header className="border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex items-center px-6 py-3">
-        <Link href="/" className="font-bold text-3xl text-primary">
+        <Link
+          href={isConnected ? `/user/${userAddress}` : "/"}
+          className="font-bold text-3xl bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent hover:from-purple-500 hover:to-pink-400"
+        >
           Everlink
         </Link>
         <div className="ml-auto flex items-center gap-4">
@@ -30,9 +42,9 @@ export function AppHeader() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
-                variant="ghost"
+                variant="outline"
                 size="icon"
-                className="text-foreground hover:bg-muted"
+                className="text-foreground hover:bg-muted border-input focus:border-input focus-visible:ring-0 focus-visible:ring-offset-0"
               >
                 <Menu className="h-5 w-5" />
               </Button>
@@ -42,11 +54,47 @@ export function AppHeader() {
               className="w-48 bg-popover text-popover-foreground"
             >
               <DropdownMenuItem>
-                <div className="flex items-center">
+                <div
+                  className="flex items-center cursor-pointer w-full"
+                  onClick={!isConnected ? connectWallet : undefined}
+                >
                   <Wallet className="mr-2 h-4 w-4" />
-                  Connect Wallet
+                  {isConnected ? (
+                    <span
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        navigator.clipboard.writeText(userAddress)
+                        toast({
+                          description: "Wallet address copied to clipboard",
+                          duration: 2000,
+                        })
+                        router.push(`/user/${userAddress}`)
+                      }}
+                    >
+                      {userAddress?.slice(0, 5)}....{userAddress?.slice(-5)}
+                    </span>
+                  ) : (
+                    "Connect Wallet"
+                  )}
                 </div>
               </DropdownMenuItem>
+              {isConnected && (
+                <DropdownMenuItem
+                  onClick={async () => {
+                    disconnectWallet()
+                    toast({
+                      description: "Wallet disconnected",
+                      variant: "destructive",
+                      duration: 1000,
+                    })
+                  }}
+                >
+                  <div className="flex items-center text-destructive">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Disconnect
+                  </div>
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem>
                 <a
                   href={`https://x.com/everlinkdotfun`}

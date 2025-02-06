@@ -19,6 +19,8 @@ import {
   ImageUp,
   Plus,
   Trash2,
+  Copy,
+  ExternalLink,
 } from "lucide-react"
 import {
   Table,
@@ -37,6 +39,10 @@ import {
 } from "@permaweb/aoconnect"
 
 import { MAIN_PROCESS_ID } from "@/context/AppContext"
+import { ToastAction } from "@/components/ui/toast"
+import { useRouter } from "next/router"
+
+const PINK_TEMPLATE_TXID = "ma-GzZRRNQvvd-JdqwdmBYwxgbmQn-O4SavYndec4e0"
 
 // Custom TikTok Icon component
 const TikTokIcon = () => (
@@ -46,20 +52,67 @@ const TikTokIcon = () => (
 )
 
 export default function CreatePage() {
+  const router = useRouter()
+  const { userRecord } = router.query
   const [links, setLinks] = useState([])
   const [newLink, setNewLink] = useState({ title: "", url: "" })
   const [subdomain, setSubdomain] = useState("")
   const [username, setUsername] = useState("")
   const [description, setDescription] = useState("")
-  const [userRecords, setUserRecords] = useState([])
+  const [twitter, setTwitter] = useState("")
+  const [tiktok, setTiktok] = useState("")
+  const [instagram, setInstagram] = useState("")
+  const [facebook, setFacebook] = useState("")
+  const [linkedin, setLinkedin] = useState("")
   const { toast } = useToast()
-  const { checkAvailability, handleMessageResultError, connectWallet } =
-    useAppContext()
+  const {
+    checkAvailability,
+    handleMessageResultError,
+    connectWallet,
+    isConnected,
+    userAddress,
+    getRecords,
+  } = useAppContext()
 
-  const [templates, setTemplates] = useState({})
-  const [selectedTemplateTxId, setSelectedTemplateTxId] = useState(
-    "ma-GzZRRNQvvd-JdqwdmBYwxgbmQn-O4SavYndec4e0"
-  )
+  // Set initial template to Pink
+  const [templates, setTemplates] = useState({
+    Pink: PINK_TEMPLATE_TXID,
+  })
+  const [selectedTemplateTxId, setSelectedTemplateTxId] =
+    useState(PINK_TEMPLATE_TXID)
+
+  const socialMediaConfig = [
+    {
+      name: "twitter",
+      icon: Twitter,
+      placeholder: "https://x.com/username",
+      state: [twitter, setTwitter],
+    },
+    {
+      name: "tiktok",
+      icon: TikTokIcon,
+      placeholder: "https://tiktok.com/@username",
+      state: [tiktok, setTiktok],
+    },
+    {
+      name: "instagram",
+      icon: Instagram,
+      placeholder: "https://instagram.com/username",
+      state: [instagram, setInstagram],
+    },
+    {
+      name: "facebook",
+      icon: Facebook,
+      placeholder: "https://facebook.com/username",
+      state: [facebook, setFacebook],
+    },
+    {
+      name: "linkedin",
+      icon: Linkedin,
+      placeholder: "https://linkedin.com/in/username",
+      state: [linkedin, setLinkedin],
+    },
+  ]
 
   useEffect(() => {
     ;(async () => {
@@ -67,22 +120,56 @@ export default function CreatePage() {
     })()
   }, [])
 
-  const getTemplates = async () => {
-    const _templatesResult = await dryrun({
-      process: MAIN_PROCESS_ID,
-      tags: [{ name: "Action", value: "Templates" }],
-    })
-    console.log("_templatesResult", _templatesResult)
-    if (handleMessageResultError(_templatesResult)) return
-    const _templatesResultData = _templatesResult.Messages[0].Data
-    console.log("_templatesResultData", _templatesResultData)
-    const jsonTemplates = JSON.parse(_templatesResultData)
-    console.log("jsonTemplates", jsonTemplates)
-    setTemplates(jsonTemplates)
+  useEffect(() => {
+    ;(async () => {
+      console.log("useEffect() userAddress", userAddress)
+    })()
+  }, [userAddress])
 
-    const firstTemplateKey = Object.keys(jsonTemplates)[0]
-    if (firstTemplateKey) {
-      setSelectedTemplateTxId(jsonTemplates[firstTemplateKey])
+  useEffect(() => {
+    try {
+      if (router.isReady && userRecord) {
+        const record = JSON.parse(userRecord)
+        console.log("record", record)
+        setSubdomain(record.Subdomain)
+        setUsername(record.Username)
+        setDescription(record.Description)
+        setTwitter(record.Twitter)
+        setTiktok(record.Tiktok)
+        setInstagram(record.Instagram)
+        setFacebook(record.Facebook)
+        setLinkedin(record.Linkedin)
+        setLinks(JSON.parse(record.Links || "[]"))
+      }
+    } catch (error) {
+      console.error("Error parsing query param userRecord", error)
+      toast({
+        title: "Error loading data",
+        descrition: `${error}`,
+        variant: "destructive",
+        duration: 2000,
+      })
+    }
+  }, [router.isReady])
+
+  const getTemplates = async () => {
+    try {
+      const _templatesResult = await dryrun({
+        process: MAIN_PROCESS_ID,
+        tags: [{ name: "Action", value: "Templates" }],
+      })
+      if (handleMessageResultError(_templatesResult)) return
+      const _templatesResultData = _templatesResult.Messages[0].Data
+      const jsonTemplates = JSON.parse(_templatesResultData)
+      console.log("jsonTemplates", jsonTemplates)
+      setTemplates(jsonTemplates)
+    } catch (e) {
+      console.error("getTemplates() error!", e)
+      toast({
+        description: "Failed to fetch templates",
+        variant: "destructive",
+        duration: 2000,
+      })
     }
   }
 
@@ -90,10 +177,8 @@ export default function CreatePage() {
     if (!subdomain || !selectedTemplateTxId || !username) {
       toast({
         title: "Subdomain, Template, and Name are required",
-        status: "error",
+        variant: "destructive",
         duration: 2000,
-        isClosable: true,
-        position: "top",
       })
       return
     }
@@ -105,10 +190,6 @@ export default function CreatePage() {
         return
       }
 
-      const existingRecordIndex = userRecords.findIndex(
-        (record) => record.Subdomain === newSubdomain
-      )
-
       const messageId = await message({
         process: MAIN_PROCESS_ID,
         tags: [
@@ -118,7 +199,7 @@ export default function CreatePage() {
           },
           {
             name: "Sub-Domain",
-            value: newSubdomain,
+            value: subdomain,
           },
           {
             name: "Transaction-Id",
@@ -171,59 +252,45 @@ export default function CreatePage() {
       })
       console.log("_result", _result)
 
-      if (existingRecordIndex !== -1) {
-        setUserRecords((prevRecords) => {
-          const newRecords = [...prevRecords]
-          newRecords[existingRecordIndex] = {
-            Subdomain: newSubdomain,
-            Username: username,
-            Description: description,
-            TransactionId: selectedTemplateTxId,
-            Links: JSON.stringify(links),
-            Twitter: twitter,
-            Tiktok: tiktok,
-            Instagram: instagram,
-            Facebook: facebook,
-            Linkedin: linkedin,
-          }
-          return newRecords
-        })
-      } else {
-        setUserRecords((prevRecords) => [
-          ...prevRecords,
-          {
-            Subdomain: newSubdomain,
-            Username: username,
-            Description: description,
-            TransactionId: selectedTemplateTxId,
-            Links: JSON.stringify(links),
-            Twitter: twitter,
-            Tiktok: tiktok,
-            Instagram: instagram,
-            Facebook: facebook,
-            Linkedin: linkedin,
-          },
-        ])
-      }
+      if (handleMessageResultError(_result)) return
 
       toast({
-        title:
-          existingRecordIndex !== -1
-            ? "Profile updated successfully"
-            : "Profile published successfully",
-        status: "success",
-        duration: 2000,
-        isClosable: true,
-        position: "top",
+        description: "Profile published successfully",
+        action: (
+          <ToastAction altText="View">
+            <a
+              href={`https://${subdomain}_everlink.ar.io`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View
+            </a>
+          </ToastAction>
+        ),
       })
     } catch (e) {
-      console.error(e)
+      console.error("publishProfile() error!", e)
+      toast({
+        title: "Failed to publish profile",
+        description: `${e.message}`,
+        variant: "destructive",
+        duration: 2000,
+      })
     }
+  }
+
+  const formatUrl = (url) => {
+    if (!/^https?:\/\//i.test(url)) {
+      return `https://${url}`
+    }
+    return url
   }
 
   const addLink = () => {
     if (newLink.title && newLink.url) {
-      setLinks([...links, newLink])
+      const _url = formatUrl(newLink.url)
+      setNewLink({ ...newLink, url: _url })
+      setLinks([...links, { ...newLink, url: _url }])
       setNewLink({ title: "", url: "" })
     }
   }
@@ -243,10 +310,16 @@ export default function CreatePage() {
           </div>
 
           <div className="space-y-8">
+            <p className="text-sm text-muted-foreground mb-4">
+              Fields marked with <span className="text-destructive">*</span> are
+              required.
+            </p>
             {/* Profile section */}
             <div className="space-y-6 rounded-lg border border-border/50 p-4">
               <div className="space-y-2">
-                <Label htmlFor="subdomain">Subdomain</Label>
+                <Label htmlFor="subdomain">
+                  Subdomain <span className="text-destructive">*</span>
+                </Label>
                 <div className="flex overflow-hidden rounded-md bg-background border border-input">
                   <Input
                     id="subdomain"
@@ -275,7 +348,9 @@ export default function CreatePage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="username">Name</Label>
+                <Label htmlFor="username">
+                  Name <span className="text-destructive">*</span>
+                </Label>
                 <Input
                   id="username"
                   placeholder="Enter your name"
@@ -291,24 +366,62 @@ export default function CreatePage() {
                   id="description"
                   placeholder="Enter description"
                   className="bg-background"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="template">Template</Label>
-                <Select defaultValue={selectedTemplateTxId} id="template">
+                <Label htmlFor="template">
+                  Template <span className="text-destructive">*</span>
+                </Label>
+                <Select
+                  defaultValue={selectedTemplateTxId}
+                  id="template"
+                  onValueChange={(value) => {
+                    console.log("value", value)
+                    setSelectedTemplateTxId(value)
+                  }}
+                >
                   <SelectTrigger id="template" className="bg-background">
                     <SelectValue placeholder="Select a template" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ma-GzZRRNQvvd-JdqwdmBYwxgbmQn-O4SavYndec4e0">
-                      Pink
-                    </SelectItem>
-                    <SelectItem value="Ojbm5pHluWEdD3LgWikGORKOxSUAMdwY6F25OQvRKJ0">
-                      Dark
-                    </SelectItem>
+                    {Object.entries(templates).map(([key, value]) => (
+                      <SelectItem key={key} value={value}>
+                        {key}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
+                {selectedTemplateTxId && (
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 space-y-2 sm:space-y-0 text-sm text-muted-foreground mt-2">
+                    <span className="break-all">{selectedTemplateTxId}</span>
+                    <div className="flex space-x-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          navigator.clipboard.writeText(selectedTemplateTxId)
+                          toast({
+                            description: "Transaction ID copied to clipboard",
+                            duration: 2000,
+                          })
+                        }}
+                        className="p-1 hover:bg-muted rounded-full"
+                      >
+                        <Copy className="h-4 w-4" />
+                      </button>
+                      <a
+                        href={`https://viewblock.io/arweave/tx/${selectedTemplateTxId}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-1 hover:bg-muted rounded-full"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                      </a>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -423,6 +536,7 @@ export default function CreatePage() {
                             toast({
                               title: "File size must be less than 100 KiB",
                               variant: "destructive",
+                              duration: 2000,
                             })
                             e.target.value = ""
                           }
@@ -433,8 +547,9 @@ export default function CreatePage() {
                         onClick={() => {
                           // Simulated upload success
                           toast({
-                            title: "Upload Successful",
-                            description: "Transaction ID: ABC123XYZ",
+                            description: "This feature is not yet available",
+                            variant: "destructive",
+                            duration: 2000,
                           })
                         }}
                       >
@@ -459,47 +574,39 @@ export default function CreatePage() {
               <h2 className="text-lg font-semibold text-primary mb-4">
                 Social Media
               </h2>
-              {[
-                {
-                  icon: <Twitter className="h-5 w-5" />,
-                  id: "twitter",
-                  placeholder: "https://x.com/username",
-                },
-                {
-                  icon: <TikTokIcon className="h-5 w-5" />,
-                  id: "tiktok",
-                  placeholder: "https://tiktok.com/@username",
-                },
-                {
-                  icon: <Instagram className="h-5 w-5" />,
-                  id: "instagram",
-                  placeholder: "https://instagram.com/username",
-                },
-                {
-                  icon: <Facebook className="h-5 w-5" />,
-                  id: "facebook",
-                  placeholder: "https://facebook.com/username",
-                },
-                {
-                  icon: <Linkedin className="h-5 w-5" />,
-                  id: "linkedin",
-                  placeholder: "https://linkedin.com/in/username",
-                },
-              ].map((social) => (
-                <div key={social.id} className="flex items-center space-x-2">
-                  <Label htmlFor={social.id} className="w-8">
-                    {social.icon}
-                  </Label>
-                  <Input
-                    id={social.id}
-                    placeholder={social.placeholder}
-                    className="bg-background flex-grow"
-                  />
-                </div>
-              ))}
+
+              {socialMediaConfig.map(
+                ({
+                  name,
+                  icon: Icon,
+                  placeholder,
+                  state: [value, setValue],
+                }) => (
+                  <div key={name} className="flex items-center space-x-2">
+                    <Label className="w-8">
+                      <Icon className="h-5 w-5" />
+                    </Label>
+                    <Input
+                      placeholder={placeholder}
+                      className="bg-background flex-grow"
+                      value={value}
+                      onChange={(e) => setValue(e.target.value)}
+                    />
+                  </div>
+                )
+              )}
             </div>
 
-            <Button type="button" className="w-full" onClick={publishProfile}>
+            <Button
+              type="button"
+              className="w-full"
+              onClick={async (event) => {
+                const button = event.target
+                button.disabled = true
+                await publishProfile()
+                button.disabled = false
+              }}
+            >
               Publish
             </Button>
           </div>

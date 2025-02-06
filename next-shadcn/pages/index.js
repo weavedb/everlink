@@ -6,19 +6,13 @@ import { Send as Telegram, Twitter } from "lucide-react"
 import { Link } from "arnext"
 import { useAppContext } from "@/context/AppContext"
 import DiscordIcon from "@/components/icons/DiscordIcon"
+import { useRouter } from "next/router"
 
 export default function Home() {
+  const router = useRouter()
   const [subdomain, setSubdomain] = useState("")
   const { toast } = useToast()
   const { connectWallet, checkAvailability } = useAppContext()
-
-  const login = async () => {
-    const _connected = await connectWallet()
-    if (_connected.success === false) {
-      return
-    }
-    window.location.href = `/user/${_connected.userAddress}`
-  }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-indigo-600 to-purple-900 px-4 py-12">
@@ -68,8 +62,13 @@ export default function Home() {
               onClick={async (event) => {
                 const button = event.target
                 button.disabled = true
-                await login()
+                const _connected = await connectWallet()
+                if (_connected.success === false) {
+                  button.disabled = false
+                  return
+                }
                 button.disabled = false
+                router.push(`/user/${_connected.userAddress}`)
               }}
             >
               Login
