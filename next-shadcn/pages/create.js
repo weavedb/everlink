@@ -61,7 +61,6 @@ export default function CreatePage() {
   const [instagram, setInstagram] = useState("")
   const [facebook, setFacebook] = useState("")
   const [linkedin, setLinkedin] = useState("")
-  const [userRecords, setUserRecords] = useState([])
   const { toast } = useToast()
   const {
     checkAvailability,
