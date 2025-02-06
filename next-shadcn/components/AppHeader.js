@@ -85,6 +85,7 @@ export function AppHeader() {
                     toast({
                       description: "Wallet disconnected",
                       variant: "destructive",
+                      duration: 1000,
                     })
                   }}
                 >

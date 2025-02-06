@@ -13,6 +13,7 @@ import {
   dryrun,
 } from "@permaweb/aoconnect"
 import { MAIN_PROCESS_ID, useAppContext } from "@/context/AppContext"
+import { useToast } from "@/hooks/use-toast"
 
 const bids = []
 
@@ -30,6 +31,7 @@ export default function Home({ _id = null }) {
   const { id } = useParams()
   const [pid, setPid] = useState(_id)
   const { handleMessageResultError } = useAppContext()
+  const { toast } = useToast()
 
   const [userRecords, setUserRecords] = useState([])
   useEffect(() => {
@@ -41,24 +43,33 @@ export default function Home({ _id = null }) {
   useEffect(() => {
     if (id) {
       ;(async () => {
-        const _result = await dryrun({
-          process: MAIN_PROCESS_ID,
-          tags: [
-            { name: "Action", value: "UserRecord" },
-            {
-              name: "WalletOwner",
-              value: id,
-            },
-          ],
-        })
-        console.log("_result", _result)
+        try {
+          const _result = await dryrun({
+            process: MAIN_PROCESS_ID,
+            tags: [
+              { name: "Action", value: "UserRecord" },
+              {
+                name: "WalletOwner",
+                value: id,
+              },
+            ],
+          })
+          console.log("_result", _result)
 
-        if (handleMessageResultError(_result)) return
-        const _resultData = _result.Messages[0].Data
-        console.log("_resultData", _resultData)
-        const jsonData = JSON.parse(_resultData)
-        console.log("jsonData", jsonData)
-        setUserRecords(jsonData)
+          if (handleMessageResultError(_result)) return
+          const _resultData = _result.Messages[0].Data
+          const jsonData = JSON.parse(_resultData)
+          console.log("jsonData", jsonData)
+          setUserRecords(jsonData)
+        } catch (e) {
+          console.error("fetch UserRecord error!", e)
+          toast({
+            title: "Failed to fetch user records",
+            description: `${e}`,
+            variant: "destructive",
+            duration: 2000,
+          })
+        }
       })()
     }
   }, [id])

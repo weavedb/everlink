@@ -125,15 +125,24 @@ export default function CreatePage() {
   }, [userAddress])
 
   const getTemplates = async () => {
-    const _templatesResult = await dryrun({
-      process: MAIN_PROCESS_ID,
-      tags: [{ name: "Action", value: "Templates" }],
-    })
-    if (handleMessageResultError(_templatesResult)) return
-    const _templatesResultData = _templatesResult.Messages[0].Data
-    const jsonTemplates = JSON.parse(_templatesResultData)
-    console.log("jsonTemplates", jsonTemplates)
-    setTemplates(jsonTemplates)
+    try {
+      const _templatesResult = await dryrun({
+        process: MAIN_PROCESS_ID,
+        tags: [{ name: "Action", value: "Templates" }],
+      })
+      if (handleMessageResultError(_templatesResult)) return
+      const _templatesResultData = _templatesResult.Messages[0].Data
+      const jsonTemplates = JSON.parse(_templatesResultData)
+      console.log("jsonTemplates", jsonTemplates)
+      setTemplates(jsonTemplates)
+    } catch (e) {
+      console.error("getTemplates() error!", e)
+      toast({
+        description: "Failed to fetch templates",
+        variant: "destructive",
+        duration: 2000,
+      })
+    }
   }
 
   const publishProfile = async () => {
@@ -141,6 +150,7 @@ export default function CreatePage() {
       toast({
         title: "Subdomain, Template, and Name are required",
         variant: "destructive",
+        duration: 2000,
       })
       return
     }
@@ -231,7 +241,13 @@ export default function CreatePage() {
         ),
       })
     } catch (e) {
-      console.error(e)
+      console.error("publishProfile() error!", e)
+      toast({
+        title: "Failed to publish profile",
+        description: `${e.message}`,
+        variant: "destructive",
+        duration: 2000,
+      })
     }
   }
 
@@ -359,8 +375,8 @@ export default function CreatePage() {
                         onClick={() => {
                           navigator.clipboard.writeText(selectedTemplateTxId)
                           toast({
-                            title: "Copied",
                             description: "Transaction ID copied to clipboard",
+                            duration: 2000,
                           })
                         }}
                         className="p-1 hover:bg-muted rounded-full"
@@ -492,6 +508,7 @@ export default function CreatePage() {
                             toast({
                               title: "File size must be less than 100 KiB",
                               variant: "destructive",
+                              duration: 2000,
                             })
                             e.target.value = ""
                           }
@@ -504,6 +521,7 @@ export default function CreatePage() {
                           toast({
                             description: "This feature is not yet available",
                             variant: "destructive",
+                            duration: 2000,
                           })
                         }}
                       >

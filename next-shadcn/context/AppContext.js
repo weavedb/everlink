@@ -31,8 +31,9 @@ export const AppContextProvider = ({ children }) => {
       console.error("connectWallet() error!", e)
       toast({
         title: "Something went wrong",
-        description: "Install wallet from arconnect.io or reload page.",
+        description: `Install arconnect.io or reload page. ${e}`,
         variant: "destructive",
+        duration: 2000,
       })
       return { success: false, error: e }
     }
@@ -47,9 +48,10 @@ export const AppContextProvider = ({ children }) => {
     } catch (e) {
       console.error("disconnectWallet() error!", e)
       toast({
-        title: "Something went wrong",
-        description: "Install wallet from arconnect.io or reload page.",
+        title: "Something went wrong.",
+        description: `Install arconnect.io or reload page. ${e}`,
         variant: "destructive",
+        duration: 2000,
       })
       return { success: false, error: e }
     }
@@ -65,7 +67,7 @@ export const AppContextProvider = ({ children }) => {
 
   const handleMessageResultError = (_result) => {
     const errorTag = _result?.Messages?.[0]?.Tags.find(
-      (tag) => tag.name === "Error"
+      (tag) => tag.name.toLowerCase() === "error"
     )
     console.log("errorTag", errorTag)
     if (errorTag) {
@@ -73,6 +75,7 @@ export const AppContextProvider = ({ children }) => {
       toast({
         description: errorMsg,
         variant: "destructive",
+        duration: 2000,
       })
       return true
     }
@@ -93,23 +96,35 @@ export const AppContextProvider = ({ children }) => {
   }
 
   const checkAvailability = async (subdomain = "") => {
-    if (!subdomain || subdomain.trim() === "") {
-      toast({
-        description: "Subdomain cannot be empty",
-        variant: "destructive",
-      })
-      return
-    }
+    try {
+      if (!subdomain || subdomain.trim() === "") {
+        toast({
+          description: "Subdomain cannot be empty",
+          variant: "destructive",
+          duration: 2000,
+        })
+        return
+      }
 
-    const _records = await getRecords()
-    if (_records.hasOwnProperty(subdomain)) {
+      const _records = await getRecords()
+      if (_records.hasOwnProperty(subdomain)) {
+        toast({
+          description: "Subdomain already exists in the records",
+          variant: "destructive",
+          duration: 2000,
+        })
+      } else {
+        toast({
+          description: `${subdomain}_everlink.ar.io is available for registration`,
+          duration: 2000,
+        })
+      }
+    } catch (e) {
+      console.error("checkAvailability() error!", e)
       toast({
-        description: "Subdomain already exists in the records",
+        description: "Failed to check subdomain availability",
         variant: "destructive",
-      })
-    } else {
-      toast({
-        description: `${subdomain}_everlink.ar.io is available for registration`,
+        duration: 2000,
       })
     }
   }
