@@ -119,7 +119,9 @@ export default function Home({ _id = null }) {
                 )}
               </div>
             </div>
-            <div>
+
+            {/* Bids */}
+            <div hidden>
               <div className="mb-4">
                 <h1 className="text-2xl font-bold text-primary">Bids</h1>
               </div>
