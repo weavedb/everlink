@@ -25,7 +25,7 @@ export function AppHeader() {
       <div className="flex items-center px-6 py-3">
         <Link
           href={isConnected ? `/user/${userAddress}` : "/"}
-          className="font-bold text-3xl text-primary"
+          className="font-bold text-3xl bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent hover:from-purple-500 hover:to-pink-400"
         >
           Everlink
         </Link>
