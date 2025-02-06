@@ -14,6 +14,7 @@ import {
 } from "@permaweb/aoconnect"
 import { MAIN_PROCESS_ID, useAppContext } from "@/context/AppContext"
 import { useToast } from "@/hooks/use-toast"
+import { useRouter } from "next/router"
 
 const bids = []
 
@@ -33,6 +34,7 @@ export default function Home({ _id = null }) {
   const { handleMessageResultError, connectWallet } = useAppContext()
   const { toast } = useToast()
   const [userRecords, setUserRecords] = useState([])
+  const router = useRouter()
 
   useEffect(() => {
     ;(async () => {
@@ -138,7 +140,22 @@ export default function Home({ _id = null }) {
   }
 
   const handleEdit = (subdomain) => {
-    console.log("handleEdit:", subdomain)
+    console.log("handleEdit()", subdomain)
+
+    const record = userRecords.find((r) => r.Subdomain === subdomain)
+    if (!record) {
+      toast({
+        description: "Subdomain record not found",
+        variant: "destructive",
+        duration: 2000,
+      })
+      return
+    }
+
+    router.push({
+      pathname: "/create",
+      query: { userRecord: JSON.stringify(record) },
+    })
   }
 
   return (

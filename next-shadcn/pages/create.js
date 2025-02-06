@@ -40,6 +40,7 @@ import {
 
 import { MAIN_PROCESS_ID } from "@/context/AppContext"
 import { ToastAction } from "@/components/ui/toast"
+import { useRouter } from "next/router"
 
 const PINK_TEMPLATE_TXID = "ma-GzZRRNQvvd-JdqwdmBYwxgbmQn-O4SavYndec4e0"
 
@@ -51,6 +52,8 @@ const TikTokIcon = () => (
 )
 
 export default function CreatePage() {
+  const router = useRouter()
+  const { userRecord } = router.query
   const [links, setLinks] = useState([])
   const [newLink, setNewLink] = useState({ title: "", url: "" })
   const [subdomain, setSubdomain] = useState("")
@@ -122,6 +125,32 @@ export default function CreatePage() {
       console.log("useEffect() userAddress", userAddress)
     })()
   }, [userAddress])
+
+  useEffect(() => {
+    try {
+      if (router.isReady && userRecord) {
+        const record = JSON.parse(userRecord)
+        console.log("record", record)
+        setSubdomain(record.Subdomain)
+        setUsername(record.Username)
+        setDescription(record.Description)
+        setTwitter(record.Twitter)
+        setTiktok(record.Tiktok)
+        setInstagram(record.Instagram)
+        setFacebook(record.Facebook)
+        setLinkedin(record.Linkedin)
+        setLinks(JSON.parse(record.Links || "[]"))
+      }
+    } catch (error) {
+      console.error("Error parsing query param userRecord", error)
+      toast({
+        title: "Error loading data",
+        descrition: `${error}`,
+        variant: "destructive",
+        duration: 2000,
+      })
+    }
+  }, [router.isReady])
 
   const getTemplates = async () => {
     try {
