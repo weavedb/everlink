@@ -59,6 +59,7 @@ export default function CreatePage() {
   const [subdomain, setSubdomain] = useState("")
   const [username, setUsername] = useState("")
   const [description, setDescription] = useState("")
+  const [photoTxId, setPhotoTxId] = useState("")
   const [twitter, setTwitter] = useState("")
   const [tiktok, setTiktok] = useState("")
   const [instagram, setInstagram] = useState("")
@@ -134,6 +135,7 @@ export default function CreatePage() {
         setSubdomain(record.Subdomain)
         setUsername(record.Username)
         setDescription(record.Description)
+        setPhotoTxId(record.PhotoTxId || "")
         setTwitter(record.Twitter)
         setTiktok(record.Tiktok)
         setInstagram(record.Instagram)
@@ -207,7 +209,7 @@ export default function CreatePage() {
           },
           {
             name: "TTL-Seconds",
-            value: "900",
+            value: "3600",
           },
           {
             name: "Username",
@@ -216,6 +218,10 @@ export default function CreatePage() {
           {
             name: "Description",
             value: description,
+          },
+          {
+            name: "PhotoTxId",
+            value: photoTxId,
           },
           {
             name: "Links",
@@ -564,6 +570,8 @@ export default function CreatePage() {
                     id="transactionId"
                     placeholder="Enter Arweave Tx ID for existing photo"
                     className="bg-background"
+                    value={photoTxId}
+                    onChange={(e) => setPhotoTxId(e.target.value)}
                   />
                 </div>
               </div>
