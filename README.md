@@ -33,3 +33,5 @@ https://youtu.be/j3dpPx20ncc?si=yeq002-pRyqnmoSR
 https://x.com/everlinkdotfun
 
 https://t.me/everlinkdotfun
+
+https://everlink.fun/discord

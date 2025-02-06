@@ -29,10 +29,10 @@
     winston "^3.13.0"
     zod "^3.23.8"
 
-"@ardrive/turbo-sdk@^1.19.0":
-  version "1.21.0"
-  resolved "https://registry.yarnpkg.com/@ardrive/turbo-sdk/-/turbo-sdk-1.21.0.tgz#750b6015ac730bb28c170369c0be0db72affcd7e"
-  integrity sha512-wod4kSuXTc4Dpyt+O9SL95Z481JtQFXzQGHmAmRZIepbduHZK+6c9G8rlFENBy2yUj82Wv12MjXMDFE4A6LRrA==
+"@ardrive/turbo-sdk@^1.22.0":
+  version "1.22.0"
+  resolved "https://registry.yarnpkg.com/@ardrive/turbo-sdk/-/turbo-sdk-1.22.0.tgz#7c148ad981612e64bae0f7debef07070b97e6f08"
+  integrity sha512-9c3kXKGDyiVVhbVi0DSyd0YooUhEy6CHh/Wywp0SsYOIs9nIo5DkK+mxRUIInqFE0Iw6rj1lTWL75xebRVOs5g==
   dependencies:
     "@cosmjs/amino" "^0.32.4"
     "@cosmjs/crypto" "^0.32.4"

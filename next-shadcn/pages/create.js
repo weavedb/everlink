@@ -37,6 +37,7 @@ import {
   result,
   dryrun,
 } from "@permaweb/aoconnect"
+import { TurboFactory, ArconnectSigner } from "@ardrive/turbo-sdk/web"
 
 import { MAIN_PROCESS_ID } from "@/context/AppContext"
 import { ToastAction } from "@/components/ui/toast"
@@ -59,6 +60,7 @@ export default function CreatePage() {
   const [subdomain, setSubdomain] = useState("")
   const [username, setUsername] = useState("")
   const [description, setDescription] = useState("")
+  const [photoTxId, setPhotoTxId] = useState("")
   const [twitter, setTwitter] = useState("")
   const [tiktok, setTiktok] = useState("")
   const [instagram, setInstagram] = useState("")
@@ -134,6 +136,7 @@ export default function CreatePage() {
         setSubdomain(record.Subdomain)
         setUsername(record.Username)
         setDescription(record.Description)
+        setPhotoTxId(record.PhotoTxId || "")
         setTwitter(record.Twitter)
         setTiktok(record.Tiktok)
         setInstagram(record.Instagram)
@@ -207,7 +210,7 @@ export default function CreatePage() {
           },
           {
             name: "TTL-Seconds",
-            value: "900",
+            value: "3600",
           },
           {
             name: "Username",
@@ -216,6 +219,10 @@ export default function CreatePage() {
           {
             name: "Description",
             value: description,
+          },
+          {
+            name: "PhotoTxId",
+            value: photoTxId,
           },
           {
             name: "Links",
@@ -273,6 +280,77 @@ export default function CreatePage() {
       toast({
         title: "Failed to publish profile",
         description: `${e.message}`,
+        variant: "destructive",
+        duration: 2000,
+      })
+    }
+  }
+
+  const uploadPhoto = async () => {
+    try {
+      const file = event.target.previousElementSibling.files?.[0]
+      if (!file) {
+        toast({
+          title: "No file selected",
+          variant: "destructive",
+          duration: 2000,
+        })
+        return
+      }
+
+      const _connected = await connectWallet()
+      if (_connected.success === false) return
+
+      const signerInstance = new ArconnectSigner(globalThis.arweaveWallet)
+      if (!signerInstance.publicKey) {
+        await signerInstance.setPublicKey()
+      }
+
+      const turbo = TurboFactory.authenticated({
+        signer: signerInstance,
+      })
+
+      const response = await turbo.uploadFile({
+        fileStreamFactory: () => new Response(file).body,
+        fileSizeFactory: () => file.size,
+        dataItemOpts: {
+          tags: [
+            { name: "Content-Type", value: file.type },
+            {
+              name: "App-Name",
+              value: "Everlink",
+            },
+            {
+              name: "App-Url",
+              value: "https://everlink.fun",
+            },
+          ],
+        },
+      })
+      console.log("Upload response", response)
+      setPhotoTxId(response.id)
+
+      toast({
+        title: "Photo uploaded successfully",
+        description: `Transaction ID: ${response.id}`,
+        duration: 2000,
+        action: (
+          <ToastAction altText="View">
+            <a
+              href={`https://arweave.net/${response.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View
+            </a>
+          </ToastAction>
+        ),
+      })
+    } catch (e) {
+      console.error("uploadPhoto() error!", e)
+      toast({
+        title: "Failed to upload photo",
+        description: `${e}`,
         variant: "destructive",
         duration: 2000,
       })
@@ -544,13 +622,11 @@ export default function CreatePage() {
                       />
                       <Button
                         type="button"
-                        onClick={() => {
-                          // Simulated upload success
-                          toast({
-                            description: "This feature is not yet available",
-                            variant: "destructive",
-                            duration: 2000,
-                          })
+                        onClick={async (event) => {
+                          const button = event.target
+                          button.disabled = true
+                          await uploadPhoto()
+                          button.disabled = false
                         }}
                       >
                         Upload
@@ -564,6 +640,8 @@ export default function CreatePage() {
                     id="transactionId"
                     placeholder="Enter Arweave Tx ID for existing photo"
                     className="bg-background"
+                    value={photoTxId}
+                    onChange={(e) => setPhotoTxId(e.target.value)}
                   />
                 </div>
               </div>

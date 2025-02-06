@@ -32,7 +32,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@ardrive/turbo-sdk": "^1.19.0",
+    "@ardrive/turbo-sdk": "^1.22.0",
     "@permaweb/aoconnect": "^0.0.62",
     "arnext-arkb": "^0.0.1",
     "autoprefixer": "^10.4.20",
