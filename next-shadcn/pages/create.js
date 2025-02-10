@@ -370,6 +370,12 @@ export default function CreatePage() {
       setNewLink({ ...newLink, url: _url })
       setLinks([...links, { ...newLink, url: _url }])
       setNewLink({ title: "", url: "" })
+    } else {
+      toast({
+        description: "Link label and URL are required",
+        variant: "destructive",
+        duration: 2000,
+      })
     }
   }
 
@@ -509,16 +515,6 @@ export default function CreatePage() {
                 Custom Links
               </h2>
               <div className="space-y-4">
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="text-primary hover:text-primary/90"
-                  onClick={addLink}
-                >
-                  <Plus className="mr-2 h-4 w-4" />
-                  Add Link
-                </Button>
-
                 <div className="grid gap-4">
                   <div className="grid gap-2">
                     <Label htmlFor="linkTitle">Label</Label>
@@ -544,6 +540,15 @@ export default function CreatePage() {
                       className="bg-background"
                     />
                   </div>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    className="text-secondary-foreground hover:bg-secondary/80"
+                    onClick={addLink}
+                  >
+                    <Plus className="mr-2 h-4 w-4" />
+                    Add Link
+                  </Button>
                 </div>
 
                 {links.length > 0 && (
