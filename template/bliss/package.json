@@ -14,18 +14,20 @@
     "test": "mocha"
   },
   "dependencies": {
+    "@radix-ui/react-toast": "^1.2.4",
     "arnext": "^0.1.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "lucide-react": "^0.475.0",
+    "lucide-react": "^0.468.0",
     "next": "14.2.13",
     "react": "^18",
     "react-dom": "^18",
-    "tailwind-merge": "^3.0.1",
+    "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@ardrive/turbo-sdk": "^1.19.0",
+    "@ardrive/turbo-sdk": "^1.22.0",
+    "@permaweb/aoconnect": "^0.0.62",
     "arnext-arkb": "^0.0.1",
     "autoprefixer": "^10.4.20",
     "cheerio": "^1.0.0",
@@ -34,8 +36,8 @@
     "eslint-config-next": "14.2.13",
     "express": "^4.21.0",
     "http-proxy-middleware": "^3.0.2",
-    "postcss": "^8.5.2",
+    "postcss": "^8.4.49",
     "starknet": "^6.11.0",
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^3.4.16"
   }
 }
