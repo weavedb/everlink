@@ -2,41 +2,16 @@ import { Link, ssr } from "arnext"
 import { useToast } from "@/hooks/use-toast"
 import {
   Twitter,
-  Youtube,
   Linkedin,
   ExternalLink,
   Heart,
   Star,
   Sparkles,
-  Github,
-  Send,
   Facebook,
   Instagram,
 } from "lucide-react"
 import { useEffect, useState } from "react"
 import { dryrun } from "@permaweb/aoconnect"
-
-const LINKS = [
-  { text: "Schedule a meeting", url: "https://calendly.com/drumfeet/30min" },
-  { text: "Permaweb ArNS", url: "https://drumfeet.arweave.dev" },
-  { text: "DUMPET", url: "https://dumpet.fun" },
-  { text: "DINDIN", url: "https://dindin.dumpet.fun" },
-  { text: "Everlink", url: "https://everlink.fun" },
-  { text: "WeaveDB", url: "https://github.com/weavedb" },
-  { text: "ArweavePH", url: "https://github.com/ArweavePH" },
-  {
-    text: "Forgetful Bob",
-    url: "https://open.spotify.com/artist/36cp7b4ZqNlAHnDmV0DMeq",
-  },
-  {
-    text: "Fizzles",
-    url: "https://open.spotify.com/artist/0Upodw08tSULrSx6MrBybj",
-  },
-  {
-    text: "Marssmarsshan",
-    url: "https://open.spotify.com/artist/7LrUyckRcDq8ziPFvsjgjG",
-  },
-]
 
 const GRADIENTS = [
   "from-pink-400 to-pink-500",
@@ -287,7 +262,7 @@ export default function Home({ _fullUrl = null }) {
         {/* Title and Description */}
         <div className="text-center mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold mb-2 bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 text-transparent bg-clip-text">
-            drumfeet{jsonData?.Username}
+            {jsonData?.Username}
           </h1>
           <p className="text-gray-600 text-sm sm:text-base">
             {jsonData?.Description ? `✨ ${jsonData.Description} ✨` : ""}
@@ -296,7 +271,7 @@ export default function Home({ _fullUrl = null }) {
 
         {/* Links */}
         <div className="space-y-2 sm:space-y-3">
-          {LINKS.map(({ text, url }, index) => (
+          {links.map(({ text, url }, index) => (
             <a
               key={text}
               href={url}
