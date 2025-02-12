@@ -129,12 +129,30 @@ export default function Home() {
       <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-4 sm:p-8 w-full max-w-md mx-2 relative">
         {/* Share Button with Heart */}
         <div className="flex justify-between items-center mb-4 sm:mb-6">
-          <Heart className="text-pink-400 animate-pulse" size={20} />
           <button
             className="text-pink-400 hover:text-pink-500 transition-colors"
             onClick={() => {
               navigator.clipboard.writeText(window.location.href)
-              // You might want to add a toast notification here to inform the user that the value has been copied
+              toast({
+                description: "Link copied to clipboard",
+                duration: 2000,
+              })
+            }}
+          >
+            <Heart className="text-pink-400 animate-pulse" size={20} />
+          </button>
+          <button
+            className="text-pink-400 hover:text-pink-500 transition-colors"
+            onClick={() => {
+              const text = `🚀 Just created a permanent profile page with @everlinkdotfun powered by @ar_io_network\n\nCheck it out here -`
+              const url = window.location.href
+              const createProfileText = `\n\nCreate your personalized profile page for free on https://everlink.ar.io`
+              const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                text
+              )}&url=${encodeURIComponent(url)}${encodeURIComponent(
+                createProfileText
+              )}`
+              window.open(twitterUrl, "_blank")
             }}
           >
             <ExternalLink size={18} />
