@@ -143,6 +143,7 @@ export default function CreatePage() {
         setFacebook(record.Facebook)
         setLinkedin(record.Linkedin)
         setLinks(JSON.parse(record.Links || "[]"))
+        setSelectedTemplateTxId(record.TransactionId)
       }
     } catch (error) {
       console.error("Error parsing query param userRecord", error)
@@ -210,7 +211,7 @@ export default function CreatePage() {
           },
           {
             name: "TTL-Seconds",
-            value: "3600",
+            value: "900",
           },
           {
             name: "Username",
@@ -462,18 +463,22 @@ export default function CreatePage() {
                 <Select
                   defaultValue={selectedTemplateTxId}
                   id="template"
-                  onValueChange={(value) => {
-                    console.log("value", value)
-                    setSelectedTemplateTxId(value)
+                  onValueChange={(newValue) => {
+                    console.log("Selected template transaction ID:", newValue)
+                    setSelectedTemplateTxId(newValue)
                   }}
                 >
                   <SelectTrigger id="template" className="bg-background">
-                    <SelectValue placeholder="Select a template" />
+                    <SelectValue>
+                      {Object.entries(templates).find(
+                        ([, txId]) => txId === selectedTemplateTxId
+                      )?.[0] || "Select a template"}
+                    </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
-                    {Object.entries(templates).map(([key, value]) => (
-                      <SelectItem key={key} value={value}>
-                        {key}
+                    {Object.entries(templates).map(([templateName, txId]) => (
+                      <SelectItem key={templateName} value={txId}>
+                        {templateName}
                       </SelectItem>
                     ))}
                   </SelectContent>
