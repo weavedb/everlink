@@ -95,7 +95,13 @@ export default function Home({ _fullUrl = null }) {
               console.log("_links", _links)
             }
           } catch (error) {
-            console.log("Invalid JSON format in Links")
+            toast({
+              title: "Invalid JSON format in Links",
+              description: `${error}`,
+              variant: "destructive",
+              duration: 2000,
+            })
+            console.error("Invalid JSON format in Links", error)
             setLinks([])
           }
         }
@@ -271,17 +277,17 @@ export default function Home({ _fullUrl = null }) {
 
         {/* Links */}
         <div className="space-y-2 sm:space-y-3">
-          {links.map(({ text, url }, index) => (
+          {links?.map((link, index) => (
             <a
-              key={text}
-              href={url}
+              key={index}
+              href={formatUrl(link?.url)}
               target="_blank"
               rel="noopener noreferrer"
               className={`block text-white py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl sm:rounded-2xl text-center transition-all hover:scale-105 hover:shadow-lg text-sm sm:text-base bg-gradient-to-r ${
                 GRADIENTS[index % GRADIENTS.length]
               }`}
             >
-              {text}
+              {link?.title}
             </a>
           ))}
         </div>
