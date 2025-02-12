@@ -43,7 +43,8 @@ import { MAIN_PROCESS_ID } from "@/context/AppContext"
 import { ToastAction } from "@/components/ui/toast"
 import { useRouter } from "next/router"
 
-const PINK_TEMPLATE_TXID = "ma-GzZRRNQvvd-JdqwdmBYwxgbmQn-O4SavYndec4e0"
+const DEFAULT_TEMPLATE_KEY = "Bliss"
+const DEFAULT_TEMPLATE_TXID = "sQx-OuHJ1WY9YtMt4pwwEo2YlUsL5RqlG5JY_SfUqk0"
 
 // Custom TikTok Icon component
 const TikTokIcon = () => (
@@ -78,10 +79,11 @@ export default function CreatePage() {
 
   // Set initial template to Pink
   const [templates, setTemplates] = useState({
-    Pink: PINK_TEMPLATE_TXID,
+    DEFAULT_TEMPLATE_KEY: DEFAULT_TEMPLATE_TXID,
   })
-  const [selectedTemplateTxId, setSelectedTemplateTxId] =
-    useState(PINK_TEMPLATE_TXID)
+  const [selectedTemplateTxId, setSelectedTemplateTxId] = useState(
+    DEFAULT_TEMPLATE_TXID
+  )
 
   const socialMediaConfig = [
     {
@@ -143,6 +145,7 @@ export default function CreatePage() {
         setFacebook(record.Facebook)
         setLinkedin(record.Linkedin)
         setLinks(JSON.parse(record.Links || "[]"))
+        setSelectedTemplateTxId(record.TransactionId)
       }
     } catch (error) {
       console.error("Error parsing query param userRecord", error)
@@ -210,7 +213,7 @@ export default function CreatePage() {
           },
           {
             name: "TTL-Seconds",
-            value: "3600",
+            value: "900",
           },
           {
             name: "Username",
@@ -462,18 +465,22 @@ export default function CreatePage() {
                 <Select
                   defaultValue={selectedTemplateTxId}
                   id="template"
-                  onValueChange={(value) => {
-                    console.log("value", value)
-                    setSelectedTemplateTxId(value)
+                  onValueChange={(newValue) => {
+                    console.log("Selected template transaction ID:", newValue)
+                    setSelectedTemplateTxId(newValue)
                   }}
                 >
                   <SelectTrigger id="template" className="bg-background">
-                    <SelectValue placeholder="Select a template" />
+                    <SelectValue>
+                      {Object.entries(templates).find(
+                        ([, txId]) => txId === selectedTemplateTxId
+                      )?.[0] || "Select a template"}
+                    </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
-                    {Object.entries(templates).map(([key, value]) => (
-                      <SelectItem key={key} value={value}>
-                        {key}
+                    {Object.entries(templates).map(([templateName, txId]) => (
+                      <SelectItem key={templateName} value={txId}>
+                        {templateName}
                       </SelectItem>
                     ))}
                   </SelectContent>
