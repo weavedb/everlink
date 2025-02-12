@@ -63,6 +63,7 @@ export default function Home() {
                 variant="link"
                 className="text-purple-300 hover:text-purple-200 p-0"
                 onClick={async (event) => {
+                  toast({ description: "Please wait....", duration: 1000 })
                   const button = event.target
                   button.disabled = true
                   const _connected = await connectWallet()
