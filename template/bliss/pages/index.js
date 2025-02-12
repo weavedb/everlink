@@ -1,4 +1,4 @@
-import { Link } from "arnext"
+import { Link, ssr } from "arnext"
 import { useToast } from "@/hooks/use-toast"
 import {
   Twitter,
@@ -13,7 +13,8 @@ import {
   Facebook,
   Instagram,
 } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { dryrun } from "@permaweb/aoconnect"
 
 const LINKS = [
   { text: "Schedule a meeting", url: "https://calendly.com/drumfeet/30min" },
@@ -52,6 +53,14 @@ const GRADIENTS = [
   "from-emerald-400 to-emerald-500",
 ]
 
+const MAIN_PROCESS_ID = "BAytmPejjgB0IOuuX7EmNhSv1mkoj5UOFUtt0HHOzr8"
+
+const getFullUrl = async (url) => url ?? window.location.href
+
+export const getStaticProps = ssr(async () => {
+  return { props: { _fullUrl: null }, revalidate: 100 }
+})
+
 const TikTokIcon = ({ className, size }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -65,17 +74,76 @@ const TikTokIcon = ({ className, size }) => (
   </svg>
 )
 
-export default function Home() {
+export default function Home({ _fullUrl = null }) {
+  const [fullUrl, setFullUrl] = useState(_fullUrl)
   const { toast } = useToast()
   const [jsonData, setJsonData] = useState()
   const [links, setLinks] = useState([])
+  const [subdomain, setSubdomain] = useState()
+
+  useEffect(() => {
+    ;(async () => {
+      if (!_fullUrl) {
+        const _fullUrl = await getFullUrl()
+        setFullUrl(_fullUrl)
+        console.log("_fullUrl", _fullUrl)
+
+        const _subdomain = _fullUrl.split("//")[1].split("_")[0]
+        console.log("_subdomain:", _subdomain)
+        setSubdomain(_subdomain)
+
+        let tags = [
+          { name: "Action", value: "Record" },
+          {
+            name: "Sub-Domain",
+            value: _subdomain,
+          },
+        ]
+
+        const _result = await dryrun({
+          process: MAIN_PROCESS_ID,
+          tags,
+        })
+        console.log("_result", _result)
+        if (handleMessageResultError(_result)) return
+
+        const _resultData = _result.Messages[0].Data
+        console.log("_resultData", _resultData)
+        const _jsonData = JSON.parse(_resultData)
+        console.log("_jsonData", _jsonData)
+        setJsonData(_jsonData)
+        if (typeof _jsonData.Links === "string") {
+          try {
+            const _links = JSON.parse(_jsonData.Links)
+            if (Array.isArray(_links)) {
+              setLinks(_links)
+              console.log("_links", _links)
+            }
+          } catch (error) {
+            console.log("Invalid JSON format in Links")
+            setLinks([])
+          }
+        }
+      }
+    })()
+  }, [_fullUrl])
 
   const handleMessageResultError = (_result) => {
+    if (_result.error) {
+      toast({
+        description: _result.error,
+        variant: "destructive",
+        duration: 2000,
+      })
+      return true
+    }
+
     const errorTag = _result?.Messages?.[0]?.Tags.find(
       (tag) => tag.name.toLowerCase() === "error"
     )
     console.log("errorTag", errorTag)
     if (errorTag) {
+      const errorMsg = _result.Messages[0]?.Data ?? errorTag.value
       toast({
         description: errorMsg,
         variant: "destructive",
