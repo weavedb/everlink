@@ -43,7 +43,8 @@ import { MAIN_PROCESS_ID } from "@/context/AppContext"
 import { ToastAction } from "@/components/ui/toast"
 import { useRouter } from "next/router"
 
-const PINK_TEMPLATE_TXID = "ma-GzZRRNQvvd-JdqwdmBYwxgbmQn-O4SavYndec4e0"
+const DEFAULT_TEMPLATE_KEY = "Bliss"
+const DEFAULT_TEMPLATE_TXID = "sQx-OuHJ1WY9YtMt4pwwEo2YlUsL5RqlG5JY_SfUqk0"
 
 // Custom TikTok Icon component
 const TikTokIcon = () => (
@@ -78,10 +79,11 @@ export default function CreatePage() {
 
   // Set initial template to Pink
   const [templates, setTemplates] = useState({
-    Pink: PINK_TEMPLATE_TXID,
+    DEFAULT_TEMPLATE_KEY: DEFAULT_TEMPLATE_TXID,
   })
-  const [selectedTemplateTxId, setSelectedTemplateTxId] =
-    useState(PINK_TEMPLATE_TXID)
+  const [selectedTemplateTxId, setSelectedTemplateTxId] = useState(
+    DEFAULT_TEMPLATE_TXID
+  )
 
   const socialMediaConfig = [
     {
