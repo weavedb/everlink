@@ -230,7 +230,15 @@ export default function Home({ _fullUrl = null }) {
         {/* Profile Image */}
         <div className="flex justify-center mb-4 sm:mb-6 relative">
           <div className="w-24 sm:w-28 h-24 sm:h-28 rounded-full bg-gradient-to-r from-pink-300 via-purple-300 to-blue-300 p-1 animate-spin-slow">
-            <div className="w-full h-full rounded-full bg-gradient-to-br from-pink-400 via-purple-400 to-blue-400"></div>
+            {jsonData?.PhotoTxId ? (
+              <img
+                src={`https://arweave.net/${jsonData.PhotoTxId}`}
+                alt="Profile"
+                className="w-full h-full rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full rounded-full bg-gradient-to-br from-pink-400 via-purple-400 to-blue-400"></div>
+            )}
           </div>
           <Sparkles
             className="absolute -right-2 top-0 text-yellow-400 animate-bounce"
@@ -245,31 +253,31 @@ export default function Home({ _fullUrl = null }) {
         {/* Social Media Icons */}
         <div className="flex justify-center gap-4 sm:gap-6 mb-4 sm:mb-6">
           <SocialButton
-            url="https://x.com/drumfeet"
+            url={jsonData?.Twitter}
             icon={Twitter}
             label="Twitter"
             color="text-blue-400"
           />
           <SocialButton
-            url="https://tiktok.com/@drumfeet"
+            url={jsonData?.Tiktok}
             icon={TikTokIcon}
             label="TikTok"
             color="text-purple-500"
           />
           <SocialButton
-            url="https://youtube.com/@drumfeet"
+            url={jsonData?.Instagram}
             icon={Instagram}
             label="YouTube"
             color="text-red-400"
           />
           <SocialButton
-            url="https://github.com/drumfeet"
+            url={jsonData?.Facebook}
             icon={Facebook}
             label="GitHub"
             color="text-blue-500"
           />
           <SocialButton
-            url="https://www.linkedin.com/in/ethanronoelsalazar"
+            url={jsonData?.Linkedin}
             icon={Linkedin}
             label="LinkedIn"
             color="text-blue-600"
@@ -279,11 +287,10 @@ export default function Home({ _fullUrl = null }) {
         {/* Title and Description */}
         <div className="text-center mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold mb-2 bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 text-transparent bg-clip-text">
-            drumfeet
+            drumfeet{jsonData?.Username}
           </h1>
           <p className="text-gray-600 text-sm sm:text-base">
-            ✨ Software Development. Music. Drums. Cycling. Tech. Blockchain.
-            Crypto. Technical Analysis. ✨
+            {jsonData?.Description ? `✨ ${jsonData.Description} ✨` : ""}
           </p>
         </div>
 
@@ -315,7 +322,7 @@ export default function Home({ _fullUrl = null }) {
             <span className="text-base sm:text-lg group-hover:scale-125 transition-transform">
               🌸
             </span>
-            Join drumfeet on Everlink
+            Join {jsonData?.Username || "us"} on Everlink
           </a>
         </div>
       </div>
