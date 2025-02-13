@@ -3,10 +3,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast"
 import { Send as Telegram, Twitter } from "lucide-react"
-import { Link } from "arnext"
+import { Link, useRouter } from "arnext"
 import { useAppContext } from "@/context/AppContext"
 import DiscordIcon from "@/components/icons/DiscordIcon"
-import { useRouter } from "next/router"
 
 export default function Home() {
   const router = useRouter()
