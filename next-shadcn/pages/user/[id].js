@@ -1,4 +1,4 @@
-import { Link, useParams } from "arnext"
+import { Link, useParams, useRouter } from "arnext"
 import { useEffect, useState } from "react"
 
 import { AppHeader } from "@/components/AppHeader"
@@ -14,7 +14,6 @@ import {
 } from "@permaweb/aoconnect"
 import { MAIN_PROCESS_ID, useAppContext } from "@/context/AppContext"
 import { useToast } from "@/hooks/use-toast"
-import { useRouter } from "next/router"
 import Head from "next/head"
 
 const bids = []
@@ -153,10 +152,9 @@ export default function Home({ _id = null }) {
       return
     }
 
-    router.push({
-      pathname: "/create",
-      query: { userRecord: JSON.stringify(record) },
-    })
+    router.push(
+      `/create?userRecord=${encodeURIComponent(JSON.stringify(record))}`
+    )
   }
 
   return (

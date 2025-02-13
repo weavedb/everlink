@@ -41,9 +41,7 @@ import { TurboFactory, ArconnectSigner } from "@ardrive/turbo-sdk/web"
 
 import { MAIN_PROCESS_ID } from "@/context/AppContext"
 import { ToastAction } from "@/components/ui/toast"
-import { useRouter } from "next/router"
 
-const DEFAULT_TEMPLATE_KEY = "Bliss"
 const DEFAULT_TEMPLATE_TXID = "sQx-OuHJ1WY9YtMt4pwwEo2YlUsL5RqlG5JY_SfUqk0"
 
 // Custom TikTok Icon component
@@ -54,8 +52,6 @@ const TikTokIcon = () => (
 )
 
 export default function CreatePage() {
-  const router = useRouter()
-  const { userRecord } = router.query
   const [links, setLinks] = useState([])
   const [newLink, setNewLink] = useState({ title: "", url: "" })
   const [subdomain, setSubdomain] = useState("")
@@ -77,10 +73,8 @@ export default function CreatePage() {
     getRecords,
   } = useAppContext()
 
-  // Set initial template to Pink
-  const [templates, setTemplates] = useState({
-    DEFAULT_TEMPLATE_KEY: DEFAULT_TEMPLATE_TXID,
-  })
+  // Set initial default template
+  const [templates, setTemplates] = useState({})
   const [selectedTemplateTxId, setSelectedTemplateTxId] = useState(
     DEFAULT_TEMPLATE_TXID
   )
@@ -125,38 +119,38 @@ export default function CreatePage() {
   }, [])
 
   useEffect(() => {
-    ;(async () => {
-      console.log("useEffect() userAddress", userAddress)
-    })()
-  }, [userAddress])
+    // Parse URL search params manually
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search)
+      const userRecord = params.get("userRecord")
 
-  useEffect(() => {
-    try {
-      if (router.isReady && userRecord) {
-        const record = JSON.parse(userRecord)
-        console.log("record", record)
-        setSubdomain(record.Subdomain)
-        setUsername(record.Username)
-        setDescription(record.Description)
-        setPhotoTxId(record.PhotoTxId || "")
-        setTwitter(record.Twitter)
-        setTiktok(record.Tiktok)
-        setInstagram(record.Instagram)
-        setFacebook(record.Facebook)
-        setLinkedin(record.Linkedin)
-        setLinks(JSON.parse(record.Links || "[]"))
-        setSelectedTemplateTxId(record.TransactionId)
+      if (userRecord) {
+        try {
+          const data = JSON.parse(decodeURIComponent(userRecord))
+          console.log("Parsed userRecord:", data)
+          setSubdomain(data.Subdomain)
+          setUsername(data.Username)
+          setDescription(data.Description)
+          setPhotoTxId(data.PhotoTxId || "")
+          setTwitter(data.Twitter)
+          setTiktok(data.Tiktok)
+          setInstagram(data.Instagram)
+          setFacebook(data.Facebook)
+          setLinkedin(data.Linkedin)
+          setLinks(JSON.parse(data.Links || "[]"))
+          setSelectedTemplateTxId(data.TransactionId)
+        } catch (error) {
+          console.error("Error parsing userRecord:", error)
+          toast({
+            title: "Error loading data",
+            description: `${error}`,
+            variant: "destructive",
+            duration: 2000,
+          })
+        }
       }
-    } catch (error) {
-      console.error("Error parsing query param userRecord", error)
-      toast({
-        title: "Error loading data",
-        descrition: `${error}`,
-        variant: "destructive",
-        duration: 2000,
-      })
     }
-  }, [router.isReady])
+  }, [])
 
   const getTemplates = async () => {
     try {
@@ -474,7 +468,7 @@ export default function CreatePage() {
                     <SelectValue>
                       {Object.entries(templates).find(
                         ([, txId]) => txId === selectedTemplateTxId
-                      )?.[0] || "Select a template"}
+                      )?.[0] || "Please wait...."}
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
@@ -485,7 +479,7 @@ export default function CreatePage() {
                     ))}
                   </SelectContent>
                 </Select>
-                {selectedTemplateTxId && (
+                {Object.keys(templates).length > 0 && selectedTemplateTxId && (
                   <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 space-y-2 sm:space-y-0 text-sm text-muted-foreground mt-2">
                     <span className="break-all">{selectedTemplateTxId}</span>
                     <div className="flex space-x-2">
