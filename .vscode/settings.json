@@ -1,0 +1,5 @@
+{
+  "Lua.workspace.library": ["${addons}/ao/module/library"],
+  "Lua.workspace.ignoreDir": ["node_modules", "out", ".next", ".vercel"],
+  "Lua.workspace.checkThirdParty": false
+}
