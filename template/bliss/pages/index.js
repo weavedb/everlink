@@ -195,7 +195,7 @@ export default function Home({ _fullUrl = null }) {
             onClick={() => {
               const text = `🚀 Just created a permanent profile page with @everlinkdotfun powered by @ar_io_network\n\nCheck it out here -`
               const url = window.location.href
-              const createProfileText = `\n\nCreate your personalized profile page for free on https://everlink.ar.io`
+              const createProfileText = `\n\nCreate your personalized profile page for free on https://everlink.ar.io 🔥`
               const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
                 text
               )}&url=${encodeURIComponent(url)}${encodeURIComponent(
