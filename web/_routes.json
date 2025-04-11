@@ -5,7 +5,7 @@
     "routes": [
       {
         "pattern": "/*",
-        "serve": "/web/subpage.html",
+        "serve": "/subpage.html",
         "status": 200
       }
     ]
