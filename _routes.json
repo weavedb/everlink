@@ -1,8 +1,12 @@
 {
+    "version": 1,
+    "include": ["/*"],
+    "exclude": [],
     "routes": [
-        {
-            "pattern": "/*",
-            "destination": "/web/subpage.html"
-        }
+      {
+        "pattern": "/*",
+        "serve": "/web/subpage.html",
+        "status": 200
+      }
     ]
-}
+  }
