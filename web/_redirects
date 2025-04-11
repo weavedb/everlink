@@ -1,0 +1,2 @@
+/:username  /profile.html?username=:username 200
+/  /index.html 200
