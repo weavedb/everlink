@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everlink - Dynamic Subpage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .user-greeting {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Everlink</h1>
+        <div class="user-greeting" id="greeting">Loading...</div>
+        <div id="content">
+            <!-- Dynamic content will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Extract the subpath from the URL
+            const pathname = window.location.pathname;
+            // Remove leading slash and trailing slash if present
+            const path = pathname.replace(/^\/|\/$/g, '');
+
+            // Split the path by '/' and get the first segment 
+            // (which would be the username or identifier)
+            const segments = path.split('/');
+            const identifier = segments[0] || 'default';
+
+            // Update the greeting with the extracted identifier
+            const greetingElement = document.getElementById('greeting');
+
+            if (identifier && identifier !== 'default') {
+                // Capitalize the first letter of the identifier for nicer display
+                const displayName = identifier.charAt(0).toUpperCase() + identifier.slice(1);
+                greetingElement.textContent = `Hello, ${displayName}`;
+
+                // You could load additional content based on the identifier
+                loadUserContent(identifier);
+            } else {
+                greetingElement.textContent = 'Welcome to Everlink';
+                document.getElementById('content').innerHTML = '<p>Please visit a valid user page.</p>';
+            }
+        });
+
+        function loadUserContent(userId) {
+            // This function can be expanded to fetch user-specific content
+            // For example via API calls or predetermined content
+            const contentElement = document.getElementById('content');
+
+            // For demonstration, we're using a simple display
+            contentElement.innerHTML = `
+                <p>This is the personalized page for ${userId}.</p>
+                <p>You can customize this content based on the user's identity.</p>
+            `;
+
+            // In a real application, you might fetch data like:
+            // fetch('/api/users/' + userId)
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         contentElement.innerHTML = createUserProfileHTML(data);
+            //     })
+            //     .catch(error => {
+            //         contentElement.innerHTML = '<p>Error loading user data.</p>';
+            //         console.error('Error:', error);
+            //     });
+        }
+    </script>
+</body>
+
+</html>
