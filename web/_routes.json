@@ -3,7 +3,7 @@
     "routes": [
       {
         "src": "^/([A-Za-z0-9_-]+)/?$",
-        "dest": "/profile.html",
+        "dest": "/profile.html?username=$1",
         "status": 200
       },
       {
