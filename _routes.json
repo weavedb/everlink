@@ -2,7 +2,7 @@
     "routes": [
         {
             "pattern": "/*",
-            "destination": "/subpage.html"
+            "destination": "/web/subpage.html"
         }
     ]
 }
