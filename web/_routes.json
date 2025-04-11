@@ -1,0 +1,8 @@
+{
+    "routes": [
+        {
+            "pattern": "/*",
+            "destination": "/subpage.html"
+        }
+    ]
+}
