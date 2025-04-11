@@ -31,12 +31,18 @@ export async function onRequest(context) {
       });
     } catch (error) {
       console.error('Error serving subpage:', error);
+      
+      // Return a more helpful error message if subpage.html can't be fetched
+      return new Response('Error loading page: ' + error.message, {
+        status: 500,
+        headers: { 'Content-Type': 'text/plain' }
+      });
     }
+  }
   
   // For any other more complex paths, return a 404
   return new Response('Page not found', {
     status: 404,
     headers: { 'Content-Type': 'text/plain' }
   });
-  }
 }
