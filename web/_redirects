@@ -1,2 +1,2 @@
-/subpage /subpage.html 200
-/* /index.html 200
+/  /index.html 200
+/:username  /profile.html 200

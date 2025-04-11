@@ -3,22 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dynamic Greeting</title>
+  <title>Landing Page</title>
 </head>
 <body>
-  <h1 id="greeting">Hello, World!</h1>
-  
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Get the path from the URL without the leading slash
-      const path = window.location.pathname.slice(1);
-      
-      // Only update the greeting if there is a dynamic segment and it's not the reserved 'subpage'
-      if (path && path !== 'subpage') {
-        const username = path.charAt(0).toUpperCase() + path.slice(1);
-        document.getElementById('greeting').textContent = `Hello, ${username}`;
-      }
-    });
-  </script>
+  <h1>Welcome to my Landing Page</h1>
+  <p>This is your main landing page.</p>
 </body>
 </html>

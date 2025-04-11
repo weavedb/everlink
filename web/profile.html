@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+</head>
+
+<body>
+    <h1 id="greeting">Hello!</h1>
+
+    <script>
+        // Wait for the DOM to load
+        document.addEventListener('DOMContentLoaded', function () {
+            // Extract the username from the URL (removing the leading slash)
+            const username = window.location.pathname.slice(1);
+
+            // If there is a username, display it on the page
+            if (username) {
+                const formattedName = username.charAt(0).toUpperCase() + username.slice(1);
+                document.getElementById('greeting').textContent = `Hello, ${formattedName}`;
+            }
+        });
+    </script>
+</body>
+
+</html>
