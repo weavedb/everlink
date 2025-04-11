@@ -1,12 +1,5 @@
 {
-    "version": 1,
-    "include": ["/*"],
-    "exclude": [],
-    "routes": [
-      {
-        "pattern": "/*",
-        "serve": "/subpage.html",
-        "status": 200
-      }
-    ]
-  }
+  "version": 1,
+  "include": ["/*"],
+  "exclude": ["/assets/*", "/*.jpg", "/*.png", "/*.gif", "/*.svg", "/*.css", "/*.js"]
+}
