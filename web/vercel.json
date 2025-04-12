@@ -1,0 +1,7 @@
+{
+  "routes": [
+    { "src": "/$", "dest": "/index.html" },
+    { "src": "/(?<profile>[^/]+)/?$", "dest": "/profile.html" },
+    { "src": "/(.*)", "dest": "/404.html" }
+  ]
+}

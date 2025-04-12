@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+</head>
+
+<body>
+    <h1 id="greeting">Hello, <span id="profile-name"></span>!</h1>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get the profile name from the URL path
+            const pathSegments = window.location.pathname.split('/').filter(segment => segment.length > 0);
+            const profileName = pathSegments[pathSegments.length - 1] || '';
+
+            // Update the profile name in the page
+            document.getElementById('profile-name').textContent = profileName;
+
+            // Also update the page title
+            document.title = `${profileName}'s Profile`;
+        });
+    </script>
+</body>
+
+</html>
