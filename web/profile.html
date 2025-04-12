@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,10 +6,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
+    <!-- Include DOMPurify for HTML sanitization -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.3/purify.min.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        #content-frame {
+            width: 100%;
+            height: 100vh;
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        /* Loading state styling */
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+    </style>
 </head>
 
 <body>
-    <h1 id="greeting">Hello, <span id="profile-name"></span>!</h1>
+    <!-- Loading state that will be hidden once content is loaded -->
+    <div id="loading">
+        <h1>Loading profile: <span id="profile-name"></span></h1>
+        <p id="resolved-id">Looking up Arweave ID...</p>
+    </div>
+    
+    <!-- This iframe will take over the entire viewport -->
+    <iframe id="content-frame" sandbox="allow-scripts allow-same-origin"></iframe>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -16,12 +56,57 @@
             const pathSegments = window.location.pathname.split('/').filter(segment => segment.length > 0);
             const profileName = pathSegments[pathSegments.length - 1] || '';
 
-            // Update the profile name in the page
+            // Update the profile name in the loading message
             document.getElementById('profile-name').textContent = profileName;
 
-            // Also update the page title
+            // Update page title
             document.title = `${profileName}'s Profile`;
+
+            // Fetch data from Arweave URL
+            fetchArweaveData(profileName);
         });
+
+        async function fetchArweaveData(profileName) {
+            try {
+                const response = await fetch(`https://${profileName}_drumfeet.arweave.net`, {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+
+                // Check if the request was successful
+                if (response.ok) {
+                    // Get the header value
+                    const resolvedId = response.headers.get('X-Arns-Resolved-Id');
+                    if (resolvedId) {
+                        document.getElementById('resolved-id').textContent = `Arweave ID: ${resolvedId}`;
+                    }
+                    
+                    // Get the HTML content
+                    const htmlContent = await response.text();
+                    
+                    // Sanitize the HTML content
+                    const sanitizedContent = DOMPurify.sanitize(htmlContent);
+                    
+                    // Get the iframe
+                    const iframe = document.getElementById('content-frame');
+                    
+                    // Set the content to the iframe
+                    iframe.srcdoc = sanitizedContent;
+                    
+                    // When the iframe is loaded, hide the loading screen
+                    iframe.onload = function() {
+                        document.getElementById('loading').style.display = 'none';
+                    };
+                } else {
+                    document.getElementById('resolved-id').textContent =
+                        `Failed to fetch Arweave data: ${response.status} ${response.statusText}`;
+                }
+            } catch (error) {
+                console.error('Error fetching Arweave data:', error);
+                document.getElementById('resolved-id').textContent =
+                    `Error: ${error.message}. CORS may be blocking the request.`;
+            }
+        }
     </script>
 </body>
 
