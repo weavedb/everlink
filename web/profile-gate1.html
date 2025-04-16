@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Profile page served via ar.io gateway.">
+    <title>Profile Gate 1</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #content-frame {
+            width: 100%;
+            height: 100vh;
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #loading {
+            position: fixed;
+            z-index: 1000;
+            transition: opacity 0.5s ease-out;
+        }
+
+        #loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loading">
+        <h1>Loading profile: <span id="profile-name"></span></h1>
+        <p id="resolved-id">Looking up Arweave ID...</p>
+    </div>
+
+    <iframe id="content-frame" title="User Profile Content"></iframe>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const pathSegments = window.location.pathname.split('/').filter(segment => segment.length > 0);
+            const profileName = pathSegments[pathSegments.length - 2] || '';
+            const loadingDiv = document.getElementById('loading');
+            const resolvedIdEl = document.getElementById('resolved-id');
+            const iframe = document.getElementById('content-frame');
+
+            document.getElementById('profile-name').textContent = profileName;
+
+            try {
+                const arweaveSubdomain = profileName.replace(/[^a-z0-9_-]/gi, '');
+                if (!arweaveSubdomain) {
+                    throw new Error("Invalid profile name format.");
+                }
+                const GATEWAY_NAME = 'ar.io';
+                const SUBDOMAIN_ARNS_NAME = 'drumfeet';
+                const arweaveUrl = `https://${arweaveSubdomain}_${SUBDOMAIN_ARNS_NAME}.${GATEWAY_NAME}`;
+
+                resolvedIdEl.textContent = `Loading profile from Arweave...`;
+
+                iframe.src = arweaveUrl;
+
+                iframe.onload = () => {
+                    console.log('Iframe content loaded successfully.');
+                    resolvedIdEl.textContent = `Profile loaded.`;
+                    loadingDiv.classList.add('hidden');
+                };
+
+                iframe.onerror = () => {
+                    console.error('Failed to load iframe content from:', arweaveUrl);
+                    resolvedIdEl.textContent = `Error: Could not load profile from Arweave.`;
+                    loadingDiv.classList.add('hidden');
+                };
+
+            } catch (error) {
+                console.error('Error constructing URL or setting iframe src:', error);
+                resolvedIdEl.textContent = `Error: ${error.message}`;
+                loadingDiv.classList.add('hidden');
+            }
+
+        });
+    </script>
+</body>
+
+</html>

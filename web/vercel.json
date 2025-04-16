@@ -1,8 +1,8 @@
 {
   "redirects": [
     {
-      "source": "/:profileName([a-zA-Z0-9-]+)/",
-      "destination": "/:profileName",
+      "source": "/:path*/",
+      "destination": "/:path*",
       "permanent": true
     }
   ],
@@ -10,6 +10,10 @@
     {
       "source": "/:profileName([a-zA-Z0-9-]+)",
       "destination": "/profile.html"
+    },
+    {
+      "source": "/:profileName([a-zA-Z0-9-]+)/gate1",
+      "destination": "/profile-gate1.html"
     }
   ]
 }
