@@ -1,7 +1,15 @@
 {
-  "routes": [
-    { "src": "/$", "dest": "/index.html" },
-    { "src": "/(?<profile>[^/]+)/?$", "dest": "/profile.html" },
-    { "src": "/(.*)", "dest": "/404.html" }
+  "redirects": [
+    {
+      "source": "/:profileName([a-zA-Z0-9-]+)/",
+      "destination": "/:profileName",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/:profileName([a-zA-Z0-9-]+)",
+      "destination": "/profile.html"
+    }
   ]
 }
