@@ -58,10 +58,7 @@
         }
 
         #loading {
-            /* Keep loading styles */
             position: fixed;
-            /* ... */
-            /* ... */
             z-index: 1000;
             transition: opacity 0.5s ease-out;
         }
@@ -82,15 +79,14 @@
         <p id="resolved-id">Looking up Arweave ID...</p>
     </div>
 
-    <!-- Iframe using SRC attribute -->
     <iframe id="content-frame" title="User Profile Content"></iframe>
-    <!-- Removed sandbox attribute - not strictly needed for trusted content loading this way -->
-    <!-- Add sandbox back if you want specific restrictions, but allow-scripts etc. would be needed for functionality -->
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const pathSegments = window.location.pathname.split('/').filter(segment => segment.length > 0);
-            const profileName = pathSegments[pathSegments.length - 1] || '';
+            const profileName = pathSegments[0] || ''; // Assume the first segment is the profile name
+            const gateway = pathSegments[1] || 'arweave.net'; // Assume the second segment is the gateway (default to 'arweave.net')
+
             const loadingDiv = document.getElementById('loading');
             const resolvedIdEl = document.getElementById('resolved-id');
             const iframe = document.getElementById('content-frame');
@@ -116,7 +112,8 @@
                 if (!arweaveSubdomain) {
                     throw new Error("Invalid profile name format.");
                 }
-                const GATEWAY_NAME = 'arweave.net';
+
+                const GATEWAY_NAME = gateway; // Dynamically set the gateway
                 const SUBDOMAIN_ARNS_NAME = 'drumfeet';
                 const arweaveUrl = `https://${arweaveSubdomain}_${SUBDOMAIN_ARNS_NAME}.${GATEWAY_NAME}`;
 
@@ -128,20 +125,10 @@
                 // Hide loading indicator when the iframe successfully loads
                 iframe.onload = () => {
                     console.log('Iframe content loaded successfully.');
-                    resolvedIdEl.textContent = `Profile loaded.`; // Or clear it
-                    loadingDiv.classList.add('hidden'); // Use class for hiding
-                    // Optional: You could try to get the title from the iframe IF security allows
-                    try {
-                        const iframeTitle = iframe.contentDocument?.title;
-                        if (iframeTitle) {
-                            document.title = iframeTitle; // Update parent title if accessible
-                        }
-                    } catch (e) {
-                        console.warn('Cannot access iframe title (likely cross-origin restriction, even if trusted).');
-                    }
+                    resolvedIdEl.textContent = `Profile loaded.`;
+                    loadingDiv.classList.add('hidden');
                 };
 
-                // Optional: Handle loading errors
                 iframe.onerror = () => {
                     console.error('Failed to load iframe content from:', arweaveUrl);
                     resolvedIdEl.textContent = `Error: Could not load profile from Arweave.`;
@@ -155,7 +142,6 @@
                 resolvedIdEl.textContent = `Error: ${error.message}`;
                 loadingDiv.classList.add('hidden');
             }
-
         });
     </script>
 </body>

@@ -12,8 +12,8 @@
       "destination": "/profile.html"
     },
     {
-      "source": "/:profileName([a-zA-Z0-9-]+)/gate1",
-      "destination": "/profile-gate1.html"
+      "source": "/:profileName([a-zA-Z0-9-]+)/:gateway",
+      "destination": "/profile.html"
     }
   ]
 }
