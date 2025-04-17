@@ -202,6 +202,8 @@
       padding: 24px;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
       transition: all 0.3s;
+      min-width: 0;
+      width: 100%;
     }
 
     .card:hover {
@@ -243,6 +245,8 @@
       justify-content: space-between;
       border: 1px solid rgba(31, 41, 55, 0.5);
       transition: all 0.3s;
+      min-width: 0;
+      width: 100%;
     }
 
     .card:hover .url-display {
@@ -255,11 +259,14 @@
       color: #d1d5db;
       overflow: hidden;
       font-size: 14px;
+      min-width: 0;
+      width: 100%;
     }
 
     .url-prefix {
       color: #6b7280;
       margin-right: 2px;
+      flex-shrink: 0;
     }
 
     .url-name {
@@ -268,6 +275,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      min-width: 0;
     }
 
     .url-gateway {
@@ -275,6 +283,7 @@
       font-weight: 500;
       white-space: nowrap;
       transition: opacity 0.4s;
+      flex-shrink: 0;
     }
 
     .url-gateway.fade {
@@ -394,6 +403,10 @@
 
       .card {
         padding: 16px;
+      }
+
+      .url-text {
+        font-size: 12px;
       }
     }
 
