@@ -278,15 +278,26 @@
       min-width: 0;
     }
 
-    .url-gateway {
-      color: #a78bfa;
-      font-weight: 500;
-      white-space: nowrap;
-      transition: opacity 0.4s;
-      flex-shrink: 0;
+    .url-gateway-container {
+      position: relative;
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: bottom;
     }
 
-    .url-gateway.fade {
+    .url-gateway {
+      display: inline-block;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+      white-space: nowrap;
+    }
+
+    .url-gateway.slide-up {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+
+    .url-gateway.slide-down {
+      transform: translateY(100%);
       opacity: 0;
     }
 
@@ -464,7 +475,7 @@
         <!-- Hero headline section -->
         <div class="hero-text">
           <h1 class="hero-title">
-            <span class="highlight">everything</span> you need for your
+            <span class="highlight">permanent</span> web page for your
             <span class="highlight">digital profile</span>
           </h1>
           <p class="hero-description">
@@ -499,11 +510,18 @@
                 <div class="url-text">
                   <span class="url-prefix">https://</span>
                   <span class="url-name">yourname</span>
-                  <span id="gateway" class="url-gateway">_everlink.arweave.net</span>
+                  <span>.everlink_</span>
+                  <span class="url-gateway-container">
+                    <span id="gateway" class="url-gateway">arweave.net</span>
+                  </span>
                 </div>
               </div>
               <p class="card-description">
-                Your profile is always available through multiple gateways
+                Your profile is always available through multiple
+                <a href="https://network-portal.app/gateways#/gateways" target="_blank" rel="noopener noreferrer"
+                  style="color: #a78bfa; text-decoration: none;">
+                  gateways
+                </a>
               </p>
             </div>
 
@@ -596,29 +614,28 @@
   </footer>
 
   <script>
-    // Gateway animation
+    // Gateway cycling
     (function () {
       const gatewayElement = document.getElementById('gateway');
-      const gateways = ["_everlink.arweave.net", "_everlink.ar.io", "_everlink.weavedb.app"];
+
+      const gateways = [
+        "weavedb.app",
+        "permadao.io",
+        "ar.xyz",
+        "defi.ao",
+        "arweave.chat",
+        "arweave.ph",
+        "arweave.net",
+        "arweave.dev",
+        "vevivofficial.xyz",
+      ]
       let currentIndex = 0;
 
       function cycleGateways() {
-        // Add fade out class
-        gatewayElement.classList.add('fade');
-
-        // Wait for fade out
-        setTimeout(() => {
-          currentIndex = (currentIndex + 1) % gateways.length;
-          gatewayElement.textContent = gateways[currentIndex];
-
-          // Wait briefly before starting fade in
-          setTimeout(() => {
-            gatewayElement.classList.remove('fade');
-          }, 50);
-        }, 400);
+        currentIndex = (currentIndex + 1) % gateways.length;
+        gatewayElement.textContent = gateways[currentIndex];
       }
 
-      // Start the interval
       setInterval(cycleGateways, 1000);
     })();
   </script>
