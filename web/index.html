@@ -295,7 +295,6 @@
       transition: transform 0.4s ease, opacity 0.4s ease;
       white-space: nowrap;
       font-weight: 600;
-      text-decoration: underline;
       text-underline-offset: 2px;
       text-decoration-thickness: 1px;
       text-decoration-color: rgba(167, 139, 250, 0.5);
@@ -529,7 +528,8 @@
               <p class="card-description">
                 Your profile is always available through multiple
                 <a href="https://network-portal.app/gateways#/gateways" target="_blank" rel="noopener noreferrer"
-                  style="color: #a78bfa; text-decoration: none;">
+                  style="color: #a78bfa; text-decoration: none; transition: all 0.2s ease-in-out;"
+                  onmouseover="this.style.textDecoration='underline';" onmouseout="this.style.textDecoration='none';">
                   gateways
                 </a>
               </p>
