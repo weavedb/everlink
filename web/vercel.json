@@ -1,11 +1,5 @@
 {
-  "redirects": [
-    {
-      "source": "/:path*/",
-      "destination": "/:path*",
-      "permanent": true
-    }
-  ],
+  "trailingSlash": false,
   "rewrites": [
     {
       "source": "/:profileName([a-zA-Z0-9-]+)",
