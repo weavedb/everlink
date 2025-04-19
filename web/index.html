@@ -225,7 +225,7 @@
     /* URL display cards */
     .url-cards {
       width: 100%;
-      max-width: 896px;
+      max-width: calc(1024px - 2 * var(--spacing-xl));
       margin: 0 auto;
       background-color: var(--surface-overlay);
       backdrop-filter: blur(16px);
@@ -260,8 +260,8 @@
     .card-header {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: calc(var(--spacing-md) - var(--spacing-xs));
+      margin-bottom: calc(var(--spacing-lg) + var(--spacing-xs));
     }
 
     .card-icon {
@@ -322,10 +322,10 @@
       text-overflow: ellipsis;
       min-width: 0;
       background-color: rgba(124, 58, 237, 0.3);
-      padding: 2px 6px;
+      padding: calc(var(--spacing-xs) / 2) calc(var(--spacing-xs) * 1.5);
       border-radius: var(--radius-sm);
-      margin-right: 4px;
-      margin-left: 4px;
+      margin-right: var(--spacing-xs);
+      margin-left: var(--spacing-xs);
       letter-spacing: 0.5px;
     }
 
@@ -472,7 +472,7 @@
     /* Responsive adjustments */
     @media (max-width: 768px) {
       .hero-title {
-        font-size: 36px;
+        font-size: calc(var(--spacing-xl) + var(--spacing-xs));
       }
 
       .hero-description {
@@ -494,12 +494,12 @@
 
     @media (max-width: 480px) {
       .hero-title {
-        font-size: 28px;
+        font-size: calc(var(--spacing-xl) - var(--spacing-xs));
       }
 
       .btn-large {
-        padding: 12px 24px;
-        font-size: 16px;
+        padding: calc(var(--spacing-md) - var(--spacing-xs)) var(--spacing-lg);
+        font-size: calc(1rem + var(--spacing-xs));
       }
     }
   </style>
