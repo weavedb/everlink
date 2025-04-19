@@ -54,6 +54,51 @@
       --radius-pill: 9999px;
 
       /* ===================
+         TYPOGRAPHY SYSTEM
+         =================== */
+
+      /* Font Families */
+      --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+      /* Font Sizes */
+      --font-3xs: 0.75rem;
+      /* 12px */
+      --font-2xs: 0.875rem;
+      /* 14px */
+      --font-xs: 1rem;
+      /* 16px */
+      --font-sm: 1.125rem;
+      /* 18px */
+      --font-md: 1.25rem;
+      /* 20px */
+      --font-lg: 1.5rem;
+      /* 24px */
+      --font-xl: 2rem;
+      /* 32px */
+      --font-2xl: 2.5rem;
+      /* 40px */
+      --font-3xl: 3rem;
+      /* 48px */
+
+      /* Line Heights */
+      --line-tight: 1.2;
+      --line-normal: 1.5;
+      --line-loose: 1.8;
+
+      /* Font Weights */
+      --weight-regular: 400;
+      --weight-medium: 500;
+      --weight-semibold: 600;
+      --weight-bold: 700;
+
+      /* Letter Spacing */
+      --tracking-tight: -0.025em;
+      --tracking-normal: 0;
+      --tracking-wide: 0.025em;
+      --tracking-wider: 0.05em;
+
+      /* ===================
          EFFECTS
          =================== */
 
@@ -72,7 +117,7 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-family: var(--font-primary);
     }
 
     body {
@@ -147,8 +192,8 @@
     }
 
     .logo {
-      font-size: 20px;
-      font-weight: bold;
+      font-size: var(--font-md);
+      font-weight: var(--weight-bold);
       color: var(--color-foreground);
     }
 
@@ -174,7 +219,7 @@
       justify-content: center;
       padding: 10px 20px;
       border-radius: var(--radius-pill);
-      font-weight: 500;
+      font-weight: var(--weight-medium);
       cursor: pointer;
       transition: var(--motion-efficient);
       border: none;
@@ -199,7 +244,7 @@
 
     .btn-large {
       padding: var(--space-xs) var(--space-md);
-      font-size: 18px;
+      font-size: var(--font-sm);
     }
 
     /* Main content */
@@ -221,9 +266,9 @@
     }
 
     .hero-title {
-      font-size: 48px;
-      font-weight: bold;
-      line-height: 1.2;
+      font-size: var(--font-3xl);
+      font-weight: var(--weight-bold);
+      line-height: var(--line-tight);
       margin-bottom: var(--space-sm);
     }
 
