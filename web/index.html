@@ -106,10 +106,6 @@
       --shadow-low: 0 2px 4px -1px rgba(0, 0, 0, 0.06);
       --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
       --shadow-high: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-
-      /* Motion */
-      --motion-efficient: all 0.2s ease;
-      --motion-smooth: all 0.4s ease;
     }
 
     /* Reset and base styles */
@@ -205,7 +201,6 @@
 
     .social-link {
       color: var(--color-foreground-subtle);
-      transition: var(--motion-efficient);
     }
 
     .social-link:hover {
@@ -221,7 +216,6 @@
       border-radius: var(--radius-pill);
       font-weight: var(--weight-medium);
       cursor: pointer;
-      transition: var(--motion-efficient);
       border: none;
       outline: none;
       text-decoration: none;
@@ -405,22 +399,11 @@
 
     .url-gateway {
       display: inline-block;
-      transition: var(--motion-smooth);
       white-space: nowrap;
       font-weight: 600;
       text-underline-offset: 2px;
       text-decoration-thickness: 1px;
       text-decoration-color: rgba(167, 139, 250, 0.5);
-    }
-
-    .url-gateway.slide-up {
-      transform: translateY(-100%);
-      opacity: 0;
-    }
-
-    .url-gateway.slide-down {
-      transform: translateY(100%);
-      opacity: 0;
     }
 
     .card-description {
@@ -432,7 +415,6 @@
     .card-description a {
       color: var(--color-accent-subtle);
       text-decoration: none;
-      transition: var(--motion-efficient);
     }
 
     .card-description a:hover {
@@ -482,7 +464,6 @@
       font-size: 14px;
       color: var(--color-foreground-subtle);
       text-decoration: none;
-      transition: var(--motion-efficient);
     }
 
     .partner-link:hover {
@@ -505,7 +486,6 @@
       color: var(--color-foreground-subtle);
       padding: var(--space-2xs);
       border-radius: var(--radius-pill);
-      transition: var(--motion-efficient);
     }
 
     .social-icon:hover {
