@@ -8,25 +8,25 @@
   <style>
     /* CSS Variables */
     :root {
-      /* Colors */
-      --color-background-start: #0a0a0a;
-      --color-background-end: #171717;
-      --color-text-primary: #ffffff;
-      --color-text-secondary: #d1d5db;
-      --color-text-tertiary: #9ca3af;
-      --color-text-muted: #6b7280;
-      --color-primary: #7c3aed;
-      --color-primary-dark: #6d28d9;
-      --color-primary-light: #a78bfa;
-      --color-primary-alpha: rgba(124, 58, 237, 0.1);
-      --color-secondary-alpha: rgba(91, 33, 182, 0.1);
-      --color-surface: rgba(17, 24, 39, 0.6);
-      --color-border: rgba(31, 41, 55, 0.5);
-      --color-card-bg-start: rgba(31, 41, 55, 0.8);
-      --color-card-bg-end: rgba(17, 24, 39, 0.8);
-      --color-url-display-bg: rgba(3, 7, 18, 0.9);
+      /* Theme Colors */
+      --theme-bg-primary: #0a0a0a;
+      --theme-bg-secondary: #171717;
+      --theme-text-primary: #ffffff;
+      --theme-text-secondary: #d1d5db;
+      --theme-text-tertiary: #9ca3af;
+      --theme-text-muted: #6b7280;
+      --brand-primary: #7c3aed;
+      --brand-primary-dark: #6d28d9;
+      --brand-primary-light: #a78bfa;
+      --brand-primary-transparent: rgba(124, 58, 237, 0.1);
+      --brand-secondary-transparent: rgba(91, 33, 182, 0.1);
+      --surface-overlay: rgba(17, 24, 39, 0.6);
+      --border-subtle: rgba(31, 41, 55, 0.5);
+      --card-gradient-start: rgba(31, 41, 55, 0.8);
+      --card-gradient-end: rgba(17, 24, 39, 0.8);
+      --code-block-bg: rgba(3, 7, 18, 0.9);
 
-      /* Spacing */
+      /* Spacing System */
       --spacing-xs: 4px;
       --spacing-sm: 8px;
       --spacing-md: 16px;
@@ -61,8 +61,8 @@
 
     body {
       min-height: 100vh;
-      background: linear-gradient(to bottom, var(--color-background-start), var(--color-background-end));
-      color: var(--color-text-primary);
+      background: linear-gradient(to bottom, var(--theme-bg-primary), var(--theme-bg-secondary));
+      color: var(--theme-text-primary);
       overflow-x: hidden;
       display: flex;
       flex-direction: column;
@@ -82,7 +82,7 @@
       right: -160px;
       width: 384px;
       height: 384px;
-      background-color: var(--color-primary-alpha);
+      background-color: var(--brand-primary-transparent);
       border-radius: 50%;
       filter: blur(48px);
     }
@@ -93,7 +93,7 @@
       left: -160px;
       width: 320px;
       height: 320px;
-      background-color: var(--color-primary-alpha);
+      background-color: var(--brand-primary-transparent);
       border-radius: 50%;
       filter: blur(48px);
     }
@@ -104,7 +104,7 @@
       right: 25%;
       width: 256px;
       height: 256px;
-      background-color: var(--color-secondary-alpha);
+      background-color: var(--brand-secondary-transparent);
       border-radius: 50%;
       filter: blur(48px);
     }
@@ -133,7 +133,7 @@
     .logo {
       font-size: 20px;
       font-weight: bold;
-      color: var(--color-text-primary);
+      color: var(--theme-text-primary);
     }
 
     .header-right {
@@ -143,12 +143,12 @@
     }
 
     .social-link {
-      color: var(--color-text-tertiary);
+      color: var(--theme-text-tertiary);
       transition: var(--transition-default);
     }
 
     .social-link:hover {
-      color: var(--color-primary-light);
+      color: var(--brand-primary-light);
     }
 
     /* Buttons */
@@ -173,12 +173,12 @@
     }
 
     .btn-primary {
-      background-color: var(--color-primary);
-      color: var(--color-text-primary);
+      background-color: var(--brand-primary);
+      color: var(--theme-text-primary);
     }
 
     .btn-primary:hover {
-      background-color: var(--color-primary-dark);
+      background-color: var(--brand-primary-dark);
     }
 
     .btn-large {
@@ -212,12 +212,12 @@
     }
 
     .hero-title .highlight {
-      color: var(--color-primary-light);
+      color: var(--brand-primary-light);
     }
 
     .hero-description {
       font-size: 18px;
-      color: var(--color-text-secondary);
+      color: var(--theme-text-secondary);
       max-width: 576px;
       margin: 0 auto var(--spacing-xl);
     }
@@ -227,11 +227,11 @@
       width: 100%;
       max-width: 896px;
       margin: 0 auto;
-      background-color: var(--color-surface);
+      background-color: var(--surface-overlay);
       backdrop-filter: blur(16px);
       border-radius: var(--radius-xl);
       padding: var(--spacing-xl);
-      border: 1px solid var(--color-border);
+      border: 1px solid var(--border-subtle);
       box-shadow: var(--shadow-lg);
       overflow: hidden;
     }
@@ -249,7 +249,7 @@
     }
 
     .card {
-      background: linear-gradient(to bottom right, var(--color-card-bg-start), var(--color-card-bg-end));
+      background: linear-gradient(to bottom right, var(--card-gradient-start), var(--card-gradient-end));
       border-radius: var(--radius-lg);
       padding: var(--spacing-lg);
       box-shadow: var(--shadow-md);
@@ -274,23 +274,23 @@
     .card-icon svg {
       width: 18px;
       height: 18px;
-      color: var(--color-text-tertiary);
+      color: var(--theme-text-tertiary);
     }
 
     .card-title {
       font-size: 16px;
       font-weight: 600;
-      color: var(--color-text-primary);
+      color: var(--theme-text-primary);
     }
 
     .url-display {
-      background-color: var(--color-url-display-bg);
+      background-color: var(--code-block-bg);
       border-radius: var(--radius-md);
       padding: var(--spacing-md);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border: 1px solid var(--color-border);
+      border: 1px solid var(--border-subtle);
       min-width: 0;
       width: 100%;
     }
@@ -298,7 +298,7 @@
     .url-text {
       display: flex;
       align-items: center;
-      color: var(--color-text-secondary);
+      color: var(--theme-text-secondary);
       font-size: 14px;
       min-width: 0;
       width: 100%;
@@ -308,14 +308,14 @@
     }
 
     .url-prefix {
-      color: var(--color-text-muted);
+      color: var(--theme-text-muted);
       margin-right: 2px;
       flex-shrink: 0;
       opacity: 0.8;
     }
 
     .url-name {
-      color: var(--color-text-primary);
+      color: var(--theme-text-primary);
       font-weight: 700;
       white-space: nowrap;
       overflow: hidden;
@@ -330,7 +330,7 @@
     }
 
     .url-subdomain {
-      color: var(--color-text-secondary);
+      color: var(--theme-text-secondary);
       font-weight: 400;
       letter-spacing: 0.5px;
     }
@@ -364,12 +364,12 @@
 
     .card-description {
       font-size: 12px;
-      color: var(--color-text-tertiary);
+      color: var(--theme-text-tertiary);
       margin-top: var(--spacing-sm);
     }
 
     .card-description a {
-      color: var(--color-primary-light);
+      color: var(--brand-primary-light);
       text-decoration: none;
       transition: var(--transition-default);
     }
@@ -380,7 +380,7 @@
 
     /* Footer */
     footer {
-      border-top: 1px solid var(--color-border);
+      border-top: 1px solid var(--border-subtle);
       margin-top: auto;
       position: relative;
       z-index: 1;
@@ -419,13 +419,13 @@
       align-items: center;
       gap: 6px;
       font-size: 14px;
-      color: var(--color-text-tertiary);
+      color: var(--theme-text-tertiary);
       text-decoration: none;
       transition: var(--transition-default);
     }
 
     .partner-link:hover {
-      color: var(--color-primary-light);
+      color: var(--brand-primary-light);
     }
 
     .partner-link svg {
@@ -441,14 +441,14 @@
     }
 
     .social-icon {
-      color: var(--color-text-tertiary);
+      color: var(--theme-text-tertiary);
       padding: var(--spacing-sm);
       border-radius: var(--radius-full);
       transition: var(--transition-default);
     }
 
     .social-icon:hover {
-      color: var(--color-primary-light);
+      color: var(--brand-primary-light);
       background-color: rgba(31, 41, 55, 0.3);
     }
 
@@ -549,7 +549,7 @@
             <span class="highlight">digital profile</span>
           </h1>
           <p class="hero-description">
-            Share your content, products, and services in one customizable link that showcases and empower your brand.
+            Share your content, products, and services in one customizable link that showcases and empowers your brand.
           </p>
           <a href="https://app.everlink.fun" class="btn btn-primary btn-large">
             Create your Everlink
@@ -571,7 +571,7 @@
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
                     <path
-                      d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                      d="M12 2a15.3 15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
                     </path>
                     <path d="M2 12h20"></path>
                   </svg>
