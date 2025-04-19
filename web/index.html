@@ -704,29 +704,19 @@
     // Gateway cycling
     (function () {
       const gatewayElement = document.getElementById('gateway');
-
       const gateways = [
-        "weavedb.app",
-        "permadao.io",
-        "permagate.io",
-        "arnode.xyz",
-        "arfrost.xyz",
-        "arnode.asia",
-        "arlink.xyz",
-        "ardrive.net",
-        "ar.xyz",
-        "defi.ao",
-        "arweave.chat",
-        "arweave.ph",
-        "arweave.net",
-        "arweave.dev",
-        "vevivofficial.xyz",
-      ]
+        "weavedb.app", "permadao.io", "permagate.io",
+        "arnode.xyz", "arfrost.xyz", "arnode.asia",
+        "arlink.xyz", "ardrive.net", "ar.xyz",
+        "defi.ao", "arweave.chat", "arweave.ph",
+        "arweave.net", "arweave.dev", "vevivofficial.xyz"
+      ];
+
       let currentIndex = 0;
 
       function cycleGateways() {
-        currentIndex = (currentIndex + 1) % gateways.length;
         gatewayElement.textContent = gateways[currentIndex];
+        currentIndex = (currentIndex + 1) % gateways.length;
       }
 
       setInterval(cycleGateways, 1000);
