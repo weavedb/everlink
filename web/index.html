@@ -375,10 +375,91 @@
       vertical-align: bottom;
     }
 
-    .url-gateway {
+    .url-gateway-container::after {
+      content: "arweave.net";
+      animation: cycleGateways 15s infinite;
       display: inline-block;
       white-space: nowrap;
       font-weight: 600;
+    }
+
+    /* Add CSS animation only for the Permanent Hosting card's gateway */
+    @keyframes cycleGateways {
+
+      0%,
+      6.66% {
+        content: "weavedb.app";
+      }
+
+      6.67%,
+      13.33% {
+        content: "permadao.io";
+      }
+
+      13.34%,
+      20% {
+        content: "permagate.io";
+      }
+
+      20.01%,
+      26.66% {
+        content: "arnode.xyz";
+      }
+
+      26.67%,
+      33.33% {
+        content: "arfrost.xyz";
+      }
+
+      33.34%,
+      40% {
+        content: "arnode.asia";
+      }
+
+      40.01%,
+      46.66% {
+        content: "arlink.xyz";
+      }
+
+      46.67%,
+      53.33% {
+        content: "ardrive.net";
+      }
+
+      53.34%,
+      60% {
+        content: "ar.xyz";
+      }
+
+      60.01%,
+      66.66% {
+        content: "defi.ao";
+      }
+
+      66.67%,
+      73.33% {
+        content: "vevivofficial.xyz";
+      }
+
+      73.34%,
+      80% {
+        content: "arweave.chat";
+      }
+
+      80.01%,
+      86.66% {
+        content: "arweave.ph";
+      }
+
+      86.67%,
+      93.33% {
+        content: "arweave.dev";
+      }
+
+      93.34%,
+      100% {
+        content: "arweave.net";
+      }
     }
 
     .card-description {
@@ -600,7 +681,7 @@
                   <span class="url-name">yourname</span>
                   <span class="url-subdomain">_everlink.</span>
                   <span class="url-gateway-container">
-                    <span id="gateway" class="url-gateway">arweave.net</span>
+                    <span id="gateway" class="url-gateway"></span>
                   </span>
                 </div>
               </div>
@@ -699,29 +780,6 @@
       </div>
     </div>
   </footer>
-
-  <script>
-    // Gateway cycling
-    (function () {
-      const gatewayElement = document.getElementById('gateway');
-      const gateways = [
-        "weavedb.app", "permadao.io", "permagate.io",
-        "arnode.xyz", "arfrost.xyz", "arnode.asia",
-        "arlink.xyz", "ardrive.net", "ar.xyz",
-        "defi.ao", "arweave.chat", "arweave.ph",
-        "arweave.net", "arweave.dev", "vevivofficial.xyz"
-      ];
-
-      let currentIndex = 0;
-
-      function cycleGateways() {
-        gatewayElement.textContent = gateways[currentIndex];
-        currentIndex = (currentIndex + 1) % gateways.length;
-      }
-
-      setInterval(cycleGateways, 1000);
-    })();
-  </script>
 </body>
 
 </html>
