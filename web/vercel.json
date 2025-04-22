@@ -1,0 +1,13 @@
+{
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/:profileName([a-zA-Z0-9-]+)",
+      "destination": "/profile.html"
+    },
+    {
+      "source": "/:profileName([a-zA-Z0-9-]+)/:gateway",
+      "destination": "/profile.html"
+    }
+  ]
+}

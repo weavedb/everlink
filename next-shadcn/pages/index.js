@@ -22,7 +22,7 @@ export default function Home() {
               Welcome to Everlink!
             </h1>
             <p className="text-md text-white md:whitespace-nowrap">
-              Choose your Everlink subdomain. You can always change it later.
+              Claim your subdomain. You can always change it later.
             </p>
           </div>
 
