@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Permanent web page for your digital profile.">
+    <meta name="keywords"
+        content="Everlink, everlinkdotfun, everlink.fun, Arweave, AO, Blockchain, Crypto, Web3, Link in Bio, Profile Page, Decentralized, Permanent Hosting">
+    <meta name="author" content="everlink.fun">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph Metadata -->
+    <meta property="og:title" content="everlink.fun">
+    <meta property="og:description"
+        content="Permanent web page for your digital profile.">
+    <meta property="og:image"
+        content="https://zgrcgiojaydmjiimqt7p6yw6gsljrup7ygrkv7ydcbranj26ax7q.arweave.net/yaIjIckGBsShDIT-_2LeNJaY0f_Boqr_AxBiBqdeBf8">
+    <meta property="og:url" content="https://everlink.fun">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="everlink.fun">
+
+    <!-- Twitter Card Metadata -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="everlink.fun">
+    <meta name="twitter:description"
+        content="Permanent web page for your digital profile.">
+    <meta name="twitter:image"
+        content="https://zgrcgiojaydmjiimqt7p6yw6gsljrup7ygrkv7ydcbranj26ax7q.arweave.net/yaIjIckGBsShDIT-_2LeNJaY0f_Boqr_AxBiBqdeBf8">
+    <meta name="twitter:site" content="@everlink">
+    <meta name="twitter:creator" content="@everlink">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="https://zgrcgiojaydmjiimqt7p6yw6gsljrup7ygrkv7ydcbranj26ax7q.arweave.net/yaIjIckGBsShDIT-_2LeNJaY0f_Boqr_AxBiBqdeBf8"
+        type="image/jpeg">
+    <link rel="apple-touch-icon"
+        href="https://zgrcgiojaydmjiimqt7p6yw6gsljrup7ygrkv7ydcbranj26ax7q.arweave.net/yaIjIckGBsShDIT-_2LeNJaY0f_Boqr_AxBiBqdeBf8"
+        type="image/jpeg">
+    <link rel="canonical" href="https://everlink.fun" />
+
+    <title>everlink.fun</title>
+
+    <style>
+        /* CSS Variables */
+        :root {
+            /* Brand Identity */
+            --color-accent: #7c3aed;
+            --color-accent-strong: #6d28d9;
+            --color-accent-subtle: #a78bfa;
+            --color-accent-backdrop: rgba(124, 58, 237, 0.1);
+            --color-secondary-backdrop: rgba(91, 33, 182, 0.1);
+
+            /* Semantic Colors */
+            --color-background: #0a0a0a;
+            --color-background-elevated: #171717;
+            --color-foreground: #ffffff;
+            --color-foreground-muted: #d1d5db;
+            --color-foreground-subtle: #9ca3af;
+            --color-foreground-disabled: #6b7280;
+
+            /* Interface Elements */
+            --color-surface: rgba(17, 24, 39, 0.6);
+            --color-border: rgba(31, 41, 55, 0.5);
+
+            /* Space Scale */
+            --space-3xs: 4px;
+            --space-2xs: 8px;
+            --space-xs: 16px;
+            --space-sm: 24px;
+            --space-md: 32px;
+            --space-lg: 48px;
+
+            /* Corner Rounding */
+            --radius-subtle: 4px;
+            --radius-interactive: 8px;
+            --radius-container: 12px;
+            --radius-card: 16px;
+            --radius-pill: 9999px;
+
+            /* Font Families */
+            --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+            /* Font Sizes */
+            --font-3xs: 0.75rem;
+            --font-2xs: 0.875rem;
+            --font-xs: 1rem;
+            --font-sm: 1.125rem;
+            --font-md: 1.25rem;
+            --font-lg: 1.5rem;
+            --font-xl: 2rem;
+            --font-2xl: 2.5rem;
+            --font-3xl: 3rem;
+
+            /* Line Heights */
+            --line-tight: 1.2;
+            --line-normal: 1.5;
+
+            /* Font Weights */
+            --weight-regular: 400;
+            --weight-medium: 500;
+            --weight-semibold: 600;
+            --weight-bold: 700;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: var(--font-primary);
+            background-color: var(--color-background);
+            color: var(--color-foreground);
+        }
+
+        /* Background decorative elements */
+        .bg-decorations {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-blob-1 {
+            position: absolute;
+            top: -160px;
+            right: -160px;
+            width: 384px;
+            height: 384px;
+            background-color: var(--color-accent-backdrop);
+            border-radius: 50%;
+            filter: blur(48px);
+        }
+
+        .bg-blob-2 {
+            position: absolute;
+            top: 50%;
+            left: -160px;
+            width: 320px;
+            height: 320px;
+            background-color: var(--color-accent-backdrop);
+            border-radius: 50%;
+            filter: blur(48px);
+        }
+
+        .bg-blob-3 {
+            position: absolute;
+            bottom: -80px;
+            right: 25%;
+            width: 256px;
+            height: 256px;
+            background-color: var(--color-secondary-backdrop);
+            border-radius: 50%;
+            filter: blur(48px);
+        }
+
+        #content-frame {
+            width: 100%;
+            height: 100vh;
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to bottom, var(--color-background), var(--color-background-elevated));
+            z-index: 10;
+            transition: opacity 0.5s ease-out;
+            padding: var(--space-md);
+            text-align: center;
+        }
+
+        #loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #loading h1 {
+            font-size: var(--font-xl);
+            font-weight: var(--weight-bold);
+            margin-bottom: var(--space-xs);
+        }
+
+        #profile-name {
+            color: var(--color-accent-subtle);
+        }
+
+        #resolved-id {
+            font-size: var(--font-sm);
+            color: var(--color-foreground-muted);
+            margin-top: var(--space-xs);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--radius-pill);
+            font-weight: var(--weight-medium);
+            background-color: var(--color-accent);
+            color: var(--color-foreground);
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            margin-top: var(--space-md);
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--color-accent-strong);
+        }
+
+        .btn svg {
+            width: 20px;
+            height: 20px;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background decorative elements -->
+    <div class="bg-decorations">
+        <div class="bg-blob-1"></div>
+        <div class="bg-blob-2"></div>
+        <div class="bg-blob-3"></div>
+    </div>
+
+    <!-- Loading state -->
+    <div id="loading">
+        <h1>Loading profile: <span id="profile-name"></span></h1>
+        <p id="resolved-id">Looking up ArNS ID....</p>
+        <a href="/" class="btn">
+            Back to Homepage
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m9 18 6-6-6-6"></path>
+            </svg>
+        </a>
+    </div>
+
+    <iframe id="content-frame" title="User Profile Content"></iframe>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const pathSegments = window.location.pathname.split('/').filter(segment => segment.length > 0);
+            const profileName = pathSegments[0] || ''; // Assume the first segment is the profile name
+            const gateway = pathSegments[1] || 'arweave.net'; // Assume the second segment is the gateway (default to 'arweave.net')
+
+            const loadingDiv = document.getElementById('loading');
+            const resolvedIdEl = document.getElementById('resolved-id');
+            const iframe = document.getElementById('content-frame');
+
+            document.getElementById('profile-name').textContent = profileName;
+
+            // Update Canonical URL (Static based on path)
+            const canonicalUrl = `${window.location.origin}/${profileName}`;
+            // ... (canonical update logic remains the same) ...
+            let canonicalLink = document.querySelector("link[rel='canonical']");
+            if (canonicalLink) {
+                canonicalLink.setAttribute('href', canonicalUrl);
+            } else {
+                /* ... create and append ... */
+                canonicalLink = document.createElement('link');
+                canonicalLink.setAttribute('rel', 'canonical');
+                canonicalLink.setAttribute('href', canonicalUrl);
+                document.head.appendChild(canonicalLink);
+            }
+
+            try {
+                const arweaveSubdomain = profileName.replace(/[^a-z0-9_-]/gi, '');
+                if (!arweaveSubdomain) {
+                    throw new Error("Invalid profile name format.");
+                }
+
+                const GATEWAY_NAME = gateway; // Dynamically set the gateway
+                const SUBDOMAIN_ARNS_NAME = 'everlink';
+                const arweaveUrl = `https://${arweaveSubdomain}_${SUBDOMAIN_ARNS_NAME}.${GATEWAY_NAME}`;
+
+                resolvedIdEl.textContent = `${arweaveUrl}`; // Update loading message
+
+                // Set the iframe src - the browser handles the rest!
+                iframe.src = arweaveUrl;
+
+                // Hide loading indicator when the iframe successfully loads
+                iframe.onload = () => {
+                    console.log(`${arweaveUrl} loaded successfully.`);
+                    resolvedIdEl.textContent = `Profile loaded.`;
+                    loadingDiv.classList.add('hidden');
+                };
+
+                iframe.onerror = () => {
+                    console.error('Failed to load iframe content from:', arweaveUrl);
+                    resolvedIdEl.textContent = `Error: Could not load profile from Arweave.`;
+                    loadingDiv.classList.add('hidden'); // Hide loading even on error
+                    // Display error message?
+                    iframe.contentDocument.body.innerHTML = `<p style="padding: 2em; text-align: center;">Error loading profile.</p>`;
+                };
+
+            } catch (error) {
+                console.error('Error constructing URL or setting iframe src:', error);
+                resolvedIdEl.textContent = `Error: ${error.message}`;
+                loadingDiv.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+
+</html>

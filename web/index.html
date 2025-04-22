@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self';
+  style-src 'self' 'unsafe-inline';
+  img-src 'self' data: https://zgrcgiojaydmjiimqt7p6yw6gsljrup7ygrkv7ydcbranj26ax7q.arweave.net/yaIjIckGBsShDIT-_2LeNJaY0f_Boqr_AxBiBqdeBf8;
+  font-src 'self';
+  object-src 'none';
+  frame-ancestors 'none';
+  base-uri 'self';
+  form-action 'self';
+  connect-src 'self';
+">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Permanent web page for your digital profile.">
+  <meta name="keywords"
+    content="Everlink, everlinkdotfun, everlink.fun, Arweave, AO, Blockchain, Crypto, Web3, Link in Bio, Profile Page, Decentralized, Permanent Hosting">
+  <meta name="author" content="everlink.fun">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph Metadata -->
+  <meta property="og:title" content="everlink.fun">
+  <meta property="og:description"
+    content="Permanent web page for your digital profile.">
+  <meta property="og:image"
+    content="https://zgrcgiojaydmjiimqt7p6yw6gsljrup7ygrkv7ydcbranj26ax7q.arweave.net/yaIjIckGBsShDIT-_2LeNJaY0f_Boqr_AxBiBqdeBf8">
+  <meta property="og:url" content="https://everlink.fun">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="everlink.fun">
+
+  <!-- Twitter Card Metadata -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="everlink.fun">
+  <meta name="twitter:description"
+    content="Permanent web page for your digital profile.">
+  <meta name="twitter:image"
+    content="https://zgrcgiojaydmjiimqt7p6yw6gsljrup7ygrkv7ydcbranj26ax7q.arweave.net/yaIjIckGBsShDIT-_2LeNJaY0f_Boqr_AxBiBqdeBf8">
+  <meta name="twitter:site" content="@everlink">
+  <meta name="twitter:creator" content="@everlink">
+
+  <!-- Favicon -->
+  <link rel="icon"
+    href="https://zgrcgiojaydmjiimqt7p6yw6gsljrup7ygrkv7ydcbranj26ax7q.arweave.net/yaIjIckGBsShDIT-_2LeNJaY0f_Boqr_AxBiBqdeBf8"
+    type="image/jpeg">
+  <link rel="apple-touch-icon"
+    href="https://zgrcgiojaydmjiimqt7p6yw6gsljrup7ygrkv7ydcbranj26ax7q.arweave.net/yaIjIckGBsShDIT-_2LeNJaY0f_Boqr_AxBiBqdeBf8"
+    type="image/jpeg">
+  <link rel="canonical" href="https://everlink.fun" />
+
+  <title>everlink.fun</title>
+  <style>
+    /* CSS Variables */
+    :root {
+      /* Brand Identity */
+      --color-accent: #7c3aed;
+      --color-accent-strong: #6d28d9;
+      --color-accent-subtle: #a78bfa;
+      --color-accent-backdrop: rgba(124, 58, 237, 0.1);
+      --color-secondary-backdrop: rgba(91, 33, 182, 0.1);
+
+      /* Semantic Colors */
+      --color-background: #0a0a0a;
+      --color-background-elevated: #171717;
+      --color-foreground: #ffffff;
+      --color-foreground-muted: #d1d5db;
+      --color-foreground-subtle: #9ca3af;
+      --color-foreground-disabled: #6b7280;
+
+      /* Interface Elements */
+      --color-surface: rgba(17, 24, 39, 0.6);
+      --color-border: rgba(31, 41, 55, 0.5);
+      --color-card-gradient-from: rgba(31, 41, 55, 0.8);
+      --color-card-gradient-to: rgba(17, 24, 39, 0.8);
+      --color-code-background: rgba(3, 7, 18, 0.9);
+
+      /* Space Scale */
+      --space-3xs: 4px;
+      --space-2xs: 8px;
+      --space-xs: 16px;
+      --space-sm: 24px;
+      --space-md: 32px;
+      --space-lg: 48px;
+
+      /* Corner Rounding */
+      --radius-subtle: 4px;
+      --radius-interactive: 8px;
+      --radius-container: 12px;
+      --radius-card: 16px;
+      --radius-pill: 9999px;
+
+      /* Font Families */
+      --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+      /* Font Sizes */
+      --font-3xs: 0.75rem;
+      /* 12px */
+      --font-2xs: 0.875rem;
+      /* 14px */
+      --font-xs: 1rem;
+      /* 16px */
+      --font-sm: 1.125rem;
+      /* 18px */
+      --font-md: 1.25rem;
+      /* 20px */
+      --font-lg: 1.5rem;
+      /* 24px */
+      --font-xl: 2rem;
+      /* 32px */
+      --font-2xl: 2.5rem;
+      /* 40px */
+      --font-3xl: 3rem;
+      /* 48px */
+
+      /* Line Heights */
+      --line-tight: 1.2;
+      --line-normal: 1.5;
+      --line-loose: 1.8;
+
+      /* Font Weights */
+      --weight-regular: 400;
+      --weight-medium: 500;
+      --weight-semibold: 600;
+      --weight-bold: 700;
+
+      /* Elevation */
+      --shadow-low: 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-high: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: var(--font-primary);
+    }
+
+    html {
+      background-color: var(--color-background);
+      min-height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(to bottom, var(--color-background), var(--color-background-elevated));
+      color: var(--color-foreground);
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Background decorative elements */
+    .bg-decorations {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .bg-blob-1 {
+      position: absolute;
+      top: -160px;
+      right: -160px;
+      width: 384px;
+      height: 384px;
+      background-color: var(--color-accent-backdrop);
+      border-radius: 50%;
+      filter: blur(48px);
+    }
+
+    .bg-blob-2 {
+      position: absolute;
+      top: 50%;
+      left: -160px;
+      width: 320px;
+      height: 320px;
+      background-color: var(--color-accent-backdrop);
+      border-radius: 50%;
+      filter: blur(48px);
+    }
+
+    .bg-blob-3 {
+      position: absolute;
+      bottom: -80px;
+      right: 25%;
+      width: 256px;
+      height: 256px;
+      background-color: var(--color-secondary-backdrop);
+      border-radius: 50%;
+      filter: blur(48px);
+    }
+
+    /* Container */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--space-xs);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    header {
+      padding: var(--space-sm) 0;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: var(--font-md);
+      font-weight: var(--weight-bold);
+      color: var(--color-foreground);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .social-link {
+      color: var(--color-foreground-subtle);
+    }
+
+    .social-link:hover {
+      color: var(--color-accent-subtle);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      border-radius: var(--radius-pill);
+      font-weight: var(--weight-medium);
+      cursor: pointer;
+      border: none;
+      outline: none;
+      text-decoration: none;
+    }
+
+    .btn svg {
+      width: 20px;
+      height: 20px;
+      margin-left: var(--space-2xs);
+    }
+
+    .btn-primary {
+      background-color: var(--color-accent);
+      color: var(--color-foreground);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--color-accent-strong);
+    }
+
+    .btn-large {
+      padding: var(--space-xs) var(--space-md);
+      font-size: var(--font-sm);
+    }
+
+    /* Main content */
+    main {
+      padding: var(--space-lg) 0;
+      flex-grow: 1;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-text {
+      text-align: center;
+      max-width: 768px;
+      margin: 0 auto var(--space-lg);
+    }
+
+    .hero-title {
+      font-size: var(--font-3xl);
+      font-weight: var(--weight-bold);
+      line-height: var(--line-tight);
+      margin-bottom: var(--space-sm);
+    }
+
+    .hero-title .highlight {
+      color: var(--color-accent-subtle);
+    }
+
+    .hero-description {
+      font-size: 18px;
+      color: var(--color-foreground-muted);
+      max-width: 576px;
+      margin: 0 auto var(--space-md);
+    }
+
+    /* URL display cards */
+    .url-cards {
+      width: 100%;
+      max-width: calc(1024px - 2 * var(--space-md));
+      margin: 0 auto;
+      background-color: var(--color-surface);
+      backdrop-filter: blur(16px);
+      border-radius: var(--radius-card);
+      padding: var(--space-md);
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-high);
+      overflow: hidden;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-sm);
+    }
+
+    @media (min-width: 640px) {
+      .cards-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .card {
+      background: linear-gradient(to bottom right, var(--color-card-gradient-from), var(--color-card-gradient-to));
+      border-radius: var(--radius-container);
+      padding: var(--space-sm);
+      box-shadow: var(--shadow-medium);
+      min-width: 0;
+      width: 100%;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: calc(var(--space-xs) - var(--space-3xs));
+      margin-bottom: calc(var(--space-sm) + var(--space-3xs));
+    }
+
+    .card-icon {
+      background: linear-gradient(135deg, rgba(91, 33, 182, 0.3), rgba(124, 58, 237, 0.3));
+      padding: 10px;
+      border-radius: var(--radius-interactive);
+      box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-icon svg {
+      width: 18px;
+      height: 18px;
+      color: var(--color-foreground-subtle);
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-foreground);
+    }
+
+    .url-display {
+      background-color: var(--color-code-background);
+      border-radius: var(--radius-interactive);
+      padding: var(--space-xs);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid var(--color-border);
+      min-width: 0;
+      width: 100%;
+    }
+
+    .url-text {
+      display: flex;
+      align-items: center;
+      color: var(--color-foreground-muted);
+      font-size: 14px;
+      min-width: 0;
+      width: 100%;
+      font-family: monospace;
+      flex-wrap: wrap;
+      word-break: break-all;
+    }
+
+    .url-prefix {
+      color: var(--color-foreground-disabled);
+      margin-right: 2px;
+      flex-shrink: 0;
+      opacity: 0.8;
+    }
+
+    .url-name {
+      color: var(--color-foreground);
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+      background-color: rgba(124, 58, 237, 0.3);
+      padding: calc(var(--space-3xs) / 2) calc(var(--space-3xs) * 1.5);
+      border-radius: var(--radius-subtle);
+      margin-right: var(--space-3xs);
+      margin-left: var(--space-3xs);
+      letter-spacing: 0.5px;
+    }
+
+    .url-subdomain {
+      color: var(--color-foreground-muted);
+      font-weight: 400;
+      letter-spacing: 0.5px;
+    }
+
+    .url-gateway-container {
+      position: relative;
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: bottom;
+    }
+
+    .url-gateway-container::after {
+      content: "arweave.net";
+      animation: cycleGateways 15s infinite;
+      display: inline-block;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+
+    /* Add CSS animation only for the Permanent Hosting card's gateway */
+    @keyframes cycleGateways {
+
+      0%,
+      6.66% {
+        content: "weavedb.app";
+      }
+
+      6.67%,
+      13.33% {
+        content: "permadao.io";
+      }
+
+      13.34%,
+      20% {
+        content: "permagate.io";
+      }
+
+      20.01%,
+      26.66% {
+        content: "arnode.xyz";
+      }
+
+      26.67%,
+      33.33% {
+        content: "arfrost.xyz";
+      }
+
+      33.34%,
+      40% {
+        content: "arnode.asia";
+      }
+
+      40.01%,
+      46.66% {
+        content: "arlink.xyz";
+      }
+
+      46.67%,
+      53.33% {
+        content: "ardrive.net";
+      }
+
+      53.34%,
+      60% {
+        content: "ar.xyz";
+      }
+
+      60.01%,
+      66.66% {
+        content: "defi.ao";
+      }
+
+      66.67%,
+      73.33% {
+        content: "vevivofficial.xyz";
+      }
+
+      73.34%,
+      80% {
+        content: "arweave.chat";
+      }
+
+      80.01%,
+      86.66% {
+        content: "arweave.ph";
+      }
+
+      86.67%,
+      93.33% {
+        content: "arweave.dev";
+      }
+
+      93.34%,
+      100% {
+        content: "arweave.net";
+      }
+    }
+
+    .card-description {
+      font-size: 12px;
+      color: var(--color-foreground-subtle);
+      margin-top: var(--space-2xs);
+    }
+
+    .card-description a {
+      color: var(--color-accent-subtle);
+      text-decoration: none;
+    }
+
+    .card-description a:hover {
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--color-border);
+      margin-top: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-content {
+      padding: var(--space-sm) 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    @media (min-width: 768px) {
+      .footer-content {
+        flex-direction: row;
+      }
+    }
+
+    .partner-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--space-xs);
+    }
+
+    @media (min-width: 768px) {
+      .partner-links {
+        justify-content: flex-start;
+      }
+    }
+
+    .partner-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: var(--color-foreground-subtle);
+      text-decoration: none;
+    }
+
+    .partner-link:hover {
+      color: var(--color-accent-subtle);
+    }
+
+    .partner-link svg {
+      width: 14px;
+      height: 14px;
+      opacity: 0.7;
+    }
+
+    .social-icons {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .social-icon {
+      color: var(--color-foreground-subtle);
+      padding: var(--space-2xs);
+      border-radius: var(--radius-pill);
+    }
+
+    .social-icon:hover {
+      color: var(--color-accent-subtle);
+      background-color: rgba(31, 41, 55, 0.3);
+    }
+
+    .social-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: calc(var(--space-md) + var(--space-3xs));
+      }
+
+      .hero-description {
+        font-size: 16px;
+      }
+
+      .url-cards {
+        padding: var(--space-xs);
+      }
+
+      .card {
+        padding: var(--space-xs);
+      }
+
+      .url-text {
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: calc(var(--space-md) - var(--space-3xs));
+      }
+
+      .btn-large {
+        padding: calc(var(--space-xs) - var(--space-3xs)) var(--space-sm);
+        font-size: calc(1rem + var(--space-3xs));
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Background decorative elements -->
+  <div class="bg-decorations">
+    <div class="bg-blob-1"></div>
+    <div class="bg-blob-2"></div>
+    <div class="bg-blob-3"></div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">everlink.fun</div>
+        <div class="header-right">
+          <a href="https://x.com/everlinkdotfun" target="_blank" rel="noopener noreferrer" class="social-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1200 1227" fill="none">
+              <path fill="currentColor"
+                d="M714.163 519.284 1160.89 0h-105.86L667.137 450.887 357.328 0H0l468.492 681.821L0 1226.37h105.866l409.625-476.152 327.181 476.152H1200L714.137 519.284h.026ZM569.165 687.828l-47.468-67.894-377.686-540.24h162.604l304.797 435.991 47.468 67.894 396.2 566.721H892.476L569.165 687.854v-.026Z" />
+            </svg>
+            <span class="sr-only">Twitter</span>
+          </a>
+          <a href="https://app.everlink.fun" class="btn btn-primary">
+            <span>Create</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main>
+    <div class="container">
+      <div class="hero-content">
+        <!-- Hero headline section -->
+        <div class="hero-text">
+          <h1 class="hero-title">
+            <span class="highlight">permanent</span> web page for your
+            <span class="highlight">digital profile</span>
+          </h1>
+          <p class="hero-description">
+            Share your content, products, and services in one customizable link that showcases and empowers your brand.
+          </p>
+          <a href="https://app.everlink.fun" class="btn btn-primary btn-large">
+            Create your Everlink
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </a>
+        </div>
+
+        <!-- URL display cards -->
+        <div class="url-cards">
+          <div class="cards-grid">
+            <!-- Permanent Hosting Card -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path
+                      d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                    </path>
+                    <path d="M2 12h20"></path>
+                  </svg>
+                </div>
+                <h3 class="card-title">Permanent Hosting</h3>
+              </div>
+              <div class="url-display">
+                <div class="url-text">
+                  <span class="url-prefix">https://</span>
+                  <span class="url-name">yourname</span>
+                  <span class="url-subdomain">_everlink.</span>
+                  <span class="url-gateway-container">
+                    <span id="gateway" class="url-gateway"></span>
+                  </span>
+                </div>
+              </div>
+              <p class="card-description">
+                Your profile is always available through multiple
+                <a href="https://network-portal.app/gateways#/gateways" target="_blank" rel="noopener noreferrer">
+                  gateways
+                </a>
+              </p>
+            </div>
+
+            <!-- Easy Sharing Card -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                    <circle cx="18" cy="5" r="3" />
+                    <circle cx="6" cy="12" r="3" />
+                    <circle cx="18" cy="19" r="3" />
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                  </svg>
+                </div>
+                <h3 class="card-title">Easy Sharing</h3>
+              </div>
+              <div class="url-display">
+                <div class="url-text">
+                  <span class="url-prefix">https://</span>
+                  <span class="url-gateway">everlink.fun/</span>
+                  <span class="url-name">yourname</span>
+                </div>
+              </div>
+              <p class="card-description">Your profile is also accessible with a simple url</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <!-- Partner links -->
+        <div class="partner-links">
+          <a href="https://github.com/ArweaveTeam" target="_blank" rel="noopener noreferrer" class="partner-link">
+            <span>Arweave</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" x2="21" y1="14" y2="3"></line>
+            </svg>
+          </a>
+          <a href="https://github.com/permaweb/ao" target="_blank" rel="noopener noreferrer" class="partner-link">
+            <span>AO</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" x2="21" y1="14" y2="3"></line>
+            </svg>
+          </a>
+          <a href="https://github.com/ar-io" target="_blank" rel="noopener noreferrer" class="partner-link">
+            <span>AR.IO</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" x2="21" y1="14" y2="3"></line>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Social icons -->
+        <div class="social-icons">
+          <a href="https://discord.com/invite/bWU5e3cVuW" target="_blank" rel="noopener noreferrer" class="social-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 199" fill="none"
+              stroke="none">
+              <path fill="currentColor"
+                d="M216.856 16.597A208.502 208.502 0 0 0 164.042 0c-2.275 4.113-4.933 9.645-6.766 14.046-19.692-2.961-39.203-2.961-58.533 0-1.832-4.4-4.55-9.933-6.846-14.046a207.809 207.809 0 0 0-52.855 16.638C5.618 67.147-3.443 116.4 1.087 164.956c22.169 16.555 43.653 26.612 64.775 33.193A161.094 161.094 0 0 0 79.735 175.3a136.413 136.413 0 0 1-21.846-10.632 108.636 108.636 0 0 0 5.356-4.237c42.122 19.702 87.89 19.702 129.51 0a131.66 131.66 0 0 0 5.355 4.237 136.07 136.07 0 0 1-21.886 10.653c4.006 8.02 8.638 15.67 13.873 22.848 21.142-6.58 42.646-16.637 64.815-33.213 5.316-56.288-9.08-105.09-38.056-148.36ZM85.474 135.095c-12.645 0-23.015-11.805-23.015-26.18s10.149-26.2 23.015-26.2c12.867 0 23.236 11.804 23.015 26.2.02 14.375-10.148 26.18-23.015 26.18Zm85.051 0c-12.645 0-23.014-11.805-23.014-26.18s10.148-26.2 23.014-26.2c12.867 0 23.236 11.804 23.015 26.2 0 14.375-10.148 26.18-23.015 26.18Z" />
+            </svg>
+            <span class="sr-only">Discord</span>
+          </a>
+          <a href="https://github.com/weavedb/everlink" target="_blank" rel="noopener noreferrer" class="social-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 1024 1024" fill="none"
+              stroke="none">
+              <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"
+                d="M512 0C229.12 0 0 229.12 0 512C0 738.56 146.56 929.92 350.08 997.76C375.68 1002.24 385.28 983.68 385.28 967.68C385.28 953.28 384.64 920.96 384.64 878.08C256 905.76 222.72 849.92 212.48 821.12C206.72 806.4 181.76 760.96 160 746.56C142.08 735.36 116.48 707.84 159.36 707.2C199.68 706.56 228.48 744.32 237.44 759.68C284.16 836.8 357.76 822.4 387.2 806.4C391.68 773.12 405.12 750.4 419.84 737.28C305.92 724.16 186.88 680 186.88 484.48C186.88 429.44 206.72 384 238.72 348.48C233.6 335.36 215.68 282.24 244.48 211.84C244.48 211.84 287.36 198.4 385.28 264.32C426.24 252.8 469.76 247.04 513.28 247.04C556.8 247.04 600.32 252.8 641.28 264.32C739.2 197.76 782.08 211.84 782.08 211.84C810.88 282.24 792.96 335.36 787.84 348.48C819.84 384 839.68 428.8 839.68 484.48C839.68 680.64 720 724.16 606.08 737.28C624.64 753.92 640.64 785.6 640.64 834.24C640.64 902.4 640 947.84 640 967.68C640 983.68 649.6 1002.88 675.2 997.76C877.44 929.92 1024 737.92 1024 512C1024 229.12 794.88 0 512 0Z" />
+            </svg>
+            <span class="sr-only">GitHub Repository</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>
