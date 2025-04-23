@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Permanent web page for your digital profile.">
+    <meta name="keywords"
+        content="Everlink, everlinkdotfun, everlink.fun, Arweave, AO, Blockchain, Crypto, Web3, Link in Bio, Profile Page, Decentralized, Permanent Hosting">
+    <meta name="author" content="everlink.fun">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph Metadata -->
+    <meta property="og:title" content="everlink.fun">
+    <meta property="og:description" content="Permanent web page for your digital profile.">
+    <meta property="og:image"
+        content="https://zgrcgiojaydmjiimqt7p6yw6gsljrup7ygrkv7ydcbranj26ax7q.arweave.net/yaIjIckGBsShDIT-_2LeNJaY0f_Boqr_AxBiBqdeBf8">
+    <meta property="og:url" content="https://everlink.fun">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="everlink.fun">
+
+    <!-- Twitter Card Metadata -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="everlink.fun">
+    <meta name="twitter:description" content="Permanent web page for your digital profile.">
+    <meta name="twitter:image"
+        content="https://zgrcgiojaydmjiimqt7p6yw6gsljrup7ygrkv7ydcbranj26ax7q.arweave.net/yaIjIckGBsShDIT-_2LeNJaY0f_Boqr_AxBiBqdeBf8">
+    <meta name="twitter:site" content="@everlink">
+    <meta name="twitter:creator" content="@everlink">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="https://zgrcgiojaydmjiimqt7p6yw6gsljrup7ygrkv7ydcbranj26ax7q.arweave.net/yaIjIckGBsShDIT-_2LeNJaY0f_Boqr_AxBiBqdeBf8"
+        type="image/jpeg">
+    <link rel="apple-touch-icon"
+        href="https://zgrcgiojaydmjiimqt7p6yw6gsljrup7ygrkv7ydcbranj26ax7q.arweave.net/yaIjIckGBsShDIT-_2LeNJaY0f_Boqr_AxBiBqdeBf8"
+        type="image/jpeg">
+    <link rel="canonical" href="https://everlink.fun" />
+
+    <title>everlink.fun</title>
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styling */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            font-family: "Arial", sans-serif;
+            color: #333;
+        }
+
+        /* Container for the content */
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .profile-picture-container {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #f687b3, #4fd1c5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .profile-picture {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            /* Hide initially */
+            position: relative;
+            z-index: 1;
+            /* Higher z-index than background */
+        }
+
+        .profile-picture[src]:not([src=""]) {
+            opacity: 1;
+            /* Show image when src is valid */
+        }
+
+        /* Hide broken image icon and alt text */
+        img.profile-picture::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 2;
+        }
+
+        /* Heading */
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* Paragraph for description */
+        p {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        /* Links section */
+        .links {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Button styling */
+        .button {
+            display: inline-block;
+            margin: 10px 0;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #333;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        /* Button hover effect */
+        .button:hover {
+            background-color: #555;
+        }
+
+        /* Minimalist custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f4f4f4;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #333;
+            border-radius: 10px;
+            border: 2px solid #f4f4f4;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.2rem;
+            }
+
+            p {
+                font-size: 0.9rem;
+            }
+
+            .button {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="container">
+            <div class="profile-picture-container">
+                <img src="https://arweave.net/your-profile-picture.jpg" class="profile-picture"
+                    onerror="this.style.display='none';" />
+            </div>
+            <h1>Username</h1>
+            <p>
+                Your description goes here. Tell people what you do or what this page
+                is for.
+            </p>
+
+            <div class="links">
+                <a href="#" class="button" target="_blank">Link 1</a>
+                <a href="#" class="button" target="_blank">Link 2</a>
+                <a href="#" class="button" target="_blank">Link 3</a>
+                <a href="#" class="button" target="_blank">Link 4</a>
+                <a href="#" class="button" target="_blank">Link 5</a>
+            </div>
+        </div>
+    </main>
+    <script>
+        // Placeholder for future JavaScript
+        console.log("Linktree page loaded.");
+    </script>
+</body>
+
+</html>
