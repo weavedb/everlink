@@ -123,6 +123,11 @@
             box-sizing: border-box;
         }
 
+        html,
+        body {
+            height: 100%;
+        }
+
         /* Body styling */
         body {
             display: flex;
@@ -145,6 +150,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            /* Ensures main takes up available space to push footer down */
+            flex: 1;
+            min-height: calc(100vh - 2 * var(--space-xl) - 2 * var(--layout-page-padding));
         }
 
         /* Content container */
@@ -154,6 +162,10 @@
             max-width: var(--layout-content-max-width);
             min-width: var(--layout-content-min-width);
             margin: 0 auto;
+            /* Ensure the container takes all available height and creates a column layout */
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
         }
 
         /* Header section with profile */
@@ -243,6 +255,9 @@
             flex-direction: column;
             width: 100%;
             gap: var(--space-sm);
+            /* This will push the footer to the bottom when content is short */
+            flex: 1 0 auto;
+            padding-bottom: var(--space-lg);
         }
 
         /* Action button styling */
@@ -272,10 +287,15 @@
 
         /* Footer */
         .footer {
-            margin-top: var(--space-xl);
+            margin-top: auto;
+            padding-top: var(--space-lg);
+            padding-bottom: var(--space-md);
             text-align: center;
             font-size: var(--font-size-small);
             color: var(--color-text-secondary);
+            /* Ensure footer doesn't shrink */
+            flex-shrink: 0;
+            width: 100%;
         }
 
         .footer-link {
@@ -286,6 +306,12 @@
 
         .footer-link:hover {
             text-decoration: underline;
+        }
+
+        /* Empty state - when no links are present */
+        .links:empty {
+            min-height: var(--space-xl);
+            /* Ensure some minimum space */
         }
 
         /* Scrollbar styling */
@@ -405,7 +431,7 @@
             </div>
 
             <div class="footer">
-                <a href="https://everlink.fun" class="footer-link">Create your Everlink</a>
+                <a href="https://everlink.fun" class="footer-link">Join us on everlink.fun</a>
             </div>
         </div>
     </main>
