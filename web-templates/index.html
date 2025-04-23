@@ -87,8 +87,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0;
-            /* Hide initially */
             position: relative;
             z-index: 1;
             /* Higher z-index than background */
@@ -97,18 +95,6 @@
         .profile-picture[src]:not([src=""]) {
             opacity: 1;
             /* Show image when src is valid */
-        }
-
-        /* Hide broken image icon and alt text */
-        img.profile-picture::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            z-index: 2;
         }
 
         /* Heading */
@@ -194,7 +180,7 @@
         <div class="container">
             <div class="profile-picture-container">
                 <img src="https://arweave.net/your-profile-picture.jpg" class="profile-picture"
-                    onerror="this.style.display='none';" />
+                    onerror="this.remove();" />
             </div>
             <h1>Username</h1>
             <p>
@@ -211,10 +197,6 @@
             </div>
         </div>
     </main>
-    <script>
-        // Placeholder for future JavaScript
-        console.log("Linktree page loaded.");
-    </script>
 </body>
 
 </html>
