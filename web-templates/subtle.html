@@ -160,7 +160,7 @@
             text-align: center;
             width: 100%;
             max-width: var(--layout-content-max-width);
-            min-width: var(--layout-content-min-width);
+            min-width: min(var(--layout-content-min-width), 100%);
             margin: 0 auto;
             /* Ensure the container takes all available height and creates a column layout */
             display: flex;
@@ -168,6 +168,7 @@
             min-height: 100%;
             padding: 0 var(--space-sm);
             /* Add some horizontal padding */
+            box-sizing: border-box;
         }
 
         /* Header section with profile */
@@ -244,6 +245,10 @@
             /* Slightly less bold */
             line-height: var(--line-height-tight);
             color: var(--color-text-primary);
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word;
+            max-width: 100%;
         }
 
         p {
@@ -256,6 +261,9 @@
             margin-right: auto;
             line-height: 1.6;
             font-weight: 400;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word;
         }
 
         /* Links navigation */
@@ -289,6 +297,10 @@
             border: 1px solid var(--color-border-subtle);
             box-shadow: var(--shadow-normal);
             letter-spacing: 0.01em;
+            white-space: normal;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            min-height: 2.5em;
         }
 
         .button:hover {
@@ -356,6 +368,8 @@
             :root {
                 /* Adjust avatar size for smaller screens */
                 --avatar-size-ratio: 0.2;
+                /* Slightly reduce text size */
+                --font-size-base: 0.95rem;
             }
 
             body {
@@ -364,21 +378,25 @@
 
             h1 {
                 font-size: var(--font-size-heading-sm);
+                padding: 0 var(--space-xs);
             }
 
             p {
                 font-size: var(--font-size-small);
-                max-width: calc(var(--layout-content-max-width) * 0.9);
+                max-width: 100%;
+                padding: 0 var(--space-xs);
             }
 
             .button {
                 line-height: calc(var(--font-size-body) * 1.5);
+                padding: var(--space-xs) var(--space-sm);
             }
         }
 
         @media (max-width: var(--breakpoint-mobile)) {
             :root {
                 --layout-page-padding: var(--space-sm);
+                --font-size-base: 0.9rem;
             }
 
             body {
@@ -388,6 +406,7 @@
             .container {
                 width: 100%;
                 min-width: auto;
+                padding: 0 var(--space-2xs);
             }
 
             .profile-picture-container {
@@ -405,6 +424,30 @@
             .share-icon {
                 width: 16px;
                 height: 16px;
+            }
+
+            h1 {
+                font-size: calc(var(--font-size-heading-sm) * 0.95);
+            }
+
+            .footer {
+                font-size: calc(var(--font-size-small) * 0.85);
+                padding: var(--space-sm) var(--space-xs);
+            }
+        }
+
+        /* Extra small screens adjustment */
+        @media (max-width: 350px) {
+            :root {
+                --font-size-base: 0.85rem;
+            }
+
+            .button {
+                padding: var(--space-2xs) var(--space-xs);
+            }
+
+            .profile-section {
+                margin-bottom: var(--space-md);
             }
         }
     </style>
@@ -441,15 +484,16 @@
             </div>
 
             <div class="links">
-                <a href="#" class="button" target="_blank">YouTube Channel</a>
-                <a href="#" class="button" target="_blank">Instagram</a>
-                <a href="#" class="button" target="_blank">Twitter/X</a>
-                <a href="#" class="button" target="_blank">Podcast</a>
-                <a href="#" class="button" target="_blank">Website</a>
+                <a href="#" class="button" target="_blank" rel="noopener noreferrer">YouTube</a>
+                <a href="#" class="button" target="_blank" rel="noopener noreferrer">Instagram</a>
+                <a href="#" class="button" target="_blank" rel="noopener noreferrer">Twitter/X</a>
+                <a href="#" class="button" target="_blank" rel="noopener noreferrer">Podcast</a>
+                <a href="#" class="button" target="_blank" rel="noopener noreferrer">Website</a>
             </div>
 
             <div class="footer">
-                <a href="https://everlink.fun" class="footer-link">Join us on everlink.fun</a>
+                <a href="https://everlink.fun" target="_blank" rel="noopener noreferrer" class="footer-link">Join us on
+                    everlink.fun</a>
             </div>
         </div>
     </main>
