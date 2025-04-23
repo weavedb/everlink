@@ -79,6 +79,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative;
         }
 
         .profile-picture-container {
@@ -149,6 +150,42 @@
         .footer-link:hover {
             text-decoration: underline;
         }
+
+        .share-profile {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(15, 15, 15, 0.5);
+            border: 1px solid rgba(79, 209, 197, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: none;
+            backdrop-filter: blur(2px);
+        }
+
+        .share-icon {
+            width: 16px;
+            height: 16px;
+            fill: transparent;
+            opacity: 0.7;
+        }
+
+        .share-profile:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 8px rgba(79, 209, 197, 0.3);
+            background-color: rgba(26, 26, 26, 0.7);
+            border-color: var(--color-accent);
+        }
+
+        .share-profile:active {
+            transform: scale(0.95);
+        }
     </style>
 </head>
 
@@ -159,16 +196,16 @@
             <svg class="share-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M18 8C19.6569 8 21 6.65685 21 5C21 3.34315 19.6569 2 18 2C16.3431 2 15 3.34315 15 5C15 6.65685 16.3431 8 18 8Z"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 <path
                     d="M6 15C7.65685 15 9 13.6569 9 12C9 10.3431 7.65685 9 6 9C4.34315 9 3 10.3431 3 12C3 13.6569 4.34315 15 6 15Z"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 <path
                     d="M18 22C19.6569 22 21 20.6569 21 19C21 17.3431 19.6569 16 18 16C16.3431 16 15 17.3431 15 19C15 20.6569 16.3431 22 18 22Z"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M8.59 13.51L15.42 17.49" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M8.59 13.51L15.42 17.49" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round"
                     stroke-linejoin="round" />
-                <path d="M15.41 6.51L8.59 10.49" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                <path d="M15.41 6.51L8.59 10.49" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round"
                     stroke-linejoin="round" />
             </svg>
         </a>
