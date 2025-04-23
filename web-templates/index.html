@@ -38,8 +38,84 @@
         type="image/jpeg">
     <link rel="canonical" href="https://everlink.fun" />
 
-    <title>everlink.fun</title>
+    <title>Username | Everlink</title>
     <style>
+        /* CSS Variables with semantic naming */
+        :root {
+            /* Base sizing unit */
+            --size-unit: 4px;
+
+            /* Theme colors */
+            --color-brand-primary: #333;
+            --color-brand-primary-hover: #555;
+            --color-text-primary: #333;
+            --color-text-secondary: #666;
+            --color-surface-page: #f5f5f5;
+            --color-surface-card: #fff;
+            --color-border-subtle: #eaeaea;
+            --color-accent-gradient-start: #f687b3;
+            --color-accent-gradient-end: #4fd1c5;
+
+            /* Spacing scale - based on multiples of base unit */
+            --space-2xs: calc(var(--size-unit) * 2);
+            /* 8px */
+            --space-xs: calc(var(--size-unit) * 2.5);
+            /* 10px */
+            --space-sm: calc(var(--size-unit) * 3.75);
+            /* 15px */
+            --space-md: calc(var(--size-unit) * 5);
+            /* 20px */
+            --space-lg: calc(var(--size-unit) * 7.5);
+            /* 30px */
+            --space-xl: calc(var(--size-unit) * 10);
+            /* 40px */
+
+            /* Typography scale */
+            --font-size-base: 1rem;
+            --font-size-small: calc(var(--font-size-base) * 0.9);
+            --font-size-body: var(--font-size-base);
+            --font-size-heading-sm: calc(var(--font-size-base) * 1.2);
+            --font-size-heading-md: calc(var(--font-size-base) * 1.5);
+            --font-size-heading-lg: calc(var(--font-size-base) * 2);
+
+            /* Layout dimensions */
+            --layout-page-padding: calc(var(--size-unit) * 4);
+            --layout-content-width-ratio: 0.9;
+            /* 90% of available width */
+            --layout-content-max-width: 680px;
+            --layout-content-min-width: 300px;
+
+            /* Component dimensions */
+            --avatar-size-ratio: 0.18;
+            /* 18% of container max width */
+            --avatar-size: calc(var(--layout-content-max-width) * var(--avatar-size-ratio));
+
+            /* Border radius */
+            --radius-small: calc(var(--size-unit) * 2);
+            /* 8px */
+            --radius-medium: calc(var(--size-unit) * 4);
+            /* 16px */
+            --radius-large: calc(var(--size-unit) * 6);
+            /* 24px */
+            --radius-circular: 50%;
+
+            /* Typography */
+            --font-family-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --line-height-normal: 1.5;
+            --line-height-tight: 1.25;
+
+            /* Effects */
+            --shadow-opacity: 0.08;
+            --shadow-blur: 15px;
+            --shadow-normal: 0 2px var(--shadow-blur) rgba(0, 0, 0, var(--shadow-opacity));
+            --shadow-hover: 0 5px 20px rgba(0, 0, 0, calc(var(--shadow-opacity) * 1.5));
+            --duration-transition-normal: 0.2s;
+
+            /* Responsive breakpoints */
+            --breakpoint-mobile: 320px;
+            --breakpoint-tablet: 768px;
+        }
+
         /* Basic reset */
         * {
             margin: 0;
@@ -51,36 +127,58 @@
         body {
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-            font-family: "Arial", sans-serif;
-            color: #333;
+            min-height: 100vh;
+            width: 100%;
+            background-color: var(--color-surface-page);
+            font-family: var(--font-family-main);
+            color: var(--color-text-primary);
+            line-height: var(--line-height-normal);
+            padding: var(--layout-page-padding);
+            padding-top: var(--space-xl);
+            padding-bottom: var(--space-xl);
         }
 
-        /* Container for the content */
+        /* Main content wrapper */
+        main {
+            width: 100%;
+            max-width: var(--layout-content-max-width);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Content container */
         .container {
             text-align: center;
-            padding: 20px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            max-width: 400px;
             width: 100%;
+            max-width: var(--layout-content-max-width);
+            min-width: var(--layout-content-min-width);
+            margin: 0 auto;
         }
 
+        /* Header section with profile */
+        .profile-section {
+            margin-bottom: var(--space-lg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Avatar styles */
         .profile-picture-container {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin-bottom: 20px;
-            background: linear-gradient(to right, #f687b3, #4fd1c5);
+            width: var(--avatar-size);
+            height: var(--avatar-size);
+            border-radius: var(--radius-circular);
+            margin-bottom: var(--space-md);
+            background: linear-gradient(to right, var(--color-accent-gradient-start), var(--color-accent-gradient-end));
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
             position: relative;
+            /* Border for the avatar */
+            border: calc(var(--avatar-size) * 0.02) solid var(--color-surface-card);
+            box-shadow: var(--shadow-normal);
         }
 
         .profile-picture {
@@ -89,87 +187,180 @@
             object-fit: cover;
             position: relative;
             z-index: 1;
-            /* Higher z-index than background */
         }
 
         .profile-picture[src]:not([src=""]) {
             opacity: 1;
-            /* Show image when src is valid */
         }
 
-        /* Heading */
+        /* Share profile button */
+        .share-profile {
+            position: absolute;
+            top: var(--space-md);
+            right: var(--space-md);
+            background: var(--color-surface-card);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-circular);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--duration-transition-normal);
+        }
+
+        .share-profile:hover {
+            background-color: var(--color-border-subtle);
+        }
+
+        .share-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Typography */
         h1 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
+            font-size: var(--font-size-heading-md);
+            margin-bottom: var(--space-xs);
+            font-weight: 700;
+            line-height: var(--line-height-tight);
+            color: var(--color-text-primary);
         }
 
-        /* Paragraph for description */
         p {
-            font-size: 1rem;
-            margin-bottom: 20px;
-            color: #666;
+            font-size: var(--font-size-body);
+            margin-bottom: var(--space-md);
+            color: var(--color-text-secondary);
+            max-width: calc(var(--layout-content-max-width) * 0.8);
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        /* Links section */
+        /* Links navigation */
         .links {
             display: flex;
             flex-direction: column;
+            width: 100%;
+            gap: var(--space-sm);
         }
 
-        /* Button styling */
+        /* Action button styling */
         .button {
-            display: inline-block;
-            margin: 10px 0;
-            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-sm) var(--space-md);
             text-decoration: none;
-            font-size: 1rem;
-            color: #fff;
-            background-color: #333;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            font-size: var(--font-size-body);
+            font-weight: 600;
+            color: var(--color-text-primary);
+            background-color: var(--color-surface-card);
+            border-radius: var(--radius-medium);
+            transition: all var(--duration-transition-normal);
+            width: 100%;
+            /* Button height proportional to font size */
+            line-height: calc(var(--font-size-body) * 1.8);
+            border: 1px solid var(--color-border-subtle);
+            box-shadow: var(--shadow-normal);
         }
 
-        /* Button hover effect */
         .button:hover {
-            background-color: #555;
+            transform: translateY(calc(var(--size-unit) * -0.5));
+            box-shadow: var(--shadow-hover);
         }
 
-        /* Minimalist custom scrollbar */
+        /* Footer */
+        .footer {
+            margin-top: var(--space-xl);
+            text-align: center;
+            font-size: var(--font-size-small);
+            color: var(--color-text-secondary);
+        }
+
+        .footer-link {
+            color: var(--color-brand-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Scrollbar styling */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: calc(var(--size-unit) * 2);
         }
 
         ::-webkit-scrollbar-track {
-            background: #f4f4f4;
+            background: var(--color-surface-page);
         }
 
         ::-webkit-scrollbar-thumb {
-            background-color: #333;
-            border-radius: 10px;
-            border: 2px solid #f4f4f4;
+            background-color: var(--color-brand-primary);
+            border-radius: var(--space-xs);
+            border: calc(var(--size-unit) * 0.5) solid var(--color-surface-page);
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background-color: #555;
+            background-color: var(--color-brand-primary-hover);
         }
 
         /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
+        @media (max-width: var(--breakpoint-tablet)) {
+            :root {
+                /* Adjust avatar size for smaller screens */
+                --avatar-size-ratio: 0.2;
+            }
+
+            body {
+                padding: var(--space-md);
             }
 
             h1 {
-                font-size: 1.2rem;
+                font-size: var(--font-size-heading-sm);
             }
 
             p {
-                font-size: 0.9rem;
+                font-size: var(--font-size-small);
+                max-width: calc(var(--layout-content-max-width) * 0.9);
             }
 
             .button {
-                padding: 8px 16px;
-                font-size: 0.9rem;
+                line-height: calc(var(--font-size-body) * 1.5);
+            }
+        }
+
+        @media (max-width: var(--breakpoint-mobile)) {
+            :root {
+                --layout-page-padding: var(--space-sm);
+            }
+
+            body {
+                padding: var(--space-sm);
+            }
+
+            .container {
+                width: 100%;
+                min-width: auto;
+            }
+
+            .profile-picture-container {
+                width: calc(var(--layout-content-min-width) * var(--avatar-size-ratio) * 1.2);
+                height: calc(var(--layout-content-min-width) * var(--avatar-size-ratio) * 1.2);
+            }
+
+            .share-profile {
+                top: var(--space-sm);
+                right: var(--space-sm);
+                width: 32px;
+                height: 32px;
+            }
+
+            .share-icon {
+                width: 16px;
+                height: 16px;
             }
         }
     </style>
@@ -177,23 +368,44 @@
 
 <body>
     <main>
+        <div class="share-profile">
+            <svg class="share-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M18 8C19.6569 8 21 6.65685 21 5C21 3.34315 19.6569 2 18 2C16.3431 2 15 3.34315 15 5C15 6.65685 16.3431 8 18 8Z"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                    d="M6 15C7.65685 15 9 13.6569 9 12C9 10.3431 7.65685 9 6 9C4.34315 9 3 10.3431 3 12C3 13.6569 4.34315 15 6 15Z"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                    d="M18 22C19.6569 22 21 20.6569 21 19C21 17.3431 19.6569 16 18 16C16.3431 16 15 17.3431 15 19C15 20.6569 16.3431 22 18 22Z"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M8.59 13.51L15.42 17.49" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                <path d="M15.41 6.51L8.59 10.49" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+        </div>
+
         <div class="container">
-            <div class="profile-picture-container">
-                <img src="https://arweave.net/your-profile-picture.jpg" class="profile-picture"
-                    onerror="this.remove();" />
+            <div class="profile-section">
+                <div class="profile-picture-container">
+                    <img src="https://arweave.net/your-profile-picture.jpg" class="profile-picture"
+                        onError="this.style.display='none';" />
+                </div>
+                <h1>Username</h1>
+                <p>Your bio or description goes here. Share a bit about yourself or what these links are for.</p>
             </div>
-            <h1>Username</h1>
-            <p>
-                Your description goes here. Tell people what you do or what this page
-                is for.
-            </p>
 
             <div class="links">
-                <a href="#" class="button" target="_blank">Link 1</a>
-                <a href="#" class="button" target="_blank">Link 2</a>
-                <a href="#" class="button" target="_blank">Link 3</a>
-                <a href="#" class="button" target="_blank">Link 4</a>
-                <a href="#" class="button" target="_blank">Link 5</a>
+                <a href="#" class="button" target="_blank">YouTube Channel</a>
+                <a href="#" class="button" target="_blank">Instagram</a>
+                <a href="#" class="button" target="_blank">Twitter/X</a>
+                <a href="#" class="button" target="_blank">Podcast</a>
+                <a href="#" class="button" target="_blank">Website</a>
+            </div>
+
+            <div class="footer">
+                <a href="https://everlink.fun" class="footer-link">Create your Everlink</a>
             </div>
         </div>
     </main>
